@@ -1,0 +1,6 @@
+Language name:      c15
+Compiler name:      Kamion compiler / kmc
+
+File extention:
+    .15     -> for the code
+    .15h    -> for prototype, set, .. (code can also be writen in it)
