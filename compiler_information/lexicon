@@ -27,6 +27,8 @@ operator:
     +           -> a+; is like a = a + 1
     -           -> a-; is like a = a - 1
     ...=        -> a ...= b is like a = a ... b where ... is any operator execept =
+    &&          -> a and b if both are true then the ouput is true
+    ||          -> a or b if one the both is true then the ouput is true
 
 data type:
     char        -> That store a single character
@@ -35,6 +37,7 @@ data type:
     int         -> Taht store interger value
     float       -> That store decimal value
     str         -> That store a string of multiple char
+    hex         -> That store a value in his hexadecimal form
     bin         -> That store a value in his binary form
 
     ptr         -> That store a memory adresse
@@ -46,14 +49,14 @@ data type:
     reversed    -> a type for link that make the last item linked to the first
     looped      -> a type for link that reverse the order of deplacement in the link
 
-    unsigned    -> a type for char / int / float / bin that supress the bit for the sign of the value
+    unsigned    -> a type for char / int / float / hex / bin that supress the bit for the sign of the value
 
 delimitor:
     ;           -> that end a ligne of instruction
     @           -> every thing on the same ligne after this is commentary
     @>          -> every thing after this is commentary
     <@          -> that end a commentary start with '@>'
-    ()          -> delimitor for 
+    ()          -> delimitor for condition / operation / ...
     []          -> delimitor for an array declaration
     {}          -> delimitor for delclaration like if / for ... or function
     ''          -> delimitor for a single char
@@ -64,6 +67,7 @@ flow controler:
     elif        -> after an if, that the same as if but this need all of the last if / elif to be false
     else        -> after an if / elif, this is the same as if but if the precedent if was false this one is true
     for         -> while the given condition is true make a jump at the end of the while to the start else jump a the end, you can initialize a variable / do an instruction a each iteration
+    do          -> an infinite loop
     break       -> go after the line of the next jump
     continue    -> ignore the next jump
     return      -> return a return to the last jump and set the result to a
@@ -72,7 +76,12 @@ flow controler:
     error       -> error a leave the programe with value a
 
 key word:
-    <<<         -> a <<< b print b in the stream a
+    <<<         -> a <<< (b, n) print the n first char of b in the stream a
+    >>>         -> (a, n) >>> b read the n first char in the stream a and put the result in b
+    set         -> set EXEMPLE 0 now every EXEMPLE in the programme are remplaced by 0 at the compilation
+    get from    -> get * from "exemple.15h" will include every function of the file "exemple" in the actual
+    @error@     -> if an error occur before this on the same line and the comment start with this the message error will corespond to the next comment
+    none        -> for signaling a function that return nothing
 
 identifier      -> variable / name of function defined by the user
-literal         -> number / char / string
+literal         -> number, string, char
