@@ -1,0 +1,78 @@
+comparator:
+    >           -> a > b is true if a is greater than b
+    <           -> a < b is true if a is less than b
+    ==          -> a == b is true if a is same as b
+    !=          -> a != b is true if a is different of b
+    ~=          -> a ~= b is true if the difference beteween a and b is inferior to 1
+
+operator:
+    =           -> a = b atribute a value to a form b / initialize the variable a with the value of b
+    !           -> if a is true then it's became false and if it's false it's became true
+    ?           -> ?a transform a in true or false
+    -           -> a - b that a minus b
+    +           -> a + b that a plus b
+    *           -> a * b that a multiplie by b
+    /           -> a / b that a divided by b
+    ^           -> a^b like a * a * a * a ... * a for b time
+    %           -> a % b is the remainder of the division
+    //          -> a // b it's a division that return only the interger part like ((a - (a % b)) / b)
+    &           -> a & b binary operation and
+    |           -> a | b binary operation or
+    >>          -> a >> b switch binary number to the right b time
+    <<          -> a << b switch binary number to the left b time
+    ->          -> ->a get the memory adresse of a
+    <-          -> <-a get the value in the stored memory adresse in a
+    ++          -> a++b is like a = a + b
+    --          -> a--b is like a = a - b
+    +           -> a+; is like a = a + 1
+    -           -> a-; is like a = a - 1
+    ...=        -> a ...= b is like a = a ... b where ... is any operator execept =
+
+data type:
+    char        -> That store a single character
+    bool        -> That store a value 0 or 1 / true or false
+
+    int         -> Taht store interger value
+    float       -> That store decimal value
+    str         -> That store a string of multiple char
+    bin         -> That store a value in his binary form
+
+    ptr         -> That store a memory adresse
+
+    array       -> That store a list of value
+    struct      -> That store multiple variable
+    link        -> This is for linked list
+
+    reversed    -> a type for link that make the last item linked to the first
+    looped      -> a type for link that reverse the order of deplacement in the link
+
+    unsigned    -> a type for char / int / float / bin that supress the bit for the sign of the value
+
+delimitor:
+    ;           -> that end a ligne of instruction
+    @           -> every thing on the same ligne after this is commentary
+    @>          -> every thing after this is commentary
+    <@          -> that end a commentary start with '@>'
+    ()          -> delimitor for 
+    []          -> delimitor for an array declaration
+    {}          -> delimitor for delclaration like if / for ... or function
+    ''          -> delimitor for a single char
+    ""          -> delimitor for multiple char -> str
+
+flow controler:
+    if          -> if the given condition is true that ignore the jump, if it's false that jump to the end of the declaration of the if
+    elif        -> after an if, that the same as if but this need all of the last if / elif to be false
+    else        -> after an if / elif, this is the same as if but if the precedent if was false this one is true
+    for         -> while the given condition is true make a jump at the end of the while to the start else jump a the end, you can initialize a variable / do an instruction a each iteration
+    break       -> go after the line of the next jump
+    continue    -> ignore the next jump
+    return      -> return a return to the last jump and set the result to a
+    exit        -> leave the programe with value 0
+    jump        -> jump a if a is a interger jump to the given line, if a is a string jump to the given function, if it's jump +a jumpt to a ligne after
+    error       -> error a leave the programe with value a
+
+key word:
+    <<<         -> a <<< b print b in the stream a
+
+identifier      -> variable / name of function defined by the user
+literal         -> number / char / string
