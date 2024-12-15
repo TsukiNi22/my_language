@@ -58,8 +58,12 @@ identifer initialisation:
     array identifer = [literal, literal, literal, ...]
     -literal can be any other type of data
 
+    array identifer[literal];
     array identifer[literal] = {literal}
     -this will create an array of the size of n -> [n] with the value -> {n} everywhere if no value given it's at the start 0
+
+    data_type identifier;
+    -this is also valid with no atribution set to 0 at the base
 
     struct identifier {
         initialize any data_type without valuea
