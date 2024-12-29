@@ -97,6 +97,13 @@ flow controler:
         ...;
     }
 
+    &if (condition)
+        ...;
+
+    &if (condition) {
+        ...;
+    }
+
     elif (condition)
         ...;
 

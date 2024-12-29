@@ -65,6 +65,7 @@ delimitor:
 
 flow controler:
     if          -> f_if
+    &if         -> f_and_if
     elif        -> f_else_if
     else        -> f_else
     for         -> f_for

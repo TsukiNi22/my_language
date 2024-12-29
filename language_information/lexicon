@@ -64,6 +64,7 @@ delimitor:
 
 flow controler:
     if          -> if the given condition is true that ignore the jump, if it's false that jump to the end of the declaration of the if
+    &if        -> after an if or elif, that the same as if but that take his own condition and the precedent condition
     elif        -> after an if, that the same as if but this need all of the last if / elif to be false
     else        -> after an if / elif, this is the same as if but if the precedent if was false this one is true
     for         -> while the given condition is true make a jump at the end of the while to the start else jump a the end, you can initialize a variable / do an instruction a each iteration
