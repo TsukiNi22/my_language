@@ -62,7 +62,10 @@ def is_literal(word, var):
         var.id = "l_binary"
         return True
     if fullmatch(r"-?(?:[1-9]\d*|0)?(?:\.\d*)?", word):
-        var.id = "l_number"
+        if "." in word:
+            var.id = "l_float"
+        else:
+            var.id = "l_integer"
         return True
     if fullmatch(r'^"([^"\\]*(\\.)?)*"$', word):
         var.id = "l_string"
