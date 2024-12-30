@@ -1,4 +1,3 @@
-#!/bin/env python3
 ##
 ## PHYTON PROJECT, 2024
 ## error.py
