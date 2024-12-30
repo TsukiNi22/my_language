@@ -52,14 +52,14 @@ data type:
 delimitor:
     ;           -> d_line_end
     @           -> d_comment
-    @>          -> d_comment_end
-    <@          -> d_comment_start
-    (           -> d_delimitor_1_1
-    )           -> d_delimitor_1_2
-    [           -> d_delimitor_2_1
-    ]           -> d_delimitor_2_2
-    {           -> d_delimitor_3_1
-    }           -> d_delimitor_3_2
+    @>          -> d_comment_start
+    <@          -> d_comment_end
+    (           -> d_round_1
+    )           -> d_round_2
+    [           -> d_square_1
+    ]           -> d_square_2
+    {           -> d_curly_1
+    }           -> d_curly_2
     '           -> d_char_limitor
     "           -> d_str_limitor
 
