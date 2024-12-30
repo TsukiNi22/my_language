@@ -1,6 +1,8 @@
 *.swp
+*.swo
 q
 :
 !
 §
 tmp
+__pycache__
