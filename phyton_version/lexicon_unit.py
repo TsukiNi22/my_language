@@ -67,8 +67,6 @@ delimitor = {
     "]": "d_square_2",
     "{": "d_curly_1",
     "}": "d_curly_2",
-    "'": "d_char_limitor",
-    "\"": "d_str_limitor"
 }
 
 flow_controler = {

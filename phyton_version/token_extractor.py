@@ -21,7 +21,7 @@ class Token():
         self.value = value
 
     def __str__(self):
-        return f"Type ({self.type:10}), \tId ({self.id:22}), \tValue ({self.value}), \tPosition ({self.x_start}, {self.y}) -> ({self.x_end}, {self.y})"
+        return f"Type ({self.type:14}), \tId ({self.id:22}), \tValue ({self.value}), \tPosition ({self.x_start}, {self.y}) -> ({self.x_end}, {self.y})"
 
 class Var():
 
@@ -116,6 +116,7 @@ def eval_ligne(tokens, line, y):
             tokens.append(Token(var.type, var.id, x, x + dif, y, var.value))
             x += dif
             word_l = word_l[-1:]
+            word = "".join(word_l).strip()
             var.reset()
         check(word, var)
         last = var.actual
