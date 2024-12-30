@@ -57,7 +57,7 @@ data_type = {
 
 delimitor = {
     ";": "d_line_end",
-    ",": "d_virgule",
+    ",": "d_comma",
     "@": "d_comment",
     "@>": "d_comment_start",
     "<@": "d_comment_end",

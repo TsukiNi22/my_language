@@ -7,21 +7,9 @@
 ##
 
 from lexicon_unit import *
+from global_class import Token
+from error import UnknowTokenError
 from re import fullmatch
-from sys import argv
-
-class Token():
-    
-    def __init__(self, type = "Unknow", id = "Unknow", x_start = -1, x_end = -1, y = -1, value = None):
-        self.type = type
-        self.id = id
-        self.x_start = x_start
-        self.x_end = x_end
-        self.y = y
-        self.value = value
-
-    def __str__(self):
-        return f"Type ({self.type:14}), \tId ({self.id:22}), \tValue ({self.value}), \tPosition ({self.x_start}, {self.y}) -> ({self.x_end}, {self.y})"
 
 class Var():
 
@@ -68,6 +56,12 @@ def is_literal(word, var):
     if word == "true" or word == "false":
         var.id = "l_boolean"
         return True
+    if fullmatch(r"0x[0-9a-f]*", word):
+        var.id = "l_hex"
+        return True
+    if fullmatch(r"[01]+", word):
+        var.id = "l_binary"
+        return True
     if fullmatch(r"-?(?:[1-9]\d*|0)?(?:\.\d*)?", word):
         var.id = "l_number"
         return True
@@ -111,7 +105,6 @@ def eval_ligne(tokens, line, y):
         check(word, var)
         if last and not var.actual:
             word = word[:-1].strip()
-            print(word)
             dif = len(word)
             tokens.append(Token(var.type, var.id, x, x + dif - 1, y, var.value))
             x += dif
@@ -121,9 +114,10 @@ def eval_ligne(tokens, line, y):
         check(word, var)
         last = var.actual
     if var.actual:
-        print(word)
         dif = len(word) - 1
         tokens.append(Token(var.type, var.id, x, x + dif, y, var.value))
+    elif len(word_l) != 0:
+        raise UnknowTokenError(x, y, line)    
 
 def extract_token(file_path):
     tokens = []
@@ -134,6 +128,3 @@ def extract_token(file_path):
         eval_ligne(tokens, line, y)
         y += 1
     return tokens
-
-for token in extract_token(argv[1]):
-    print(token)
