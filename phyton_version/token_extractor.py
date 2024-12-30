@@ -112,14 +112,18 @@ def eval_ligne(tokens, line, y):
         if last and not var.actual:
             word = word[:-1].strip()
             print(word)
-            dif = len(word) - 1
-            tokens.append(Token(var.type, var.id, x, x + dif, y, var.value))
+            dif = len(word)
+            tokens.append(Token(var.type, var.id, x, x + dif - 1, y, var.value))
             x += dif
             word_l = word_l[-1:]
             word = "".join(word_l).strip()
             var.reset()
         check(word, var)
         last = var.actual
+    if var.actual:
+        print(word)
+        dif = len(word) - 1
+        tokens.append(Token(var.type, var.id, x, x + dif, y, var.value))
 
 def extract_token(file_path):
     tokens = []
