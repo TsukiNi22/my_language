@@ -33,14 +33,13 @@ except c15ArgumentError as e:
 
 def check_file(arg):
     try:
-        if not path.isdir(arg):
+        if not path.isfile(arg):
              raise c15ArgumentError("Invalid file path, can't acess", "", argv, i)
+        if not (arg.endswith(".15") or arg.endswith(".h15")):
+             raise c15ArgumentError(f"Invalid extension, need to be \".15\" or \".h15\"", "", argv, i)
     except c15ArgumentError as e:
         print(f"Invalid folder \"{arg}\"")
         print(e)
-        exit()
-    if not (arg.endswith(".15") or arg.endswith(".h15")):
-        print(f"Invalid extension \"{arg}\", need to be \".15\" or \".h15\"")
         exit()
     try:
         tokens = extract_token(arg)
