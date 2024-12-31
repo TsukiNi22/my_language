@@ -8,7 +8,7 @@
 class c15UnknowTokenError(Exception):
 
     def __init__(self, x, y, line):
-        str = f"[31mUnknwon Token Error: [35mCan't identifie token\n"
+        str = f"[31mUnknwon Token Error: [35mCan't identifie this\n"
         str += "[33m-----------------------------------\n"
         str += f"{y + 1} | "
         str += "[32m"
