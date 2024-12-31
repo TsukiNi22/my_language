@@ -7,9 +7,10 @@
 ##
 
 from lexer import extract_token
-from error import c15UnknowTokenError, c15SyntaxeError
+from error import c15UnknowTokenError, c15SyntaxeError, c15ArgumentError
 from flag import flag
 from sys import argv
+from os import path
 
 class Option:
 
@@ -22,15 +23,21 @@ file_tokens = {}
 option = Option()
 i = 1
 
-if len(argv) < 2:
-    print("No file given")
+try:
+    if len(argv) < 2:
+        raise c15ArgumentError("Invalid number of argument given", "files_path", argv, 0)
+except c15ArgumentError as e:
+    print(f"Call of compiler error")
+    print(e)
     exit()
 
 def check_file(arg):
     try:
-        open(arg)
-    except:
+        if not path.isdir(arg):
+             raise c15ArgumentError("Invalid file path, can't acess", "", argv, i)
+    except c15ArgumentError as e:
         print(f"Invalid folder \"{arg}\"")
+        print(e)
         exit()
     if not (arg.endswith(".15") or arg.endswith(".h15")):
         print(f"Invalid extension \"{arg}\", need to be \".15\" or \".h15\"")
@@ -38,7 +45,7 @@ def check_file(arg):
     try:
         tokens = extract_token(arg)
         file_tokens[arg] = tokens
-    except (c15UnknowTokenError, c15SyntaxeError) as e:
+    except (c15UnknowTokenError, c15SyntaxeError) as e :
         print(f"Error while extract token of \"{arg}\"")
         print(e)
         exit()
@@ -47,9 +54,13 @@ while i < len(argv):
     arg = argv[i]
 
     if arg[0] == "-":
-        res = flag(argv, arg, i, option)
-        if res < 0:
-            print(f"Invalid flag \"{arg}\"")
+        try:
+            res = flag(argv, arg, i, option)
+            if res < 0:
+                raise c15ArgumentError("Unknow flag given", "", argv, i)
+        except (c15UnknowTokenError, c15SyntaxeError, c15ArgumentError) as e:
+            print(f"Error while init flag \"{arg}\"")
+            print(e)
             exit()
         i += 1 + res
         continue

@@ -48,3 +48,38 @@ class c15SyntaxeError(Exception):
         str += "\n"
         str += "[33m-----------------------------------"
         super().__init__(str)
+
+class c15ArgumentError(Exception):
+
+    def __init__(self, msg, argument, argv, i):
+        size = 0
+        str = f"[31mArgument Error: [35m"
+        str += msg
+        str += "\n"
+        str += "[33m-----------------------------------\n"
+        str += "[32m"
+        for arg in argv[:i]:
+            str += arg + " "
+            size += len(arg) + 1
+        str += "[31m"
+        str += argv[i] + " "
+        str += "[36m"
+        str += argument
+        if len(argument) > 0:
+            str += " "
+        str += "[32m"
+        for arg in argv[i + 1:]:
+            str += arg + " "
+        str += "\n"
+        str += "[0m"
+        for j in range(size):
+            str += " "
+        for j in range(len(argv[i]) + len(argument)):
+            str += "^"
+        if len(argument) > 0:
+            str += "^"
+        str += "\n"
+        str += "[33m-----------------------------------"
+        super().__init__(str)
+
+
