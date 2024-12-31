@@ -6,8 +6,8 @@
 ## Compiler main file
 ##
 
-from token_extractor import extract_token
-from error import UnknowTokenError
+from lexer import extract_token
+from error import c15UnknowTokenError, c15SyntaxeError
 from sys import argv
 
 file_tokens = {}
@@ -32,7 +32,7 @@ for i in range(len(argv)):
     try:
         tokens = extract_token(arg)
         file_tokens[arg] = tokens
-    except UnknowTokenError as e:
+    except (c15UnknowTokenError, c15SyntaxeError) as e:
         print(f"Error while extract token of \"{arg}\":\n{e}")
         exit()
 for key in file_tokens.keys():

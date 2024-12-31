@@ -2,12 +2,12 @@
 ## PHYTON PROJECT, 2024
 ## token_extractor.py
 ## File description:
-## Extract the token
+## Extract the token of a file
 ##
 
-from lexicon_unit import *
 from global_class import Token
-from error import UnknowTokenError
+from error import c15UnknowTokenError, c15SyntaxeError
+from .lexicon_unit import *
 from re import fullmatch
 
 class Var():
@@ -93,7 +93,7 @@ def check(word, var):
         var.actual = True
     return var
 
-def eval_ligne(tokens, line, y):
+def eval_ligne(tokens, comment, line, y):
     word_l = []
     last = False
     x = 0
@@ -105,9 +105,23 @@ def eval_ligne(tokens, line, y):
         word = "".join(word_l).strip()
 
         check(word, var)
+        if not comment and not var.actual and var.id == "d_comment":
+            return False
+        elif var.id == "d_comment_start":
+            comment = True
+        elif var.id == "d_comment_end":
+            if not comment:
+                raise c15SyntaxeError("End of a comment, but no start has been set", x, x + 2, y, line)    
+            comment = False
+            word_l.clear()
+            continue
+        if comment:
+            if len(word_l) > 0 and word_l [0] != "<":
+                word_l.clear()
+            continue
         if last and not var.actual:
             word = word[:-1].strip()
-            dif = len(word)
+            dif = len(word_l) - 1
             tokens.append(Token(var.type, var.id, x, x + dif - 1, y, var.value))
             x += dif
             word_l = word_l[-1:]
@@ -115,18 +129,22 @@ def eval_ligne(tokens, line, y):
             var.reset()
         check(word, var)
         last = var.actual
+    if comment:
+        return True
     if var.actual:
         dif = len(word) - 1
         tokens.append(Token(var.type, var.id, x, x + dif, y, var.value))
     elif len(word_l) != 0:
-        raise UnknowTokenError(x, y, line)    
+        raise c15UnknowTokenError(x, y, line)    
+    return False
 
 def extract_token(file_path):
     tokens = []
     file = open(file_path).read()
+    comment = False
     y = 0
 
     for line in file.split("\n"):
-        eval_ligne(tokens, line, y)
+        comment = eval_ligne(tokens, comment, line, y)
         y += 1
     return tokens

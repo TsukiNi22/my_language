@@ -5,10 +5,10 @@
 ## Error class
 ##
 
-class UnknowTokenError(Exception):
+class c15UnknowTokenError(Exception):
 
     def __init__(self, x, y, line):
-        str = f"[35mCan't identifie token:\n"
+        str = f"[31mUnknwon Token Error: [35mCan't identifie token\n"
         str += "[33m-----------------------------------\n"
         str += f"{y + 1} | "
         str += "[32m"
@@ -18,9 +18,33 @@ class UnknowTokenError(Exception):
         str += "\n"
         for i in range(x + len(f"{y + 1} | ")):
             str += " "
-        str += "[0m^"
-        for i in range(len(line) - x - 2):
-            str += "-"
-        str += "^\n"
+        str += "[0m"
+        for i in range(len(line) - x):
+            str += "^"
+        str += "\n"
+        str += "[33m-----------------------------------"
+        super().__init__(str)
+
+class c15SyntaxeError(Exception):
+
+    def __init__(self, msg, x_start, x_end, y, line):
+        str = f"[31mSyntaxe Error: [35m"
+        str += msg
+        str += "\n"
+        str += "[33m-----------------------------------\n"
+        str += f"{y + 1} | "
+        str += "[32m"
+        str += line[:x_start]
+        str += "[31m"
+        str += line[x_start:x_end]
+        str += "[32m"
+        str += line[x_end:]
+        str += "\n"
+        for i in range(x_start + len(f"{y + 1} | ")):
+            str += " "
+        str += "[0m"
+        for i in range(x_end - x_start):
+            str += "^"
+        str += "\n"
         str += "[33m-----------------------------------"
         super().__init__(str)
