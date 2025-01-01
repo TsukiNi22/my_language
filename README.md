@@ -6,7 +6,7 @@ The name "c15" has nothing to do with the `C` programming language, this is a pr
 
 This language is based on the `C`, with some difference and some other thing in more, i designed it has how i wanted it to be and with what i wanted.
 
-There probably some bug, if you find one and want to contribute send me someting here (c15.tsukini@gmail.com)
+There probably a bunch of bug, if you find one and want to contribute send me someting here (c15.tsukini@gmail.com)
 
 | File extension | Utility                                                |
 | -------------- | ------------------------------------------------------ |
