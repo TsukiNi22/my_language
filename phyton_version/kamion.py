@@ -6,7 +6,7 @@
 ## Compiler main file
 ##
 
-from lexer import extract_token
+from lexer import extract_token, check_syntax
 from flag import flag, flag_help
 from visualizer import display_tokens
 from error import c15UnknowTokenError, c15SyntaxeError, c15ArgumentError
@@ -82,6 +82,7 @@ for file in option.files:
 for file in option.files:
     try:
         tokens = extract_token(progress, file)
+        check_syntax(tokens)
         files_tokens[file] = tokens
     except (c15UnknowTokenError, c15SyntaxeError) as e :
         print(f"Error while extract token of \"{file}\"")

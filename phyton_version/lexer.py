@@ -6,3 +6,4 @@
 ##
 
 from lexer_files.token_extractor import *
+from lexer_files.syntax_checker import *
