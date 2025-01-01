@@ -82,10 +82,15 @@ for file in option.files:
 for file in option.files:
     try:
         tokens = extract_token(progress, file)
-        check_syntax(tokens)
         files_tokens[file] = tokens
     except (c15UnknowTokenError, c15SyntaxeError) as e :
         print(f"Error while extract token of \"{file}\"")
+        print(e)
+        exit()
+    try:
+        check_syntax(open(file).read().split("\n"), tokens)
+    except c15SyntaxeError as e :
+        print(f"Error during the check of syntax for \"{file}\"")
         print(e)
         exit()
 

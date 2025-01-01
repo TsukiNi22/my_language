@@ -8,6 +8,7 @@
 from sys import stdout
 
 def progress_bar(actual, total):
+    return
     size = 100
     percent = actual / total
     block = int(size * percent)

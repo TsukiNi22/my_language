@@ -1,5 +1,5 @@
 ##
-## C15 PROGRAMING LANGUAGE PROJECT, 2024
+## PHYTON PROJECT, 2024
 ## lexicon_unit.py
 ## File description:
 ## Lexicon of id by name and type
@@ -56,7 +56,7 @@ data_type = {
 }
 
 delimitor = {
-    ";": "d_line_end",
+    ";": "d_instruction_end",
     ",": "d_comma",
     "@": "d_comment",
     "@>": "d_comment_start",

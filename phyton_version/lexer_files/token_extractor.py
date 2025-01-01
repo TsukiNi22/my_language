@@ -120,7 +120,7 @@ def eval_ligne(progress, tokens, comment, line, y):
             comment = True
         elif var.id == "d_comment_end":
             if not comment:
-                raise c15SyntaxeError("End of a comment, but no start has been set", x - 1, x + 1, y, line)    
+                raise c15SyntaxeError("End of a comment, but no start has been set", x, x + 1, y, line)    
             comment = False
             word_l.clear()
             continue

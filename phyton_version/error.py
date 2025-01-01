@@ -30,6 +30,7 @@ class c15SyntaxeError(Exception):
 
     def __init__(self, msg, x_start, x_end, y, line):
         print()
+        x_start -= 1
         str = f"[31mSyntaxe Error: [35m"
         str += msg
         str += "\n"
