@@ -8,7 +8,7 @@
 
 from lexer import extract_token
 from error import c15UnknowTokenError, c15SyntaxeError, c15ArgumentError
-from flag import flag
+from flag import flag, flag_help
 from sys import argv
 from os import path
 
@@ -50,6 +50,10 @@ def check_file(arg):
         print(f"Error while extract token of \"{arg}\"")
         print(e)
         exit()
+
+for i in range(len(argv)):
+    if argv[i][0] == "-":
+        flag_help(argv[i], argv, i)
 
 while i < len(argv):
     arg = argv[i]
