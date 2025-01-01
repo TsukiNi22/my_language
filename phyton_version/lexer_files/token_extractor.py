@@ -96,7 +96,7 @@ def check(word, var):
 def eval_ligne(tokens, comment, line, y):
     word_l = []
     last = False
-    x = 0
+    x = 1
 
     var = Var()
     for char in line:
@@ -106,6 +106,11 @@ def eval_ligne(tokens, comment, line, y):
 
         check(word, var)
         if not comment and not var.actual and var.id == "d_comment":
+            if line[x - 1:x + 6] == "@error@":
+                var.type = "key_word"
+                var.id = "k_error"
+                var.value = line[x - 1:]
+                tokens.append(Token(var.type, var.id, x, x + len(var.value) - 1, y, var.value))
             return False
         elif var.id == "d_comment_start":
             comment = True
@@ -121,9 +126,8 @@ def eval_ligne(tokens, comment, line, y):
             continue
         if last and not var.actual:
             word = word[:-1].strip()
-            dif = len(word_l) - 1
-            tokens.append(Token(var.type, var.id, x, x + dif - 1, y, var.value))
-            x += dif
+            tokens.append(Token(var.type, var.id, x, x + len(word) - 1, y, var.value))
+            x += len(word_l) - 1
             word_l = word_l[-1:]
             word = "".join(word_l).strip()
             var.reset()
