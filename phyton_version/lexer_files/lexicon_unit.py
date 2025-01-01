@@ -1,5 +1,5 @@
 ##
-## PHYTON PROJECT, 2024
+## C15 PROGRAMING LANGUAGE PROJECT, 2024
 ## lexicon_unit.py
 ## File description:
 ## Lexicon of id by name and type

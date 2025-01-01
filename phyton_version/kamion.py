@@ -1,14 +1,15 @@
 #!/bin/env python3
 ##
-## PHYTON PROJECT, 2024
+## C15 PROGRAMING LANGUAGE PROJECT, 2024
 ## kamion.py
 ## File description:
 ## Compiler main file
 ##
 
 from lexer import extract_token
-from error import c15UnknowTokenError, c15SyntaxeError, c15ArgumentError
 from flag import flag, flag_help
+from visualizer import display_tokens
+from error import c15UnknowTokenError, c15SyntaxeError, c15ArgumentError
 from sys import argv
 from os import path
 
@@ -19,8 +20,15 @@ class Option:
         self.files_dir = None
         self.files = []
 
-file_tokens = {}
+class Progress:
+
+    def __init__(self):
+        self.actual = 0
+        self.total = 0
+
+files_tokens = {}
 option = Option()
+progress = Progress()
 
 argv[0] = "kmc"
 
@@ -32,21 +40,14 @@ except c15ArgumentError as e:
     print(e)
     exit()
 
-def check_file(arg):
+def check_file(file):
     try:
-        if not path.isfile(arg):
+        if not path.isfile(file):
              raise c15ArgumentError("Invalid file path, can't acess", "", argv, i)
-        if not (arg.endswith(".15") or arg.endswith(".h15")):
+        if not (file.endswith(".15") or file.endswith(".h15")):
              raise c15ArgumentError(f"Invalid extension, need to be \".15\" or \".h15\"", "", argv, i)
     except c15ArgumentError as e:
-        print(f"Invalid folder \"{arg}\"")
-        print(e)
-        exit()
-    try:
-        tokens = extract_token(arg)
-        file_tokens[arg] = tokens
-    except (c15UnknowTokenError, c15SyntaxeError) as e :
-        print(f"Error while extract token of \"{arg}\"")
+        print(f"Invalid file \"{file}\"")
         print(e)
         exit()
 
@@ -71,12 +72,21 @@ while i < len(argv):
         i += 1 + res
         continue
     check_file(arg)
+    option.files.append(arg)
     i += 1
 
 for file in option.files:
-    check_file(file)
+    for line in open(file).read().split("\n"):
+        progress.total += len(line)
 
-for key in file_tokens.keys():
-    print(f"{key}:")
-    for token in file_tokens[key]:
-        print(token)
+for file in option.files:
+    try:
+        tokens = extract_token(progress, file)
+        files_tokens[file] = tokens
+    except (c15UnknowTokenError, c15SyntaxeError) as e :
+        print(f"Error while extract token of \"{file}\"")
+        print(e)
+        exit()
+
+print()
+display_tokens(files_tokens)

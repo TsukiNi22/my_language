@@ -1,5 +1,5 @@
 ##
-## PHYTON PROJECT, 2024
+## C15 PROGRAMING LANGUAGE PROJECT, 2024
 ## class.py
 ## File description:
 ## File for class

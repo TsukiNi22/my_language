@@ -1,5 +1,5 @@
 ##
-## PHYTON PROJECT, 2024
+## C15 PROGRAMING LANGUAGE PROJECT, 2024
 ## lexer.py
 ## File description:
 ## lexer import file

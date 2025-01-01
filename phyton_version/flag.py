@@ -1,5 +1,5 @@
 ##
-## PHYTON PROJECT, 2024
+## C15 PROGRAMING LANGUAGE PROJECT, 2024
 ## flag.py
 ## File description:
 ## Flag initialisation
@@ -35,7 +35,7 @@ def flag(argv, flag, i, option):
         if not path.isdir(argv[i + 1]):
             raise c15ArgumentError("Invalid directory path, can't access", "", argv, i + 1)
         option.files_dir = argv[i + 1]
-        get_files(argv[i + 1], option, (flag == "-F"))
+        get_files(argv[i + 1], option, (flag == "-D" or flag == "--DIRECTORY"))
         return 1
     return -1
 

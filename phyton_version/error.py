@@ -1,5 +1,5 @@
 ##
-## PHYTON PROJECT, 2024
+## C15 PROGRAMING LANGUAGE PROJECT, 2024
 ## error.py
 ## File description:
 ## Error class
@@ -8,6 +8,7 @@
 class c15UnknowTokenError(Exception):
 
     def __init__(self, x, y, line):
+        print()
         str = f"[31mUnknwon Token Error: [35mCan't identifie this\n"
         str += "[33m-----------------------------------\n"
         str += f"{y + 1} | "
@@ -28,6 +29,7 @@ class c15UnknowTokenError(Exception):
 class c15SyntaxeError(Exception):
 
     def __init__(self, msg, x_start, x_end, y, line):
+        print()
         str = f"[31mSyntaxe Error: [35m"
         str += msg
         str += "\n"
