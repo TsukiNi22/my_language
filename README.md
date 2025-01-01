@@ -1,5 +1,5 @@
 # my_language
-### My own programming language "c15" with his compiler "kamion" or "kmc" for KaMion Compiler
+### My own programming language "c15" with his compiler "kamion" or "kmc" standing for KaMion Compiler
 ## Language Description
 
 The name "c15" has nothing to do with the `C` programming language, this is a private joke like the name of the compiler
