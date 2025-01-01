@@ -26,11 +26,11 @@ def chek_arg_nbr(argument, argv, i, n):
         raise c15ArgumentError("Invalid number of argument given", argument, argv, i)
 
 def flag(argv, flag, i, option):
-    if flag == "-e":
+    if flag == "-b":
         chek_arg_nbr("binary_name", argv, i, 1)
         option.binary_name = argv[i + 1]
         return 1
-    elif flag == "-f" or flag == "-F":
+    elif flag == "-d" or flag == "--directory" or flag == "-D" or flag == "--DIRECTORY":
         chek_arg_nbr("direcroty_path", argv, i, 1)
         if not path.isdir(argv[i + 1]):
             raise c15ArgumentError("Invalid directory path, can't access", "", argv, i + 1)

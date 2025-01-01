@@ -21,7 +21,6 @@ class Option:
 
 file_tokens = {}
 option = Option()
-i = 1
 
 argv[0] = "kmc"
 
@@ -51,10 +50,12 @@ def check_file(arg):
         print(e)
         exit()
 
+i = 1
 for i in range(len(argv)):
     if argv[i][0] == "-":
         flag_help(argv[i], argv, i)
 
+i = 1
 while i < len(argv):
     arg = argv[i]
 
