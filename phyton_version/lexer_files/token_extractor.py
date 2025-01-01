@@ -131,7 +131,7 @@ def eval_ligne(tokens, comment, line, y):
         last = var.actual
     if comment:
         return True
-    if var.actual:
+    if var.actual and word != "<@":
         dif = len(word) - 1
         tokens.append(Token(var.type, var.id, x, x + dif, y, var.value))
     elif len(word_l) != 0:

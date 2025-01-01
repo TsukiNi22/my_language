@@ -23,6 +23,8 @@ file_tokens = {}
 option = Option()
 i = 1
 
+argv[0] = "kmc"
+
 try:
     if len(argv) < 2:
         raise c15ArgumentError("Invalid number of argument given", "files_path", argv, 0)
@@ -57,7 +59,7 @@ while i < len(argv):
             res = flag(argv, arg, i, option)
             if res < 0:
                 raise c15ArgumentError("Unknow flag given", "", argv, i)
-        except (c15UnknowTokenError, c15SyntaxeError, c15ArgumentError) as e:
+        except c15ArgumentError as e:
             print(f"Error while init flag \"{arg}\"")
             print(e)
             exit()

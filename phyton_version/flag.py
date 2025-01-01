@@ -40,8 +40,7 @@ def flag(argv, flag, i, option):
     elif flag == "-f":
         chek_arg_nbr("direcroty_path", argv, i, 1)
         if not path.isdir(argv[i + 1]):
-            argv.pop(i + 1)
-            raise c15ArgumentError("Invalid directory path, can't access", "directory_path", argv, i)
+            raise c15ArgumentError("Invalid directory path, can't access", "", argv, i + 1)
         option.files_dir = argv[i + 1]
         get_files(argv[i + 1], option)
         return 1
