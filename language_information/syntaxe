@@ -95,41 +95,41 @@ flow controler:
     
     if (condition) {
         ...;
-    }
+    };
 
     &if (condition)
         ...;
 
     &if (condition) {
         ...;
-    }
+    };
 
     elif (condition)
         ...;
 
     elif (condition) {
         ...;
-    }
+    };
 
     else
         ...;
 
     else {
         ...;
-    }
+    };
     
     for (data_type identifier = literal) (condition) (...) {
         ...;
-    }
+    };
     
     for (data_type identifier = literal) (condition) {
         ...;
-    }
+    };
     -you can even delete the 3 thing and it's a infinite loop like do
 
     do {
         ...;
-    }
+    };
 
     break;
     continue;
@@ -172,11 +172,11 @@ function:
     data_type identifier(data_type identifier, ...) {
         ...;
         return ...;
-    }
+    };
 
     none identifier(data_type identifier, ...) {
         ...;
-    }
+    };
 
 prototype:
     data_type identifier();
