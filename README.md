@@ -46,12 +46,14 @@ kmc files_path
 | ---------- | ----------------------------------------------------- |
 | `~=`       | `a ~= b` This is the same as `a -0.1 <= b <= a + 0.1` |
 
-| Operator | Utility                                                                               |
-| -------- | ------------------------------------------------------------------------------------- |
-| `?`      | `?(34 + 23)` -> `true` / `1` That take the next thing and transform it into a boolean | 
-| `^`      | `a^b` That a power b                                                                  | 
-| `->`     | `->a` That retrive the value in a (a need to be a pointer)                            | 
-| `<-`     | `<-a` That retrive the adress of the variable a (a need to be a pointer)              | 
+| Operator    | Utility                                                                                          |
+| ----------- | ------------------------------------------------------------------------------------------------ |
+| `?`         | `?(34 + 23)` -> `true` / `1` That take the next thing and transform it into a boolean            | 
+| `^`         | `a^b` That a power b                                                                             | 
+| `->`        | `->a` That retrive the value in a (a need to be a pointer)                                       | 
+| `<-`        | `<-a` That retrive the adress of the variable a (a need to be a pointer)                         | 
+| `++` / `--` | `a++b` or `a--b` That the same as `a = a + b` or `a = a - b`                                     | 
+| `+` / `-`   | `a+` or `a-` That the same as `a = a + 1` or `a = a - 1`, can still be used normally `1 + 2 - 3` | 
 
 | Data Type | Utility                                                                                                                                                        |
 | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
