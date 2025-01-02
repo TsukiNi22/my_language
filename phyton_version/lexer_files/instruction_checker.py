@@ -7,9 +7,10 @@
 
 """
 Possibility:
-import (already checked)
+import (already checked) -> start with 'get'
 function -> start with 'data_type' or 'k_none'
-attribution -> start with 'data_type' or 'identifier'
+initialization -> start with 'data_type'
+attribution -> 'identifier'
 flow control -> start with 'flow_controler'
 function call -> start with 'identifier'
 k_print -> start with 'literal' or 'identifier'
