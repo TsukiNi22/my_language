@@ -5,8 +5,9 @@
 ## Check the syntaxe of the file
 ##
 
+from lexer import instruction_checker
 from visualizer import progress_bar
-from error import c15SyntaxeError
+from error import c15SyntaxError
 
 def is_import(file, inst):
     get_everything = False
@@ -20,20 +21,14 @@ def is_import(file, inst):
         if (inst[i - 1].type != "identifier" and inst[i - 1].id == "o_multiplie"):
             get_everything = True
     if (size > 4 or inst[i].type == "identifier" or inst[i].id != "k_from" or not i + 1 < size) and get_everything:
-        raise c15SyntaxeError("Can't import everything with \'*\' and other at the same time", inst[1].x_start, inst[i - 1].x_end, inst[1].y, file[inst[1].y])
+        raise c15SyntaxError("Can't import everything with \'*\' and other at the same time", inst[1].x_start, inst[i - 1].x_end, inst[1].y, file[inst[1].y])
     if not i < size - 1 or inst[i].type == "identifier" or inst[i].id != "k_from":
         return -1
     str = inst[i + 1].value[:-1]
     if not (str.endswith(".15") or str.endswith(".h15")):
         token = inst[-1]
-        raise c15SyntaxeError("Invalid folder extention in the import", token.x_start, token.x_end, token.y, file[token.y])
+        raise c15SyntaxError("Invalid folder extention in the import", token.x_start, token.x_end, token.y, file[token.y])
     return 0
-
-def is_function(file, inst):
-    size = len(inst)
-
-    if size < 3 or (inst[0].type != "identifier" and inst[0].id != "k_none"):
-        return -1
 
 def get_inst(progress, file, tokens, start, max):
     inst = []
@@ -52,7 +47,7 @@ def get_inst(progress, file, tokens, start, max):
     if not i < max:
         is_import(file, inst)
         token = tokens[-1]
-        raise c15SyntaxeError("Invalid instruction, no end detected", 1, token.x_end, token.y, file[token.y])
+        raise c15SyntaxError("Invalid instruction, no end detected", 1, token.x_end, token.y, file[token.y])
     progress.actual += 1
     return inst, i + 1
 
@@ -64,4 +59,7 @@ def check_syntax(progress, file, tokens):
     while i < token_nbr:
         instruction, i = get_inst(progress, file, tokens, i, token_nbr);
         instructions.append(instruction)
+    progress_bar(progress.actual, progress.total)
+    for i in range(len(instructions)):
+        instruction_checker(instructions, instructions[i], i)
     return instructions

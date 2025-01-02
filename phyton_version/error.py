@@ -26,12 +26,12 @@ class c15UnknowTokenError(Exception):
         str += "[33m-----------------------------------"
         super().__init__(str)
 
-class c15SyntaxeError(Exception):
+class c15SyntaxError(Exception):
 
     def __init__(self, msg, x_start, x_end, y, line):
         print()
         x_start -= 1
-        str = f"[31mSyntaxe Error: [35m"
+        str = f"[31mSyntax Error: [35m"
         str += msg
         str += "\n"
         str += "[33m-----------------------------------\n"

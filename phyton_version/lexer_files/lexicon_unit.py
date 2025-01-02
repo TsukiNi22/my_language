@@ -35,7 +35,7 @@ operator = {
 
     ".+": "o_add_one",
     ".-": "o_minus_one",
-    ".=": "o_operator_atrribution"
+    ".=": "o_operator_atribution"
 }
 
 data_type = {

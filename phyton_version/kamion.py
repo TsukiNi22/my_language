@@ -9,7 +9,7 @@
 from lexer import extract_token, check_syntax
 from flag import flag, flag_help
 from visualizer import display_file_info
-from error import c15UnknowTokenError, c15SyntaxeError, c15ArgumentError
+from error import c15UnknowTokenError, c15SyntaxError, c15ArgumentError
 from sys import argv
 from os import path
 
@@ -90,7 +90,7 @@ for file in option.files:
     try:
         tokens = extract_token(progress, file)
         files_info[file]["Tokens"] = tokens
-    except (c15UnknowTokenError, c15SyntaxeError) as e :
+    except (c15UnknowTokenError, c15SyntaxError) as e :
         print(f"Error while extract token of \"{file}\"")
         print(e)
         exit()
@@ -104,7 +104,7 @@ for key in files_info.keys():
     try:
         instructions = check_syntax(progress, file_info["Content"], file_info["Tokens"])
         files_info[key]["Instructions"] = instructions
-    except c15SyntaxeError as e :
+    except c15SyntaxError as e :
         print(f"Error during the check of syntax for \"{file}\"")
         print(e)
         exit()
