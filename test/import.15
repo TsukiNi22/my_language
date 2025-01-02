@@ -1,3 +1,3 @@
 get * from "test.15"
-get function_name from "other.15"
+get d_instruction_end function_name from "other.15"
 get func_1 func_2 name_of_thing from "other.15"

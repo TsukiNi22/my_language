@@ -1,8 +1,9 @@
 str user_name;
 
-none print_user_name(user_name)
-    1 <<< ("You are: ", 9)
-    1 <<< (user_name, 20)
+none print_user_name(user_name) {
+    1 <<< ("You are: ", 9);
+    1 <<< (user_name, 20);
+}
 
 1 <<< ("What's your name?\n", 18);
 (1, 20) >>> user_name;
