@@ -8,7 +8,6 @@
 from sys import stdout
 
 def progress_bar(actual, total):
-    return
     size = 100
     percent = actual / total
     block = int(size * percent)
@@ -17,9 +16,19 @@ def progress_bar(actual, total):
     stdout.flush()
 
 def display_tokens(files_tokens):
-    for key in files_tokens.keys():
-        print(f"{key}:")
-        for token in files_tokens[key]:
-            print(token)
-        if key != list(files_tokens.keys())[-1]:
+    for token in files_tokens:
+        print(token)
+
+def display_inst(files_inst):
+    for insts in files_inst:
+        for inst in insts:
+            print(inst)
+        if insts != files_inst[-1]:
             print()
+
+def display_file_info(files_info):
+    for key in files_info.keys():
+        print("-" * 125)
+        print(f"{key}:")
+        print()
+        display_inst(files_info[key][1])

@@ -8,7 +8,7 @@
 
 from lexer import extract_token, check_syntax
 from flag import flag, flag_help
-from visualizer import display_tokens
+from visualizer import display_file_info
 from error import c15UnknowTokenError, c15SyntaxeError, c15ArgumentError
 from sys import argv
 from os import path
@@ -26,7 +26,7 @@ class Progress:
         self.actual = 0
         self.total = 0
 
-files_tokens = {}
+files_info = {}
 option = Option()
 progress = Progress()
 
@@ -80,19 +80,22 @@ for file in option.files:
         progress.total += len(line)
 
 for file in option.files:
+    files_info[file] = []
     try:
         tokens = extract_token(progress, file)
-        files_tokens[file] = tokens
+        files_info[file].append(tokens)
     except (c15UnknowTokenError, c15SyntaxeError) as e :
         print(f"Error while extract token of \"{file}\"")
         print(e)
         exit()
     try:
-        check_syntax(open(file).read().split("\n"), tokens)
+        progress.total += len(tokens)
+        instructions = check_syntax(progress, open(file).read().split("\n"), tokens)
+        files_info[file].append(instructions)
     except c15SyntaxeError as e :
         print(f"Error during the check of syntax for \"{file}\"")
         print(e)
         exit()
 
 print()
-display_tokens(files_tokens)
+display_file_info(files_info)
