@@ -31,4 +31,4 @@ def display_file_info(files_info):
         print("-" * 125)
         print(f"{key}:")
         print()
-        display_inst(files_info[key][1])
+        display_inst(files_info[key]["Instructions"])

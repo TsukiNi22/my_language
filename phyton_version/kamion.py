@@ -26,6 +26,11 @@ class Progress:
         self.actual = 0
         self.total = 0
 
+    def reset(self):
+        print()
+        self.actual = 0
+        self.total = 0
+
 files_info = {}
 option = Option()
 progress = Progress()
@@ -80,22 +85,29 @@ for file in option.files:
         progress.total += len(line)
 
 for file in option.files:
-    files_info[file] = []
+    files_info[file] = {}
+    files_info[file]["Content"] = open(file).read().split("\n")
     try:
         tokens = extract_token(progress, file)
-        files_info[file].append(tokens)
+        files_info[file]["Tokens"] = tokens
     except (c15UnknowTokenError, c15SyntaxeError) as e :
         print(f"Error while extract token of \"{file}\"")
         print(e)
         exit()
+
+progress.reset()
+for key in files_info.keys():
+    progress.total += len(files_info[key]["Tokens"])
+
+for key in files_info.keys():
+    file_info = files_info[key]
     try:
-        progress.total += len(tokens)
-        instructions = check_syntax(progress, open(file).read().split("\n"), tokens)
-        files_info[file].append(instructions)
+        instructions = check_syntax(progress, file_info["Content"], file_info["Tokens"])
+        files_info[key]["Instructions"] = instructions
     except c15SyntaxeError as e :
         print(f"Error during the check of syntax for \"{file}\"")
         print(e)
         exit()
 
 print()
-display_file_info(files_info)
+#display_file_info(files_info)
