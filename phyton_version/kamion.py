@@ -78,6 +78,10 @@ while i < len(argv):
             print(f"[33m[FATAL ERROR][0m Error while init flag \"{arg}\"")
             print(e)
             exit(KO)
+        except PermissionError as e:
+            print(f"[33m[FATAL ERROR][0m Error while init file for flag \"{arg}\"[31m")
+            print(e)
+            exit(KO)
         i += 1 + res
         continue
     check_file(arg)
@@ -85,8 +89,13 @@ while i < len(argv):
     i += 1
 
 for file in option.files:
-    for line in open(file).read().split("\n"):
-        progress.total += len(line)
+    try:
+        for line in open(file).read().split("\n"):
+            progress.total += len(line)
+    except Exception as e:
+        print(f"[33m[FATAL ERROR][0m Error while reading \"{file}\"[31m")
+        print(e)
+        exit(KO)
 
 for file in option.files:
     files_info[file] = {}
