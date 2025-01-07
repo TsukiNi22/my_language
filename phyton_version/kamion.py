@@ -11,7 +11,7 @@ from flag import flag, flag_help
 from visualizer import display_file_info, display_error
 from error import c15UnknowTokenError, c15SyntaxError, c15ArgumentError
 from constant import OK, KO
-from sys import argv
+from sys import argv, stdout
 from os import path
 
 class Option:
@@ -27,6 +27,7 @@ class Progress:
     def __init__(self):
         self.actual = 0
         self.total = 0
+        self.for_start = 0
 
     def reset(self):
         print()
@@ -90,11 +91,14 @@ for file in option.files:
 for file in option.files:
     files_info[file] = {}
     files_info[file]["Content"] = open(file).read().split("\n")
+    progress.for_start = progress.actual
     try:
         tokens = extract_token(progress, file)
         files_info[file]["Tokens"] = tokens
     except (c15UnknowTokenError, c15SyntaxError) as e :
         if option.multiple_error:
+            progress.actual += sum(len(line) for line in files_info[file]["Content"]) - (progress.actual - progress.for_start)
+            stdout.write('\033[F')
             error_message[file] = [f"Error while extract token of \"{file}\"", e]
         else:
             print(f"Error while extract token of \"{file}\"")
@@ -107,11 +111,14 @@ for key in files_info.keys() - error_message.keys():
 
 for key in files_info.keys() - error_message.keys():
     file_info = files_info[key]
+    progress.for_start = progress.actual
     try:
         instructions = check_syntax(progress, file_info["Content"], file_info["Tokens"])
         files_info[key]["Instructions"] = instructions
     except c15SyntaxError as e :
         if option.multiple_error:
+            progress.actual += len(files_info[key]["Tokens"]) - (progress.actual - progress.for_start)
+            stdout.write('\033[F')
             error_message[key] = [f"Error during the check of syntax for \"{key}\"", e]
         else:
             print(f"Error during the check of syntax for \"{key}\"")
