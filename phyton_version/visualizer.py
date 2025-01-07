@@ -26,8 +26,8 @@ def display_inst(files_inst):
         if insts != files_inst[-1]:
             print()
 
-def display_file_info(files_info):
-    for key in files_info.keys():
+def display_file_info(files_info, error_keys):
+    for key in files_info.keys() - error_keys:
         print("-" * 125)
         print(f"{key}:")
         print()

@@ -53,7 +53,7 @@ def get_inst(progress, file, tokens, start, max):
     if not i < max:
         is_import(file, inst)
         token = tokens[-1]
-        raise c15SyntaxError("Invalid instruction, no end detected", 1, token.x_end, token.y, file[token.y])
+        raise c15SyntaxError("Invalid instruction, no end detected, probaply forgoten ';'", 1, token.x_end, token.y, file[token.y])
     progress.actual += 1
     return inst, i + 1
 

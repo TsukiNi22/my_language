@@ -56,7 +56,7 @@ def check_file(file):
         if not (file.endswith(".15") or file.endswith(".h15")):
              raise c15ArgumentError(f"Invalid extension, need to be \".15\" or \".h15\"", "", argv, i)
     except c15ArgumentError as e:
-        print(f"Invalid file \"{file}\"")
+        print(f"[33m[FATAL ERROR][0m Invalid file \"{file}\"")
         print(e)
         exit(KO)
 
@@ -75,7 +75,7 @@ while i < len(argv):
             if res < 0:
                 raise c15ArgumentError("Unknow flag given", "", argv, i)
         except c15ArgumentError as e:
-            print(f"Error while init flag \"{arg}\"")
+            print(f"[33m[FATAL ERROR][0m Error while init flag \"{arg}\"")
             print(e)
             exit(KO)
         i += 1 + res
@@ -126,7 +126,7 @@ for key in files_info.keys() - error_message.keys():
             exit(KO)
 
 print()
-#display_file_info(files_info)
+display_file_info(files_info, error_message.keys())
 if option.multiple_error:
     display_error(error_message)
 exit(OK)
