@@ -92,7 +92,7 @@ for file in option.files:
     try:
         for line in open(file).read().split("\n"):
             progress.total += len(line)
-    except Exception as e:
+    except UnicodeDecodeError as e:
         print(f"[33m[FATAL ERROR][0m Error while reading \"{file}\"[31m")
         print(e)
         exit(KO)
