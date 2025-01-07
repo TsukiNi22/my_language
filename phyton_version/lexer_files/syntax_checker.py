@@ -34,6 +34,12 @@ def get_inst(progress, file, tokens, start, max):
     inst = []
     i = start
 
+    if tokens[i].type != "identifier" and tokens[i].id == "k_error":
+        progress.actual += 1
+        progress_bar(progress.actual, progress.total)
+        inst.append(tokens[i])
+        return inst, i + 1
+
     while i < max and (tokens[i].type == "identifier" or tokens[i].id != "d_instruction_end"):
         progress.actual += 1
         progress_bar(progress.actual, progress.total)
@@ -61,5 +67,5 @@ def check_syntax(progress, file, tokens):
         instructions.append(instruction)
     progress_bar(progress.actual, progress.total)
     for i in range(len(instructions)):
-        instruction_checker(instructions, instructions[i], i)
+        instruction_checker(file, instructions, instructions[i], i)
     return instructions

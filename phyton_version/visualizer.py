@@ -32,3 +32,9 @@ def display_file_info(files_info):
         print(f"{key}:")
         print()
         display_inst(files_info[key]["Instructions"])
+
+def display_error(error_message):
+    for key in error_message.keys():
+        message = error_message[key]
+        print("[0m" + message[0])
+        print(message[1])

@@ -26,9 +26,12 @@ def chek_arg_nbr(argument, argv, i, n):
         raise c15ArgumentError("Invalid number of argument given", argument, argv, i)
 
 def flag(argv, flag, i, option):
-    if flag == "-b":
+    if flag == "-b" or flag == "--binary":
         chek_arg_nbr("binary_name", argv, i, 1)
         option.binary_name = argv[i + 1]
+        return 1
+    elif flag == "-E" or flag == "--Errors":
+        option.multiple_error = True
         return 1
     elif flag == "-d" or flag == "--directory" or flag == "-D" or flag == "--DIRECTORY":
         chek_arg_nbr("direcroty_path", argv, i, 1)
@@ -52,6 +55,12 @@ def help_flag(i, arg):
         str += "\tThat will change the name of the output binary to the given name\n\n"
         str += "[35mUSAGE:\n"
         str += "\t-b binary_name"
+        print(str)
+    elif arg == "-E" or flag == "--Errors":
+        str = "[32mINFORMATION:\n"
+        str += "\tDisplay all the errors a the place of only one and stop\n\n"
+        str += "[35mUSAGE:\n"
+        str += "\t-E"
         print(str)
     elif arg == "-d" or flag == "--directory":
         str = "[32mINFORMATION:\n"
@@ -88,6 +97,8 @@ def help():
     str += "\t\tWrite all the informations about the [31moption\n"
     str += "\t[32m-b, --binary [31mbinary_name[0m\n"
     str += "\t\tChange the name of the output executable to the given [31mbinary_name[0m (default: \'[31mbinary[0m\')\n"
+    str += "\t[32m-E, --Errors [0m\n"
+    str += "\t\tDisplay all the errors at the end and dosen't stop when encounter one error (default: \'[31mFalse[0m\')\n"
     str += "\t[32m-d, --directory [31mdirectory_path[0m\n"
     str += "\t\tAdd the files found without recursive in the given [31mdirectory_path[0m in the list of file to compile\n"
     str += "\t[32m-D, --DIRECTORY [31mdirectory_path[0m\n"

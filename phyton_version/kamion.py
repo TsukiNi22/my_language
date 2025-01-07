@@ -8,8 +8,9 @@
 
 from lexer import extract_token, check_syntax
 from flag import flag, flag_help
-from visualizer import display_file_info
+from visualizer import display_file_info, display_error
 from error import c15UnknowTokenError, c15SyntaxError, c15ArgumentError
+from constant import OK, KO
 from sys import argv
 from os import path
 
@@ -17,6 +18,7 @@ class Option:
 
     def __init__(self):
         self.binary_name = "binary"
+        self.multiple_error = False
         self.files_dir = None
         self.files = []
 
@@ -32,6 +34,7 @@ class Progress:
         self.total = 0
 
 files_info = {}
+error_message = {}
 option = Option()
 progress = Progress()
 
@@ -43,7 +46,7 @@ try:
 except c15ArgumentError as e:
     print(f"Call of compiler error")
     print(e)
-    exit()
+    exit(KO)
 
 def check_file(file):
     try:
@@ -54,7 +57,7 @@ def check_file(file):
     except c15ArgumentError as e:
         print(f"Invalid file \"{file}\"")
         print(e)
-        exit()
+        exit(KO)
 
 i = 1
 for i in range(len(argv)):
@@ -73,7 +76,7 @@ while i < len(argv):
         except c15ArgumentError as e:
             print(f"Error while init flag \"{arg}\"")
             print(e)
-            exit()
+            exit(KO)
         i += 1 + res
         continue
     check_file(arg)
@@ -91,23 +94,32 @@ for file in option.files:
         tokens = extract_token(progress, file)
         files_info[file]["Tokens"] = tokens
     except (c15UnknowTokenError, c15SyntaxError) as e :
-        print(f"Error while extract token of \"{file}\"")
-        print(e)
-        exit()
+        if option.multiple_error:
+            error_message[file] = [f"Error while extract token of \"{file}\"", e]
+        else:
+            print(f"Error while extract token of \"{file}\"")
+            print(e)
+            exit(KO)
 
 progress.reset()
-for key in files_info.keys():
+for key in files_info.keys() - error_message.keys():
     progress.total += len(files_info[key]["Tokens"])
 
-for key in files_info.keys():
+for key in files_info.keys() - error_message.keys():
     file_info = files_info[key]
     try:
         instructions = check_syntax(progress, file_info["Content"], file_info["Tokens"])
         files_info[key]["Instructions"] = instructions
     except c15SyntaxError as e :
-        print(f"Error during the check of syntax for \"{file}\"")
-        print(e)
-        exit()
+        if option.multiple_error:
+            error_message[key] = [f"Error during the check of syntax for \"{key}\"", e]
+        else:
+            print(f"Error during the check of syntax for \"{key}\"")
+            print(e)
+            exit(KO)
 
 print()
 #display_file_info(files_info)
+if option.multiple_error:
+    display_error(error_message)
+exit(OK)
