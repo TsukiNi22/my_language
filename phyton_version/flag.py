@@ -5,21 +5,25 @@
 ## Flag initialisation
 ##
 
+from constant import EXT_SOURCE, EXT_HEADER
 from error import c15ArgumentError
 from pathlib import Path
 from os import path
 
-def get_files(path, option, rec = True):
-    extensions = ['.15', '.h15']
-    directory_path = Path(path)
+def get_files(dir_path, option, rec = True):
+    extensions = [EXT_SOURCE, EXT_HEADER]
+    directory_path = Path(dir_path)
     for ext in extensions:
         if rec:
             files = directory_path.rglob(f"*{ext}");
         else:
             files = directory_path.glob(f"*{ext}");
         for file in files:
+            file = str(file)
+            if not path.isfile(file):
+                continue
             if not file in option.files:
-                option.files.append(str(file))
+                option.files.append(file)
 
 def chek_arg_nbr(argument, argv, i, n):
     if len(argv) - 1 < i + n:
@@ -65,14 +69,14 @@ def help_flag(i, arg):
     elif arg == "-d" or flag == "--directory":
         str = "[32mINFORMATION:\n"
         str += "\tThat will add the files found without recursive in the given directory\n"
-        str += "\tpath with [35m\".15\"[32m or [35m\".h15\"[32m in the list of file to compile\n\n"
+        str += f"\tpath with [35m\"{EXT_SOURCE}\"[32m or [35m\"{EXT_HEADER}\"[32m in the list of file to compile\n\n"
         str += "[35mUSAGE:\n"
         str += "\t-d directory_path"
         print(str)
     elif arg == "-D" or flag == "--DIRECTORY":
         str = "[32mINFORMATION:\n"
         str += "\tThat will add the files found recursively in the given directory\n"
-        str += "\tpath with [35m\".15\"[32m or [35m\".h15\"[32m in the list of file to compile\n\n"
+        str += f"\tpath with [35m\"{EXT_SOURCE}\"[32m or [35m\"{EXT_HEADER}\"[32m in the list of file to compile\n\n"
         str += "[35mUSAGE:\n"
         str += "\t-D directory_path"
         print(str)

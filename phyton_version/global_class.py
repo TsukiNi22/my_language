@@ -5,6 +5,26 @@
 ## File for class
 ##
 
+class Option:
+
+    def __init__(self):
+        self.binary_name = "binary"
+        self.multiple_error = False
+        self.files_dir = None
+        self.files = []
+
+class Progress:
+
+    def __init__(self):
+        self.actual = 0
+        self.total = 0
+        self.for_start = 0
+
+    def reset(self):
+        print()
+        self.actual = 0
+        self.total = 0
+
 class Token():
     
     def __init__(self, type = "Unknow", id = "Unknow", x_start = -1, x_end = -1, y = -1, value = None):

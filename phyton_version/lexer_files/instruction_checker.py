@@ -24,6 +24,7 @@ k_read -> start with 'd_round_1'
 error message -> 'k_error' can be anywhere but not in double
 """
 
+from constant import EXT_SOURCE, EXT_HEADER
 from error import c15SyntaxError
 
 def check_import(file, inst):
@@ -50,7 +51,7 @@ def check_import(file, inst):
     if sum(1 for tok in inst if (tok.type == "key_word" and tok.id == "k_get")) != 1:
         raise c15SyntaxError("Multiple \'get\', only one at the same time" + read_declaration, 1, x_end, get_tok.y, file[get_tok.y])
     if sum(1 for tok in inst if (tok.type == "key_word" and tok.id == "k_get")) != 1:
-        raise c15SyntaxError("Multiple \'from\', only one at the same time" + read_declaration, 1, x_end, from_tok.y, file[from_tok.y])
+        EXraise c15SyntaxError("Multiple \'from\', only one at the same time" + read_declaration, 1, x_end, from_tok.y, file[from_tok.y])
     if size < 4:
         raise c15SyntaxError("Invalid declaration of an import, less things than needed" + import_declaration, 1, x_end, get_tok.y, file[get_tok.y])
     if inst[0] != get_tok:
@@ -73,9 +74,9 @@ def check_import(file, inst):
         else:
             raise c15SyntaxError("Invalid thing to import", tok.x_start, tok.x_end, get_tok.y, file[get_tok.y])
     str = inst[-1].value[1:-1]
-    if str == "" or str == ".15" or str == ".h15":
+    if str == "" or str == EXT_SOURCE or str == EXT_HEADER:
         raise c15SyntaxError("Invalid folder in the import", inst[-1].x_start, x_end, get_tok.y, file[get_tok.y])
-    if not (str.endswith(".15") or str.endswith(".h15")):
+    if not (str.endswith(EXT_SOURCE) or str.endswith(EXT_HEADER)):
         raise c15SyntaxError("Invalid folder extention in the import", inst[-1].x_start, x_end, get_tok.y, file[get_tok.y])
 
 def check_initialization(file, inst):
