@@ -1,0 +1,6 @@
+none func () {
+};
+
+none func () {
+    none func () {
+};
