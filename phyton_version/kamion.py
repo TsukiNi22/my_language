@@ -60,7 +60,6 @@ def check_file(file):
         print(e)
         exit(KO)
 
-i = 1
 for i in range(len(argv)):
     if argv[i][0] == "-":
         flag_help(argv[i], argv, i)

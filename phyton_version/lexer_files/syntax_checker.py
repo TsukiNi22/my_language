@@ -9,27 +9,6 @@ from lexer import instruction_checker
 from visualizer import progress_bar
 from error import c15SyntaxError
 
-def is_import(file, inst):
-    get_everything = False
-    size = len(inst)
-    
-    if size < 4 or inst[0].type == "identifier" or inst[0].id != "k_get":
-        return -1
-    i = 1
-    while i < size - 1 and (inst[i].type == "identifier" or inst[i].id == "o_multiplie"):        
-        i += 1
-        if (inst[i - 1].type != "identifier" and inst[i - 1].id == "o_multiplie"):
-            get_everything = True
-    if (size > 4 or inst[i].type == "identifier" or inst[i].id != "k_from" or not i + 1 < size) and get_everything:
-        raise c15SyntaxError("Can't import everything with \'*\' and other at the same time", inst[1].x_start, inst[i - 1].x_end, inst[1].y, file[inst[1].y])
-    if not i < size - 1 or inst[i].type == "identifier" or inst[i].id != "k_from":
-        return -1
-    str = inst[i + 1].value[:-1]
-    if not (str.endswith(".15") or str.endswith(".h15")):
-        token = inst[-1]
-        raise c15SyntaxError("Invalid folder extention in the import", token.x_start, token.x_end, token.y, file[token.y])
-    return 0
-
 def get_inst(progress, file, tokens, start, max):
     inst = []
     i = start
@@ -45,15 +24,17 @@ def get_inst(progress, file, tokens, start, max):
         progress_bar(progress.actual, progress.total)
         inst.append(tokens[i])
         i += 1
-        if is_import(file, inst) == 0:
-            if i < max and tokens[i].type == "delimitor" and tokens[i].id == "d_instruction_end":
-                i += 1
+        if any((tok.type == "key_word" and tok.id == "k_get") for tok in inst) or any((tok.type == "key_word" and tok.id == "k_from") for tok in inst):
+            while i < max and (tokens[i].type == "identifier" or tokens[i].id != "d_instruction_end") and tokens[i].y == inst[0].y:
                 progress.actual += 1
+                progress_bar(progress.actual, progress.total)
+                inst.append(tokens[i])
+                i += 1
+            if i < max and tokens[i].type == "delimitor" and tokens[i].id == "d_instruction_end":
+                raise c15SyntaxError("Can't place a ';' after an import", tokens[i].x_start, tokens[i].x_end, tokens[i].y, file[tokens[i].y])
             return inst, i
     if not i < max:
-        is_import(file, inst)
-        token = tokens[-1]
-        raise c15SyntaxError("Invalid instruction, no end detected, probaply forgoten ';'", 1, token.x_end, token.y, file[token.y])
+        raise c15SyntaxError("Invalid instruction, no end detected, probaply forgoten ';'", 1, tokens[-1].x_end, tokens[-1].y, file[tokens[-1].y])
     progress.actual += 1
     return inst, i + 1
 
