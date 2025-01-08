@@ -124,11 +124,16 @@ def kamion():
                 exit(KO)
 
 if __name__ == "__main__":
-    init()
-    kamion()
+    
+    try:
+        init()
+        kamion()
+    except KeyboardInterrupt:
+        print()
+        exit(KO)
 
-print()
-display_file_info(files_info, error_message.keys())
-if option.multiple_error:
-    display_error(error_message)
+    print()
+    display_file_info(files_info, error_message.keys())
+    if option.multiple_error:
+        display_error(error_message)
 exit(OK)

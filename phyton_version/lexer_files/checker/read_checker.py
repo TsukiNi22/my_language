@@ -5,6 +5,8 @@
 ## Checker for read
 ##
 
+from error import c15SyntaxError
+
 def check_read(file, inst):
     print("Read")
     read_declaration = ", need to be -> \"(int stream, int nbr_to_read) >>> str buffer\""

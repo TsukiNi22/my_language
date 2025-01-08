@@ -48,5 +48,5 @@ def check_syntax(progress, file, tokens):
         instructions.append(instruction)
     progress_bar(progress.actual, progress.total)
     for i in range(len(instructions)):
-        instruction_checker(file, instructions, instructions[i], i)
+        instructions, i = instruction_checker(file, instructions, instructions[i], i)
     return instructions

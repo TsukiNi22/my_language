@@ -7,6 +7,6 @@
 
 from error import c15SyntaxError
 
-def check_end_curly(file, insts, inst, i):
+def check_end_curly(file, insts, i):
     print("End Curly")
     pass
