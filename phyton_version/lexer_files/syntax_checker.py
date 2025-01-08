@@ -51,4 +51,5 @@ def check_syntax(progress, file, tokens):
     while instructions[i] != instructions[-1]:
         instruction_checker(file, instructions, instructions[i], i)
         i += 1
+    instruction_checker(file, instructions, instructions[i], i)
     return instructions
