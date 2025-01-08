@@ -48,8 +48,7 @@ def check_syntax(progress, file, tokens):
         instructions.append(instruction)
     progress_bar(progress.actual, progress.total)
     i = 0
-    while instructions[i] != instructions[-1]:
+    while i < len(instructions):
         instruction_checker(file, instructions, instructions[i], i)
         i += 1
-    instruction_checker(file, instructions, instructions[i], i)
     return instructions

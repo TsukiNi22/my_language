@@ -18,6 +18,7 @@ from lexer_files.checker.read_checker import *
 from lexer_files.checker.print_checker import *
 from lexer_files.checker.flow_controler_checker import *
 from lexer_files.checker.end_curly_checker import *
+from lexer_files.checker.start_curly_checker import *
 from lexer_files.checker.error_message_checker import *
 
 """ Syntax Checker """
