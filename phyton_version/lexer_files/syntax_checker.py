@@ -41,12 +41,14 @@ def get_inst(progress, file, tokens, start, max):
 def check_syntax(progress, file, tokens):
     instructions = []
     token_nbr = len(tokens)
-    i = 0
 
+    i = 0
     while i < token_nbr:
         instruction, i = get_inst(progress, file, tokens, i, token_nbr);
         instructions.append(instruction)
     progress_bar(progress.actual, progress.total)
-    for i in range(len(instructions)):
-        instructions, i = instruction_checker(file, instructions, instructions[i], i)
+    i = 0
+    while instructions[i] != instructions[-1]:
+        instruction_checker(file, instructions, instructions[i], i)
+        i += 1
     return instructions

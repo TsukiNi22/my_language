@@ -33,18 +33,17 @@ from error import c15SyntaxError
 
 def instruction_checker(file, instructions, instruction, i):
     inst = instruction
-    for i in range(len(inst)):
-        tok = inst[i]
+    for j in range(len(inst)):
+        tok = inst[j]
         if tok.type == "delimitor" and tok.id == "d_curly_1":
-            instruction_checker(file, instructions, instruction[:i], i)
-            instruction_checker(file, instructions, instruction[i + 1:], i)
             instructions.pop(i)
-            instructions.insert(i, instruction[i + 1:])
-            instructions.insert(i, instruction[:i])
-            return instructions, i + 1
+            instructions.insert(i, instruction[j + 1:])
+            instructions.insert(i, instruction[:j])
+            instruction_checker(file, instructions, instruction[:j], i)
+            return instructions, i
     print()
-    """for tok in inst:
-        print(tok)"""
+    for tok in inst:
+        print(tok)
     f_tok = inst[0]
 
     if any((tok.type == "key_word" and tok.id == "k_get") for tok in inst) or any((tok.type == "key_word" and tok.id == "k_from") for tok in inst):
@@ -74,7 +73,7 @@ def instruction_checker(file, instructions, instruction, i):
             check_attribution(file, instruction)
             return instructions, i
     elif len(inst) == 1 and f_tok.type == "delimitor" and f_tok.id == "d_curly_2":
-        check_end_curly(file, instructions, i);
+        check_end_curly(file, instructions, instruction, i);
         return instructions, i
     elif len(inst) == 1 and f_tok.type == "key_word" and f_tok.id == "k_error":
         check_error_message(file, f_tok)
