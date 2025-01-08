@@ -161,10 +161,12 @@ key word:
     get * from "literal"
     -literal is the name of a file where the function that you need is
     -the '*' will include all the function of the file
+    -can't be separate in different ligne
 
-    get [literal_1, literal_2, ...] from "literal"
+    get literal_1 literal_2 from "literal"
     -literal is the name of a file where the function that you need is
     -you can set a list of the function that you need
+    -can't be separate in different ligne
 
     @error@ Here is an exemple of text that can be written as an error
 
