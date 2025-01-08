@@ -51,7 +51,7 @@ def check_import(file, inst):
     if sum(1 for tok in inst if (tok.type == "key_word" and tok.id == "k_get")) != 1:
         raise c15SyntaxError("Multiple \'get\', only one at the same time" + read_declaration, 1, x_end, get_tok.y, file[get_tok.y])
     if sum(1 for tok in inst if (tok.type == "key_word" and tok.id == "k_get")) != 1:
-        EXraise c15SyntaxError("Multiple \'from\', only one at the same time" + read_declaration, 1, x_end, from_tok.y, file[from_tok.y])
+        raise c15SyntaxError("Multiple \'from\', only one at the same time" + read_declaration, 1, x_end, from_tok.y, file[from_tok.y])
     if size < 4:
         raise c15SyntaxError("Invalid declaration of an import, less things than needed" + import_declaration, 1, x_end, get_tok.y, file[get_tok.y])
     if inst[0] != get_tok:
