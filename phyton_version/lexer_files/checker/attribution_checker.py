@@ -5,6 +5,7 @@
 ## Checker for attribution
 ##
 
+from lexer import check_operation
 from error import c15SyntaxError
 
 def check_attribution(file, inst):

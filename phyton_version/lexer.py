@@ -9,6 +9,7 @@
 from lexer_files.token_extractor import *
 
 """ Checker """
+from lexer_files.checker.operation_checker import *
 from lexer_files.checker.import_checker import *
 from lexer_files.checker.initialization_checker import *
 from lexer_files.checker.attribution_checker import *

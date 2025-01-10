@@ -5,6 +5,7 @@
 ## Checker for initialization
 ##
 
+from lexer import check_operation
 from error import c15SyntaxError
 
 def check_initialization(file, inst):

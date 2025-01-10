@@ -5,6 +5,7 @@
 ## Checker for print
 ##
 
+from lexer import check_operation
 from error import c15SyntaxError
 
 def check_print(file, inst):
@@ -32,7 +33,7 @@ def check_print(file, inst):
         raise c15SyntaxError("Invalid delimitation of print" + print_declaration, 1, print_tok.x_start - 1, print_tok.y, file[print_tok.y])
     if not (inst[0].type == "literal" and (inst[0].id == "l_integer" or (inst[0].id == "l_binary" and inst[0].value[0] != "0"))) and not inst[0].type == "identifier":
         raise c15SyntaxError("Invalid stream value, stream need to be an integer > 0" + print_declaration, inst[0].x_start, inst[0].x_end, print_tok.y, file[print_tok.y])
-    if not (inst[5].type == "literal" and (inst[3].id == "l_integer" or (inst[5].id == "l_binary" and inst[5].value[0] != "0"))) and not inst[5].type == "identifier":
+    if not (inst[5].type == "literal" and (inst[5].id == "l_integer" or (inst[5].id == "l_binary" and inst[5].value[0] != "0"))) and not inst[5].type == "identifier":
         raise c15SyntaxError("Invalid nbr_to_print value, nbr_to_print need to be an integer >= 0" + print_declaration, inst[5].x_start, inst[5].x_end, print_tok.y, file[print_tok.y])
-    if not inst[3].type == "identifier":
+    if not (inst[3].type == "literal" and inst[3].id == "l_string") and not inst[3].type == "identifier":
         raise c15SyntaxError("Invalid variable to write in, buffer need to be a str variable" + print_declaration, inst[3].x_start, inst[3].x_end, print_tok.y, file[print_tok.y])
