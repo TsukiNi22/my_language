@@ -1,3 +1,0 @@
-int test = 234;
-@ this thing can't be identifie to any token
-str string = \n;
