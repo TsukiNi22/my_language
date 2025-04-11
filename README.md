@@ -4,7 +4,7 @@
 
 The name "c15" has nothing to do with the `C` programming language, this is a private joke like the name of the compiler
 
-This language is based on the `C`, with some difference and some other thing in more, i designed it has how i wanted it to be and with what i wanted.
+This language is based on the `C` syntax, with some difference and some other thing in more, i designed it has how i wanted it to be and with what i wanted.
 
 There probably a bunch of bug, if you find one and want to contribute send me someting here (c15.tsukini@gmail.com)
 
@@ -16,21 +16,22 @@ There probably a bunch of bug, if you find one and want to contribute send me so
 ## How use/install the compiler
 Clone the repository:
 ```sh
-git clone https://github.com/TsukiNi22/my_language.git
+git clone https://github.com/TsukiNi22/my_language.git c15
 ```
 
-To create a link to the compiler (On Fedora / or use `ln -s absolute_path_to_kamion.py path_of_the_env_var_path`):
+To create a link to the compiler:
 ```sh
-cd my_language/phyton_version
+cd c15
 make
 ```
 
-To use it or for more information use `-h`:
+To use it or for more information use `-h` or `--help`:
 ```sh
 kmc files_path
 ```
+For language syntax or more information go to the file in the branch `wiki`
 
-## Compiler Advencement
+## Compiler Advencement made in `C`
 
 | Task              | State                                                      |
 | ----------------- | ---------------------------------------------------------- |
