@@ -1,0 +1,98 @@
+Global Description:
+    - None for now
+
+'=':
+    description:
+
+    syntax:
+
+'!':
+    description:
+
+    syntax:
+
+'?':
+    description:
+
+    syntax:
+
+'-':
+    description:
+
+    syntax:
+
+'+':
+    description:
+
+    syntax:
+
+'*':
+    description:
+
+    syntax:
+
+'/':
+    description:
+
+    syntax:
+
+'^':
+    description:
+
+    syntax:
+
+'%':
+    description:
+
+    syntax:
+
+'//':
+    description:
+
+    syntax:
+
+'&':
+    description:
+
+    syntax:
+
+'|':
+    description:
+
+    syntax:
+
+'>>':
+    description:
+
+    syntax:
+
+'<<':
+    description:
+
+    syntax:
+
+'->':
+    description:
+
+    syntax:
+
+'<-':
+    description:
+
+    syntax:
+
+'++':
+    description:
+
+    syntax:
+
+'--':
+    description:
+
+    syntax:
+
+'..=':
+    description:
+
+    syntax:
+
