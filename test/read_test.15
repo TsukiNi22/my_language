@@ -1,5 +1,0 @@
-(5465464, 5) >>> buffer;
-(1001110, 899) >>> buffer;
-(int_var, 1) >>> buffer;
-(1, int_var) >>> buffer;
-(var, vaaar) >>> buffer;

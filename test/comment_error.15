@@ -1,2 +1,0 @@
-int test = "invalid atribution"; @error@This is the error message
-float t = .23;

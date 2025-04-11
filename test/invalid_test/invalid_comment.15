@@ -1,6 +1,0 @@
-int test = 8; @>
-start of a
-comment @>
-<@
-@ end of a comment that never start
-str string = "eee"; <@
