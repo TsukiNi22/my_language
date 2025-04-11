@@ -74,3 +74,19 @@ Global Description:
 
     Syntax:
         a ~= b
+
+'&&':
+    Description:
+        - The value is 1 when the first and the second value are not equal to 0 (equivalent to false)
+        - The value is 0 when the first or the second value is equal to 0 (equivalent to false)
+
+    Syntax:
+        a && b
+
+'||':
+    Description:
+        - The value is 1 when the first or the second value are different to 0 (equivalent to false)
+        - The value is 0 when the first and the second value are equal to 0 (equivalent to false)
+
+    Syntax:
+        a || b

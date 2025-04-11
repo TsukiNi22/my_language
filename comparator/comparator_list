@@ -8,3 +8,5 @@ Comparator list:
     '!='    ->  Not Equal to
     '!=='   ->  Strictly Not Equal to
     '~='    ->  Slightly different
+    '&&'    ->  Logical AND
+    '||'    ->  Logical OR
