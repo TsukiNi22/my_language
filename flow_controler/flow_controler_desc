@@ -1,0 +1,175 @@
+'if':
+    Description:
+        - Take a conditional expression and execute all the line in his scope if the conditional expression is different from 0 / true
+        - If the conditional expression is 0 / false 
+
+    Syntax:
+        if (conditional expression)
+            expression;
+
+        if (conditional expression) {
+            expression;
+            expression;
+            ...
+        }
+
+'&if':
+    Description:
+        - Same as an if but take the conditional expression of the last if / elif / &if and add it to his own conditional expression
+        - It's like last (last conditional expression && conditional expression)
+        - They can be combined and give something like (last last conditional expression && last conditional expression && conditional expression)
+        - If there is nothing before they just act like a if
+
+    Syntax:
+        &if (conditional expression)
+            expression;
+
+        &if (conditional expression) {
+            expression;
+            expression;
+            ...
+        }
+
+'|if':
+    Description:
+        - Same as an if but take the conditional expression of the last if / elif / |if and use it with his own conditional expression
+        - It's like last (last conditional expression || conditional expression)
+        - They can be combined and give something like (last last conditional expression || last conditional expression || conditional expression)
+        - If there is nothing before they just act like a if
+
+    Syntax:
+        |if (conditional expression)
+            expression;
+
+        |if (conditional expression) {
+            expression;
+            expression;
+            ...
+        }
+
+'elif':
+    Description:
+        - Same as an if but only execute when the last if / &if / |if / elif / else is false
+        - Need at least one precedent conditional flow controler named above
+
+    Syntax:
+        elif (conditional expression)
+            expression;
+
+        elif (conditional expression) {
+            expression;
+            expression;
+            ...
+        }
+
+'else':
+    Description:
+        - Same only execute when the last if / &if / |if / elseif / else is false
+        - Need at least one precedent conditional flow controler named above
+        - No need of conditional expression they always execute the thing in his scope if the precedent flow controler is false
+
+    Syntax:
+        else
+            expression;
+
+        else {
+            expression;
+            expression;
+            ...
+        }
+
+'for':
+    Description:
+        - The for is a loop that will repeat until the conditional expression is 0 / false
+        - They need 1 2 or 3 element to be able to work (like under)
+
+    Syntax:
+        for (action done at the first loop: conditional expression: action done each loop)
+            expression;
+
+        for (action done at the first loop: conditional expression: action done each loop) {
+            expression;
+            expression;
+            ...
+        }
+        
+        # can also be written in that way
+        for (conditional expression: action done each loop)
+        for (conditional expression)
+
+'do':
+    Description:
+        - That an infinit loop, can only be exit with a flow controler that will jump to a line over the do scope
+
+    Syntax:
+        do
+            expression;
+
+        do {
+            expression;
+            expression;
+            ...
+        }
+
+'break':
+    Description:
+        - Can be used in any flow controler with a scope and function
+        - That will go to the end of the scope without executing the next line in the scope
+        - If it's a function that will go to the last line and execute it
+
+    Syntax:
+        break
+
+'continue':
+    Description:
+        - Can be used in any flow controler with a scope and function
+        - That will go to the start of the scope without executing the next line in the scope
+
+    Syntax:
+        continue
+
+'return':
+    Description:
+        - Used in scope of a function to return a value / var / nothing
+
+    Syntax:
+        return a
+        return
+
+'jump':
+    Description:
+        - Only use in a scope of a flow controler or function
+        - Permit to jump to the n line after or before in the same scope can't go to another scope
+
+    Syntax:
+        jump a
+
+'ifjp':
+    Description:
+        - Only use in a scope of a flow controler or function
+        - Only jump if the conditional expression is different from 0 / true
+        - Permit to jump to the n line after or before in the same scope can't go to another scope
+
+    Syntax:
+        ifjp (conditional expression) a
+
+'exit':
+    Description:
+        - Terminate the whole program and exit with 0 or the given value
+        - If no value given exit with return code 0
+
+    Syntax:
+        exit a
+        exit
+
+'error':
+    Description:
+        - Terminate the whole program and exit with 1 or the given value and display the error message
+        - If no value given exit with return code 1
+        - If the value is 0 then that will be switch to a 1
+        - The value can be replace a by a function that will be call before exit and be the return value
+
+    Syntax:
+        error "Error message" function(...)
+        error "Error message" a
+        error "Error message"
