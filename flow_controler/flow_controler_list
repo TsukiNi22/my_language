@@ -1,6 +1,7 @@
 Flow Controler list:
     'if'        ->   Conditional
     '&if'       ->   And Conditional
+    '|if'       ->   Or Conditional
     'elif'      ->   Else Conditional
     'else'      ->   Else
     'for'       ->   Loop
