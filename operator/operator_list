@@ -13,8 +13,8 @@ Operator list:
     '|'     ->  Bitwise OR
     '>>'    ->  Right Shift
     '<<'    ->  Left Shift
-    '->'    ->  Access
-    '<-'    ->  Dereferencing
+    '<-'    ->  Access
+    '->'    ->  Dereferencing
     '++'    ->  Increment
     '--'    ->  Decrement
     '..='   ->  Operator Attribution

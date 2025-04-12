@@ -111,19 +111,19 @@
     syntax:
         a << b
 
-'->':
+'<-':
     description:
         - Return the adresse of the emplacament of the given var
 
     syntax:
-        ->var
+        <-var
 
-'<-':
+'->':
     description:
         - Return the value stored at the adress of the given pointer
 
     syntax:
-        <-ptr
+        ->ptr
 
 '++':
     description:
