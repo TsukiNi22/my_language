@@ -1,0 +1,7 @@
+Comparator list:
+    '<<<'       ->  Write
+    '>>>'       ->  Read
+    'set'       ->  Define
+    'get from'  ->  Include
+    '@error@'   ->  Error Message
+    'none'      ->  Void
