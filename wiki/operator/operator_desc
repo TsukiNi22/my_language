@@ -1,0 +1,161 @@
+'=':
+    description:
+        - Attribute the value to the variable
+
+    syntax:
+        var = a
+
+'!':
+    description:
+        - The ouput is 1 when the value is equal to 0 (equivalent to false)
+        - The ouput is 0 when the value is different than 0 (equivalent to false)
+
+    syntax:
+        !a
+
+'?':
+    description:
+        - The ouput is 1 when the value is different than 0 (equivalent to false)
+        - The ouput is 0 when the value is equal to 0 (equivalent to false)
+        - That just transform the value in a boolean value 0 / 1 (equivalent to false / true)
+
+    syntax:
+        ?a
+
+'-':
+    description:
+        - The ouput is the first value minus the second value
+
+    syntax:
+        a - b
+
+    description:
+        - Substract one to the var
+
+    syntax:
+        var-
+     
+'+':
+    description:
+        - The ouput is the first value plus the second value
+
+    syntax:
+        a + b
+
+    description:
+        - Add one to the var
+
+    syntax:
+        var+
+
+'*':
+    description:
+        - The ouput is the first value multiplie the second value
+
+    syntax:
+        a * b
+
+'/':
+    description:
+        - The ouput is the first value divided the second value
+
+    syntax:
+        a / b
+
+'^':
+    description:
+        - The ouput is the first value raise to the power of the second value
+
+    syntax:
+        a^b
+
+'%':
+    description:
+        - The ouput is the remainder of the division of the first value by the second value
+
+    syntax:
+        a % b
+
+'//':
+    description:
+        - The ouput is the integer part of the division of the first value by the second value
+
+    syntax:
+        a // b
+
+'&':
+    description:
+        - The ouput is the logical and of each bits of the first and second value
+
+    syntax:
+        a & b
+
+'|':
+    description:
+        - The ouput is the logical or of each bits of the first and second value
+
+    syntax:
+        a | b
+
+'>>':
+    description:
+        - The ouput is the first value with his bits shift to the right the number of time of the second value
+
+    syntax:
+        a >> b
+
+'<<':
+    description:
+        - The ouput is the first value with his bits shift to the left the number of time of the second value
+
+    syntax:
+        a << b
+
+'<-':
+    description:
+        - Return the adresse of the emplacament of the given var
+
+    syntax:
+        <-var
+
+'->':
+    description:
+        - Return the value stored at the adress of the given pointer
+
+    syntax:
+        ->ptr
+
+'++':
+    description:
+        - Add the value to the variable
+
+    syntax:
+        var++a
+
+'--':
+    description:
+        - Substract the value to the variable
+
+    syntax:
+        var--b
+
+'..=':
+    description:
+        - It's an attribution but can take a operator
+        - The ouput is the var (operator) the value
+
+    syntax:
+        var ?= a
+        var -= a
+        var += a
+        var *= a
+        var /= a
+        var ^= a
+        var %= a
+        var //= a
+        var &= a
+        var |= a
+        var >>= a
+        var <<= a
+        var ->= a
+        var <-= a

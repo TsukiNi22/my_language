@@ -11,7 +11,7 @@ There probably a bunch of bug, if you find one and want to contribute send me so
 | File extension | Utility                                                |
 | -------------- | ------------------------------------------------------ |
 | `.15`          | for the code                                           |
-| `.15h`         | for prototype, set, .. (code can also be writen in it) |
+| `.15h`         | for prototype, set, ... (code can't be writen in it)   |
 
 ## How use/install the compiler
 Clone the repository:
