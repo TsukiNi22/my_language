@@ -1,6 +1,0 @@
-Information:
-    - Any value different from 0 is true
-    - The value 0 is false
-    - The file where the code is writed is the file who end whith .15
-    - The file where the set / struc / proto / otherthing is writed is the file who end whith .15h
-    - Code can't be writed in .15 file
