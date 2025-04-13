@@ -45,16 +45,6 @@
         !(a + b)
         ...
 
-'[ ]':
-    Description:
-        - That delimitor is used in array declaration
-        - Can take a value n for the size
-
-    Syntax:
-        var[] = ...
-        var[n] = ...
-        ...
-
 '{ }':
     Description:
         - That delimitor is used in array declaration

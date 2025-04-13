@@ -7,8 +7,6 @@ Delimitor list:
     '<@'    ->  Close Comment
     '('     ->  Open Parenthesis
     ')'     ->  Close Parenthesis
-    '['     ->  Open Bracket
-    ']'     ->  Close Bracket
     '{'     ->  Open Curly Brace
     '}'     ->  Close Curly Brace
     '       ->  Char Delimitor
