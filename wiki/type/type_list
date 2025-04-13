@@ -1,0 +1,13 @@
+Type list:
+    'char'      ->  Character
+    'str'       ->  Strings
+    'bool'      ->  Boolean
+    'bin'       ->  Binary
+    'oct'       ->  Octal
+    'int'       ->  Integer (Decimal)
+    'hex'       ->  Hexadicimal
+    'float'     ->  Floating (Decimal)
+    'ptr'       ->  Pointer
+    'array'     ->  Array
+    'struct'    ->  Structure
+    'unsigned'  ->  Unsigned
