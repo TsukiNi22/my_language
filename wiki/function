@@ -1,0 +1,28 @@
+A fucntion can't have the same name and same number of argument in the same contexte
+But tow fucntion with the same name is good if they not have the same number of argument
+
+Declaration:
+    - Each function need: a name, a return type or none and argument or none
+
+Basic function:
+retun_type function_name(type arg, type arg, ...) {
+    expression;
+    expression;
+    ...
+    return data_of_return_type;
+}
+
+No returing function:
+none function_name(type arg, type arg, ...) {
+    expression;
+    expression;
+    ...
+}
+
+No argument function:
+retun_type function_name(none) {
+    expression;
+    expression;
+    ...
+    return data_of_return_type;
+}
