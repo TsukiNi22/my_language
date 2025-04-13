@@ -1,0 +1,168 @@
+Size manual changement:
+    - Only for: bin, oct, int, hex, float, ptr
+    - The size can be changed in bytes, that will influence min/max and precision for float
+    - Can't be 0
+    - If no manual size given, take the default size
+
+    Syntax:
+        unsigned int:13 var = 5235 # that will create a integer who can be at max 2^13
+        float :100 var = .000000000000001 # a floating number with a huge precision defined with 100 bytes
+
+    Global Syntax:
+        type:number_of_bytes var_name ...
+
+'char':
+    Description:
+        - Default size: 1 byte
+        - Type for only 1 character
+        - Can be given in char or in ascii code
+
+    Syntax:
+        char var = 'a'
+        char var = 97 # same as 'a'
+        ...
+
+'str':
+    Description:
+        - Default size: 1 byte ('\0' terminate) + 1 byte * size
+        - Type for a list of char, a strings
+        - A strings is terminate by a '\0' or 0 in ascii
+
+    Syntax:
+        str var = "I'm a exemple of strings"
+        ...
+
+'bool':
+    Description:
+        - Default size: 1 byte
+        - Can only be 0 / 1 | false / true
+
+    Syntax:
+        bool var = 0
+        bool var = 1
+        bool var = false
+        bool var = true
+        ...
+
+'bin':
+    Description:
+        - Default size: 4 byte
+        - Can only be composed of 0 and 1, a binary number
+        - Any other number given will be cast in a binary form
+
+    Syntax:
+        bin var = 0b100110111
+        bin var = 4132425 # also valid, a cast in binary will ocure
+        ...
+
+'oct':
+    Description:
+        - Default size: 4 byte
+        - Can only be composed of 01234567, a octal number
+        - Any other number given will be cast in a octal form
+
+    Syntax:
+        oct var = 074264234
+        oct var = 99999999 # also valid, a cast in octal will ocure
+        ...
+
+'int':
+    Description:
+        - Default size: 4 byte
+        - Can only be composed of 0123456789, a decimal number
+        - Any other number given will be cast in a decimal form
+
+    Syntax:
+        int var = 14952734728
+        int var = 0b1100011 # also valid, a cast in decimal will ocure
+        ...
+
+'hex':
+    Description:
+        - Default size: 4 byte
+        - Can only be composed of 0123456789abcdef, a hexadecimal number
+        - Any other number given will be cast in a hexadecimal form
+
+    Syntax:
+        hex var = 0xac239f
+        hex var = 4132425 # also valid, a cast in hexadecimal will ocure
+        ...
+
+'float':
+    Description:
+        - Default size: 8 byte
+        - Can only be composed of 0123456789 with a '.' in it, a floating number
+        - Any other number given will be cast in a floating form
+        - Storage of the value will be defined later (not defined at that time)
+
+    Syntax:
+        float var = 13534.
+        float var = .125245
+        float var = 26236.24513245
+        float var = 4132425 # also valid, a cast in float will ocure
+        ...
+
+'ptr':
+    Description:
+        - Default size: 8 byte
+        - It's like an hexadecimal number but for pointer (can also use hex for the same thing)
+
+    Syntax:
+        ptr var = 0xac239f
+        ptr p_var_a = <-var_a
+        ...
+
+'array':
+    Description:
+        - Default size: 8 byte (len + size) + (size of each element) * (element number)
+        - Element can be added with var.add(element)
+        - Element can be deleted with var.del(index)
+        - Element can be get de with var[index], only for array with type
+        - Array without precise type can be defined, but the performence will be slower
+        - Element can be get de with var.get(index) for array without type
+
+    Syntax:
+        array int var = {0, 0} # an array with 2 int element 0 and 0
+        array int var # an array with 0 int element
+        array var = {"String", 23553, 'c'} # an array without type
+        ...
+
+'struct':
+    Description:
+        - Default size: None
+        - Can store private var, public var, method
+        - Private var can only be modified with method (private or public), called like this: struct_var.method(arg, ...)
+        - Public var can be modified with struct_var.public_var = ... or method (private or public)
+        - Private method can only call by public method
+
+    Syntax:
+        struct var_s {
+            private {
+                var; # private var
+            
+                return_type function { # private method (can edit private and public var, can call private and public method)
+                    ...
+                }
+            }
+
+            var; # public var
+            return_type function { # public method (can edit private and public var, can call private and public method)
+                ...
+            }
+        } var_t; # can be used with "struct var_s" or with "var_t"
+
+        struct var_s {
+            private {
+            }
+        } var_t; # need at least the declaration of the private scope even if there is nothing in it
+
+'unsigned':
+    Description:
+        - Default size: None
+        - Used to modifie the type of a var in the declaration
+        - Only on the type: char, bin, oct, int, hex, float, ptr
+        - The var who is defined from -(max / 2) to (max / 2 - 1) will be defined now from 0 to max (can't be negative)
+
+    Syntax:
+        unsigned char var = 255 # can now be between 0 and 255 (before was -128 to 127)
+        unsigned int var = -1 # will be cast in the max of an int
