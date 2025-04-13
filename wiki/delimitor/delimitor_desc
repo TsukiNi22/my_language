@@ -8,6 +8,14 @@
         expresion; expresion;
         ...
 
+',':
+    Description:
+        - Used in for, function argument and include for multiple thing to import from the same file
+
+':':
+    Description:
+        - Used in write, read and in type definition of size
+
 '@':
     Description:
         - That everything on the line after that delimitor won't be compilate (only for those who have the original file)

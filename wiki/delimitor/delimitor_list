@@ -1,5 +1,7 @@
 Delimitor list:
     ';'     ->  Close Line
+    ','     ->  First Separator
+    ':'     ->  Second Separator
     '@'     ->  Simple Comment
     '@>'    ->  Open Comment
     '<@'    ->  Close Comment

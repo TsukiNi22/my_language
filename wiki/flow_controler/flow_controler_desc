@@ -84,17 +84,17 @@
         - They need 1 2 or 3 element to be able to work (like under)
 
     Syntax:
-        for (action done at the first loop: conditional expression: action done each loop)
+        for (action done at the first loop, conditional expression, action done each loop)
             expression;
 
-        for (action done at the first loop: conditional expression: action done each loop) {
+        for (action done at the first loop, conditional expression, action done each loop) {
             expression;
             expression;
             ...
         }
         
         # can also be written in that way
-        for (conditional expression: action done each loop)
+        for (conditional expression, action done each loop)
         for (conditional expression)
 
 'do':

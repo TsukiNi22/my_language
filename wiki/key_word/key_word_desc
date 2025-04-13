@@ -33,7 +33,7 @@
         get func_1 from "file_path"
 
         # include multiple func && other thing from that file
-        get func_1:func_2:struct_1:... from "file_path"
+        get func_1, func_2, struct_1,... from "file_path"
 
 '@error@':
     Description:
