@@ -1,0 +1,12 @@
+Comparator list:
+    '>'     ->  Greater than
+    '>='    ->  Greater or Equal to
+    '<'     ->  Less than
+    '<='    ->  Less or Equal to
+    '=='    ->  Equal to
+    '==='   ->  Strictly Equal to
+    '!='    ->  Not Equal to
+    '!=='   ->  Strictly Not Equal to
+    '~='    ->  Slightly different
+    '&&'    ->  Logical AND
+    '||'    ->  Logical OR

@@ -1,0 +1,15 @@
+Flow Controler list:
+    'if'        ->   Conditional
+    '&if'       ->   And Conditional
+    '|if'       ->   Or Conditional
+    'elif'      ->   Else Conditional
+    'else'      ->   Else
+    'for'       ->   Loop
+    'do'        ->   Infinite Loop
+    'break'     ->   Break
+    'continue'  ->   Skip
+    'return'    ->   Return
+    'jump'      ->   Jump
+    'ifjp'      ->   Conditional Jump
+    'exit'      ->   Exit 
+    'error'     ->   Error Handler

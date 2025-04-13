@@ -1,0 +1,13 @@
+Delimitor list:
+    ';'     ->  Close Line
+    '@'     ->  Simple Comment
+    '@>'    ->  Open Comment
+    '<@'    ->  Close Comment
+    '('     ->  Open Parenthesis
+    ')'     ->  Close Parenthesis
+    '['     ->  Open Bracket
+    ']'     ->  Close Bracket
+    '{'     ->  Open Curly Brace
+    '}'     ->  Close Curly Brace
+    '       ->  Char Delimitor
+    "       ->  String Delimitor
