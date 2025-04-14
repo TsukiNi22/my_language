@@ -14,13 +14,19 @@ File Name:
 ##  help.c
 
 File Description:
-##  You know, I don t think there are good or bad descriptions,
-##  for me, life is all about functions...
+## Display help
 \**************************************************************/
 
-#include "write.h"
+#include "write.h"  // my_printf function
 
+/* Help function
+----------------------------------------------------------------
+ * A function used to display the help
+ * Call when the flag '-h' or '--help' is used
+----------------------------------------------------------------
+*/
 int flag_help(void)
 {
-    return my_putstr(STDOUT, "There is nothing to help here.\n");
+    // Display help
+    return my_printf("%OThere is nothing to help here.\n", STDOUT);
 }

@@ -14,26 +14,45 @@ File Name:
 ##  main.c
 
 File Description:
-##  You know, I don t think there are good or bad descriptions,
-##  for me, life is all about functions...
+## Launch file, initialisation of the principale structure,
+## initialisation of some var of the main structure,
+## and call of the compiler
 \**************************************************************/
 
-#include "kamion.h"
-#include "write.h"
-#include "error.h"
-#include <stdbool.h>
+#include "kamion.h"     // compiler function, compiler_t type
+#include "write.h"      // printf function
+#include "error.h"      // error handling
+#include <stdbool.h>    // boolean type
 
+/* Main function
+----------------------------------------------------------------
+ * initialisation of the main structure
+ * call of the compiler
+ * check compiler function return return
+----------------------------------------------------------------
+##  argc -> number of argument given to the binary
+##  argv -> arguments given to the binary
+----------------------------------------------------------------
+*/
 int main(int const argc, char const *argv[])
 {
+    // Initialisation of the main structure and return ouput
     compiler_t data = {0};
     int res = 0;
 
+    // Check for potential null pointer
     if (!argv)
         return err_prog(PTR_ERR, KO, ERR_INFO);
+    
+    // Initialisation of the var used for error return and help
     data.exe_name = argv[0];
     data.help = false;
     data.err_sys = false;
+
+    // Call of the compiler and recuperation of the ouput
     res = kamion(argc, argv, &data);
+
+    // Free data and return an error or a success depending on the ouput of the compiler
     if (res == KO || res == FATAL_ERR) {
         if (res != FATAL_ERR)
             free_data(&data);

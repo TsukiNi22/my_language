@@ -14,16 +14,23 @@ File Name:
 ##  init_global.c
 
 File Description:
-##  You know, I don t think there are good or bad descriptions,
-##  for me, life is all about functions...
+## Initialisation of global var
 \**************************************************************/
 
-#include "kamion.h"
-#include "error.h"
-#include <stdbool.h>
+#include "kamion.h"     // compiler_t type
+#include "error.h"      // error handling
+#include <stdbool.h>    // bool type
 
+/* Global initialisation function
+----------------------------------------------------------------
+ * Initialisation of var that will be used in every file
+----------------------------------------------------------------
+##  data -> main data structure
+----------------------------------------------------------------
+*/
 int init_global(compiler_t *data)
 {
+    // Check for potential null pointer
     if (!data)
         return err_prog(PTR_ERR, KO, ERR_INFO);
     return OK;
