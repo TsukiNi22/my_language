@@ -20,10 +20,11 @@ File Description:
 
 #include "tokenizer.h"
 #include "error.h"
+#include <stddef.h>
 
-array_t *tokenizer(hashtable_t *id, char const *file);
+array_t *tokenizer(hashtable_t *id, char const *file)
 {
     if (!id || !file)
-        return err_prog(PTR_ERR, KO, ERR_INFO);
-    return OK;
+        return err_prog_n(PTR_ERR, ERR_INFO);
+    return NULL;
 }

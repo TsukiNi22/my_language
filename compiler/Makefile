@@ -7,7 +7,7 @@
 
 CC := gcc
 
-TARGET := a.out
+TARGET := kmc
 TEST_TARGET := unit_tests
 BUILD_DIR := .obj
 
@@ -26,18 +26,21 @@ else ifeq ($(d), o)
 	CFLAGS += -O1
 endif
 
-GLOBAL :=	main.c \
-			const.c \
-			kamion.c \
-			free_data.c
+GLOBAL :=		main.c \
+				const.c \
+				kamion.c \
+				free_data.c
 
-INIT :=		init/init_data.c \
-			init/data/init_global.c \
-			init/init_flag.c\
-			init/flag/null.c \
-			init/flag/help.c
+INIT :=			init/init_data.c \
+				init/data/init_global.c \
+				init/init_flag.c\
+				init/flag/null.c \
+				init/flag/help.c
+
+TOKENIZER :=	tokenizer/tokenizer.c
 
 FILES := $(GLOBAL) $(INIT)
+FILES += $(TOKENIZER)
 SRC := $(addprefix src/, $(FILES))
 OBJ := $(SRC:%.c=$(BUILD_DIR)/%.o)
 
