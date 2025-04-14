@@ -21,8 +21,9 @@
 
 /* token */
 typedef struct token_s {
-    /* type information */
+    /* tokn type information */
     char *type;
+    char *id;
 
     /* position information */
     char const *file;
