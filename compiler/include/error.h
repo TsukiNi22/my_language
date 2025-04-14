@@ -21,8 +21,8 @@
     #define ERR_INFO ((err_t){__FILE__, __func__, __LINE__})
 
     /* error_return_write */
-    #define PUT_ERROR 1
-    #define CUSTOM_PUT_ERROR 1
+    #define PUT_ERROR 0
+    #define CUSTOM_PUT_ERROR 0
     #define SYSTEM_PUT_ERROR 1
 
     /* error_return */
