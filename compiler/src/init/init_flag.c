@@ -21,7 +21,7 @@ File Description:
 #include "memory.h"     // clone str function
 #include "kamion.h"     // compiler_t type
 #include "error.h"      // error handling
-#include <strings.h>    // strcmp function
+#include <string.h>    // strcmp function
 #include <stdbool.h>    // bool type
 
 // Function for dispatch call of flag with '--'
