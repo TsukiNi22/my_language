@@ -30,11 +30,6 @@
     #define OK 0
     #define FATAL_ERR 255
 
-    /* epitech_error_return */
-    #define ERROR 84
-    #define ERR 84
-    #define EPITECH_ERR 84
-
     /* error_code */
     #define MIN_ERROR_CODE ERROR_ERR
     #define MAX_ERROR_CODE READ_DIR_ERR
@@ -75,16 +70,16 @@ typedef struct err_s {
 //----------------------------------------------------------------//
 /* PROTOTYPE */
 
-/* error_handling */ // Error: None
-void err_prog_v(error_code_t code, err_t err);
-void *err_prog_n(error_code_t code, err_t err);
-int err_prog(error_code_t code, int to_return, err_t err);
-void err_custom_v(char const *info, err_t err);
-void *err_custom_n(char const *info, err_t err);
-int err_custom(char const *info, int to_return, err_t err);
-void err_system_v(void *data, char const *info, char const *err);
-void *err_system_n(void *data, char const *info, char const *err);
-int err_system(void *data, int to_return, char const *info, char const *err);
+/* error_handling */
+void err_prog_v(error_code_t code, err_t err); // Error: None
+void *err_prog_n(error_code_t code, err_t err); // Error: None
+int err_prog(error_code_t code, int to_return, err_t err); // Error: None
+void err_custom_v(char const *info, err_t err); // Error: None
+void *err_custom_n(char const *info, err_t err); // Error: None
+int err_custom(char const *info, int to_return, err_t err); // Error: None
+void err_system_v(void *data, char const *info, char const *err); // Error: None
+void *err_system_n(void *data, char const *info, char const *err); // Error: None
+int err_system(void *data, int to_return, char const *info, char const *err); // Error: None
 
 /* print_error_ouput */
 void error_error(void); // Error: None

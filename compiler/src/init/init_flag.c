@@ -1,18 +1,31 @@
-/*
-** EPITECH PROJECT, 2025
-** init_flag.c
-** File description:
-** Init the flag option
-*/
+/**************************************************************\
+
+ ██╗  ██╗ █████╗ ██████╗ ████████╗ █████╗ ███╗   ██╗██╗ █████╗ 
+ ╚██╗██╔╝██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗████╗  ██║██║██╔══██╗
+  ╚███╔╝ ███████║██████╔╝   ██║   ███████║██╔██╗ ██║██║███████║
+  ██╔██╗ ██╔══██║██╔══██╗   ██║   ██╔══██║██║╚██╗██║██║██╔══██║
+ ██╔╝ ██╗██║  ██║██║  ██║   ██║   ██║  ██║██║ ╚████║██║██║  ██║
+ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
+
+Edition:
+##  14/04/2025 by Tsukini
+
+File Name:
+##  init_flag.c
+
+File Description:
+##  You know, I don t think there are good or bad descriptions,
+##  for me, life is all about functions...
+\**************************************************************/
 
 #include "memory.h"
 #include "my_string.h"
 #include "write.h"
-#include "sample.h"
+#include "kamion.h"
 #include "error.h"
 #include <stdbool.h>
 
-static int full_flag(main_data_t *data,
+static int full_flag(compiler_t *data,
     int const argc, char const *argv[], int const i)
 {
     if (!data || !argv)
@@ -37,7 +50,7 @@ static int is_flag_char(char const c, int *index)
     return false;
 }
 
-static int flag(main_data_t *data,
+static int flag(compiler_t *data,
     int const argc, char const *argv[], int const i)
 {
     int index = 0;
@@ -57,7 +70,7 @@ static int flag(main_data_t *data,
     return OK;
 }
 
-int init_flag(main_data_t *data, int const argc, char const *argv[])
+int init_flag(compiler_t *data, int const argc, char const *argv[])
 {
     if (!data || !argv)
         return err_prog(PTR_ERR, KO, ERR_INFO);

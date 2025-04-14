@@ -17,15 +17,15 @@
 //----------------------------------------------------------------//
 /* PROTOTYPE */
 
-/* edit */ // Error: NULL
-char *my_strcpy(char *dest, char const *src);
-char *my_strncpy(char *dest, char const *src, int n);
-char *my_strcat(char *dest, char const *src);
-char *my_strncat(char *dest, char const *src, int nb);
-char *my_revstr(char *str);
-char *my_strupcase(char *str);
-char *my_strlowcase(char *str);
-char *my_strcapitalize(char *str);
+/* edit */
+char *my_strcpy(char *dest, char const *src); // Error: NULL
+char *my_strncpy(char *dest, char const *src, int n); // Error: NULL
+char *my_strcat(char *dest, char const *src); // Error: NULL
+char *my_strncat(char *dest, char const *src, int nb); // Error: NULL
+char *my_revstr(char *str); // Error: NULL
+char *my_strupcase(char *str); // Error: NULL
+char *my_strlowcase(char *str); // Error: NULL
+char *my_strcapitalize(char *str); // Error: NULL
 
 /* retrive */
 int my_strlen(char const *str); // Error: KO
@@ -46,14 +46,14 @@ bool my_str_isupper(char const *str); // Error: false
 bool my_str_isprintable(char const *str); // Error: false
 bool my_str_is(char const *str, char const *char_in); // Error: false
 
-/* transformation */ // Error: NULL
-char *cut_str(const char *char_array, const bool before, int cut_place);
-char *concat_params(char **array);
-char *get_full_path(char const *cr_path, char const *file);
-char **str_to_str_array(char const *str, char const *identifier, bool take);
-char *convertnbr_base(unsigned long long nbr, char const *base);
-char *my_itoa(long long n);
-char *my_ftoa(long double n);
+/* transformation */
+char *cut_str(const char *char_array, const bool before, int cut_place); // Error: NULL
+char *concat_params(char **array); // Error: NULL
+char *get_full_path(char const *cr_path, char const *file); // Error: NULL
+char **str_to_str_array(char const *str, char const *identifier, bool take); // Error: NULL
+char *convertnbr_base(unsigned long long nbr, char const *base); // Error: NULL
+char *my_itoa(long long n); // Error: NULL
+char *my_ftoa(long double n); // Error: NULL
 long long my_atoi(char *char_array); // Error: 0
 long double my_atof(char *char_array); // Error: 0
 

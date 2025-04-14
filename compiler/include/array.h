@@ -33,9 +33,9 @@ typedef struct array_s {
 /* init */
 array_t *new_array(void); // Error: NULL
 
-/* edit */ // Error: KO
-int add_array(array_t *array, void *data);
-int pop_array(array_t *array, int (*free_ptr)(void *), unsigned int index);
+/* edit */
+int add_array(array_t *array, void *data); // Error: KO
+int pop_array(array_t *array, int (*free_ptr)(void *), unsigned int index); // Error: KO
 
 /* free */
 int delete_array(array_t **array, int (*free_ptr)(void *)); // Error: KO

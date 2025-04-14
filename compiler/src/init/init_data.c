@@ -1,14 +1,27 @@
-/*
-** EPITECH PROJECT, 2025
-** init_data.c
-** File description:
-** Init the main data
-*/
+/**************************************************************\
 
-#include "sample.h"
+ ██╗  ██╗ █████╗ ██████╗ ████████╗ █████╗ ███╗   ██╗██╗ █████╗ 
+ ╚██╗██╔╝██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗████╗  ██║██║██╔══██╗
+  ╚███╔╝ ███████║██████╔╝   ██║   ███████║██╔██╗ ██║██║███████║
+  ██╔██╗ ██╔══██║██╔══██╗   ██║   ██╔══██║██║╚██╗██║██║██╔══██║
+ ██╔╝ ██╗██║  ██║██║  ██║   ██║   ██║  ██║██║ ╚████║██║██║  ██║
+ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
+
+Edition:
+##  14/04/2025 by Tsukini
+
+File Name:
+##  init_data.c
+
+File Description:
+##  You know, I don t think there are good or bad descriptions,
+##  for me, life is all about functions...
+\**************************************************************/
+
+#include "kamion.h"
 #include "error.h"
 
-int init_data(main_data_t *data)
+int init_data(compiler_t *data)
 {
     if (!data)
         return err_prog(PTR_ERR, KO, ERR_INFO);

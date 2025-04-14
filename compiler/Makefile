@@ -28,7 +28,7 @@ endif
 
 GLOBAL :=	main.c \
 			const.c \
-			sample.c \
+			kamion.c \
 			free_data.c
 
 INIT :=		init/init_data.c \

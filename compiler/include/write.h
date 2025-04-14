@@ -93,11 +93,9 @@ int erase_screen_end(int fd); // Error: KO
 
 /* ouput_color */
 int back_color(int fd, back_color_t back); // Error: KO
-int back_color_rgb(int fd, unsigned char r, unsigned char g,
-    unsigned char b); // Error: KO
+int back_color_rgb(int fd, unsigned char r, unsigned char g, unsigned char b); // Error: KO
 int color(int fd, color_t color); // Error: KO
-int color_rgb(int fd, unsigned char r, unsigned char g,
-    unsigned char b); // Error: KO
+int color_rgb(int fd, unsigned char r, unsigned char g, unsigned char b); // Error: KO
 
 /* string */
 int my_putchar(int fd, char const c); // Error: KO
@@ -105,14 +103,12 @@ int my_putstr(int fd, char const *str); // Error: KO
 
 /* math */
 int my_putnbr(int fd, long long nb); // Error: KO
-int my_putnbr_base(int fd, unsigned long long nbr,
-    char const *base); // Error: KO
+int my_putnbr_base(int fd, unsigned long long nbr, char const *base); // Error: KO
 
 /* dump */
 int str_array_dump(char **array); // Error: KO
 int ht_dump(hashtable_t *ht); // Error: KO
 int array_dump(array_t *array, int (*display_ptr)(void *)); // Error: KO
-int linked_dump(int (*display_data)(void *data),
-    linked_list_t *head); // Error: KO
+int linked_dump(int (*display_data)(void *data), linked_list_t *head); // Error: KO
 
 #endif /* WRITE_H */

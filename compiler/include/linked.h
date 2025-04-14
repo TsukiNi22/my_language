@@ -40,15 +40,14 @@ typedef struct linked_list_s {
 //----------------------------------------------------------------//
 /* PROTOTYPE */
 
-/* gestion */ // Error: KO
-int linked_add(linked_list_t **head, void *data);
-int linked_add_at(linked_list_t **head, void *data, int at);
-int linked_pop(int (*free_func)(void *), linked_list_t **head);
-int linked_pop_at(int (*free_func)(void *), linked_list_t **head, int at);
-int linked_pop_this(int (*free_func)(void *), linked_list_t **head,
-    linked_list_t *pop);
-int linked_upd_mid(linked_list_t *head);
-int delete_linked(int (*free_func)(void *), linked_list_t **head);
+/* gestion */
+int linked_add(linked_list_t **head, void *data); // Error: KO
+int linked_add_at(linked_list_t **head, void *data, int at); // Error: KO
+int linked_pop(int (*free_func)(void *), linked_list_t **head); // Error: KO
+int linked_pop_at(int (*free_func)(void *), linked_list_t **head, int at); // Error: KO
+int linked_pop_this(int (*free_func)(void *), linked_list_t **head, linked_list_t *pop); // Error: KO
+int linked_upd_mid(linked_list_t *head); // Error: KO
+int delete_linked(int (*free_func)(void *), linked_list_t **head); // Error: KO
 
 /* get_info */
 void *linked_get_data(linked_list_t *head, int at); // Error: NULL

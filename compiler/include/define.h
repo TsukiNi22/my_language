@@ -23,7 +23,9 @@
     #define STDIN STDIN_FILENO
 
     /* global */
-    #define NULL ((void *)0)
+    #ifndef NULL
+        #define NULL ((void *) 0)
+    #endif /* NULL */
 
     /* acii */
     #define EOF -1

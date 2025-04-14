@@ -45,16 +45,12 @@ typedef struct hashtable_s {
 int hash(char *key, int len); // Error: KO
 
 /* create */
-hashtable_t *new_hashtable(int (*hash_function)(char *, int),
-    int len); // Error: NULL
-int ht_insert(hashtable_t *ht, char *key, void *value,
-    int (*free_hash_data)(void *)); // Error: KO
+hashtable_t *new_hashtable(int (*hash_function)(char *, int), int len); // Error: NULL
+int ht_insert(hashtable_t *ht, char *key, void *value, int (*free_hash_data)(void *)); // Error: KO
 
 /* destroy */
-int delete_hashtable(hashtable_t *ht,
-    int (*free_hash_data)(void *)); // Error: KO
-int ht_delete(hashtable_t *ht, char *key,
-    int (*free_hash_data)(void *)); // Error: KO
+int delete_hashtable(hashtable_t *ht, int (*free_hash_data)(void *)); // Error: KO
+int ht_delete(hashtable_t *ht, char *key, int (*free_hash_data)(void *)); // Error: KO
 
 /* retrieve */
 char **ht_keys(hashtable_t *ht); // Error: NULL

@@ -6,7 +6,7 @@
 */
 
 #include "define.h"
-#include "sample.h"
+#include "kamion.h"
 #include "write.h"
 #include "error.h"
 #include <errno.h>
@@ -18,7 +18,7 @@ void err_system_v(void *data, char const *info, char const *err)
     if (!err)
         error_error();
     if (data)
-        ((main_data_t *) data)->err_sys = true;
+        ((compiler_t *) data)->err_sys = true;
     if (!SYSTEM_PUT_ERROR)
         return;
     print_error_system(info, err);
@@ -30,7 +30,7 @@ void *err_system_n(void *data, char const *info, char const *err)
     if (!err)
         error_error();
     if (data)
-        ((main_data_t *) data)->err_sys = true;
+        ((compiler_t *) data)->err_sys = true;
     if (!SYSTEM_PUT_ERROR)
         return NULL;
     print_error_system(info, err);
@@ -43,7 +43,7 @@ int err_system(void *data, int to_return, char const *info, char const *err)
     if (!err)
         error_error();
     if (data)
-        ((main_data_t *) data)->err_sys = true;
+        ((compiler_t *) data)->err_sys = true;
     if (!SYSTEM_PUT_ERROR)
         return to_return;
     print_error_system(info, err);
