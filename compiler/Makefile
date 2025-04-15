@@ -33,14 +33,22 @@ GLOBAL :=		main.c \
 
 INIT :=			init/init_data.c \
 				init/data/init_global.c \
+				init/data/init_option.c \
 				init/init_flag.c\
 				init/flag/null.c \
-				init/flag/help.c
+				init/flag/help.c \
+				init/flag/binary.c \
+				init/flag/Errors.c \
+				init/flag/directory.c \
+				init/flag/Directory.c
+
+USEFUL := 		useful/is_valid_dir.c \
+				useful/is_valid_file.c
 
 TOKENIZER :=	tokenizer/tokenizer.c
 
 FILES := $(GLOBAL) $(INIT)
-FILES += $(TOKENIZER)
+FILES += $(USEFUL) $(TOKENIZER)
 SRC := $(addprefix src/, $(FILES))
 OBJ := $(SRC:%.c=$(BUILD_DIR)/%.o)
 
