@@ -8,37 +8,35 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  14/04/2025 by Tsukini
+##  15/04/2025 by Tsukini
 
 File Name:
-##  init_data.c
+##  Errors.c
 
 File Description:
-## Call of function to init main structure var
+## Handle the Errors flag option
 \**************************************************************/
 
-#include "kamion.h" // compiler_t type
-#include "error.h"  // error handling
+#include "kamion.h"     // compiler_t type
+#include "error.h"      // error handling
+#include <stdbool.h>    // bool type
 
-/* Init main structure function
+/* Errors function
 ----------------------------------------------------------------
- * Call of the function to initialise all var of the
- * main structure and check the init return
+ * This function will set the option show error at end to true
 ----------------------------------------------------------------
 ##  data -> main data structure
+##  argc -> number of argument given to the binary
+##  argv -> arguments given to the binary
 ----------------------------------------------------------------
 */
-int init_data(compiler_t *data)
+int flag_Errors(compiler_t *data, int const argc, char const *argv[])
 {
     // Check for potential null pointer
-    if (!data)
+    if (!data || !argv)
         return err_prog(PTR_ERR, KO, ERR_INFO);
-    
-    // Init global data used in every sub part
-    if (init_global(data) == KO)
-        return err_prog(UNDEF_ERR, KO, ERR_INFO);
-    // Init option var used in flag init
-    if (init_option(data) == KO)
-        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+
+    // Set the option to true
+    data->errors = true;
     return OK;
 }

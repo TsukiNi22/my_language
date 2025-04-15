@@ -8,37 +8,35 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  14/04/2025 by Tsukini
+##  15/04/2025 by Tsukini
 
 File Name:
-##  init_data.c
+##  init_option.c
 
 File Description:
-## Call of function to init main structure var
+## Initialisation of var used in option
 \**************************************************************/
 
-#include "kamion.h" // compiler_t type
-#include "error.h"  // error handling
+#include "kamion.h"     // compiler_t type
+#include "error.h"      // error handling
+#include <stddef.h>     // NULL define
+#include <stdbool.h>    // bool type
 
-/* Init main structure function
+/* Option initialisation function
 ----------------------------------------------------------------
- * Call of the function to initialise all var of the
- * main structure and check the init return
+ * Initialisation of var that will be used in option for flag
 ----------------------------------------------------------------
 ##  data -> main data structure
 ----------------------------------------------------------------
 */
-int init_data(compiler_t *data)
+int init_option(compiler_t *data)
 {
     // Check for potential null pointer
     if (!data)
         return err_prog(PTR_ERR, KO, ERR_INFO);
-    
-    // Init global data used in every sub part
-    if (init_global(data) == KO)
-        return err_prog(UNDEF_ERR, KO, ERR_INFO);
-    // Init option var used in flag init
-    if (init_option(data) == KO)
-        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+
+    // Set to default value
+    data->errors = false; // Sho errors at the end
+    data->binary = NULL; // Ouput binary name
     return OK;
 }

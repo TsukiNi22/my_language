@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  14/04/2025 by Tsukini
+##  15/04/2025 by Tsukini
 
 File Name:
 ##  null.c
@@ -17,9 +17,9 @@ File Description:
 ## Do nothing
 \**************************************************************/
 
-#include "macro.h"
-#include "kamion.h"
-#include "error.h"
+#include "macro.h"  // UNUSED macro
+#include "kamion.h" // compiler_t type
+#include "error.h"  // error handling
 
 /* Null function
 ----------------------------------------------------------------

@@ -8,37 +8,32 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  14/04/2025 by Tsukini
+##  15/04/2025 by Tsukini
 
 File Name:
-##  init_data.c
+##  directory.c
 
 File Description:
-## Call of function to init main structure var
+## Handle the directory flag option
 \**************************************************************/
 
 #include "kamion.h" // compiler_t type
 #include "error.h"  // error handling
 
-/* Init main structure function
+/* Directory function
 ----------------------------------------------------------------
- * Call of the function to initialise all var of the
- * main structure and check the init return
+ * That will extract the file in the given directory
+ * and use them in the compilation
 ----------------------------------------------------------------
 ##  data -> main data structure
+##  argc -> number of argument given to the binary
+##  argv -> arguments given to the binary
 ----------------------------------------------------------------
 */
-int init_data(compiler_t *data)
+int flag_directory(compiler_t *data, int const argc, char const *argv[])
 {
     // Check for potential null pointer
-    if (!data)
+    if (!data || !argv)
         return err_prog(PTR_ERR, KO, ERR_INFO);
-    
-    // Init global data used in every sub part
-    if (init_global(data) == KO)
-        return err_prog(UNDEF_ERR, KO, ERR_INFO);
-    // Init option var used in flag init
-    if (init_option(data) == KO)
-        return err_prog(UNDEF_ERR, KO, ERR_INFO);
     return OK;
 }
