@@ -38,7 +38,7 @@ typedef struct compiler_s {
 
     /* option */
     bool errors;
-    char *binary;
+    char const *binary;
 
     /* token id */
     hashtable_t *id;
