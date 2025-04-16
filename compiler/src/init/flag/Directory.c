@@ -46,6 +46,7 @@ static int readdir_rec(compiler_t *data, char const *dir_name)
 
     while ((entry = readdir(dir))) {
         // Check if the file end with .15 or .15h
+        ptr = NULL;
         for (int i = 0; entry->d_name[i]; i++) {
             if (entry->d_name[i] == '.')
                 ptr = &entry->d_name[i];

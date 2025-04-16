@@ -45,8 +45,8 @@ int main(int const argc, char const *argv[])
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
     // Display for no argument given
-    if (argc == 1 && flag_help() == KO)
-        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    if (argc == 1)
+        return flag_help();
 
     // Initialisation of the var used for error return and help
     data.argv = argv;
