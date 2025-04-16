@@ -59,7 +59,7 @@ int err_c15(compiler_t *data, int to_return,
     if (warning)
         ouput = STDOUT;
 
-    data->err_sys = true;
+    data->err_sys = (data->err_sys || !warning);
     data->nb_warning += warning;
     data->nb_error += !warning;
 
@@ -124,7 +124,7 @@ int err_kmc_arg(compiler_t *data, int to_return,
     if ((arg && lens[0] == KO) || (should && lens[1] == KO))
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
-    data->err_sys = true;
+    data->err_sys = (data->err_sys || !warning);
     data->nb_warning += warning;
     data->nb_error += !warning;
 

@@ -35,7 +35,7 @@ File Description:
 /* data */
 typedef struct compiler_s {
     /* global_info */
-    char const *concat_argv;
+    char const **argv;
     char const *exe_name;
 
     /* option */

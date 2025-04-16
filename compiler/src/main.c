@@ -20,7 +20,6 @@ File Description:
 \**************************************************************/
 
 #include "kamion.h"     // compiler function, compiler_t type
-#include "my_string.h"  // concat_params function
 #include "write.h"      // printf function
 #include "error.h"      // error handling
 #include <stdbool.h>    // boolean type
@@ -50,14 +49,12 @@ int main(int const argc, char const *argv[])
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
     // Initialisation of the var used for error return and help
-    data.concat_argv = concat_params((char **) argv);
+    data.argv = argv;
     data.exe_name = argv[0];
     data.help = false;
     data.err_sys = false;
     data.nb_error = 0;
     data.nb_warning = 0;
-    if (!data.concat_argv)
-        return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
     // Call of the compiler and recuperation of the ouput
     res = kamion(argc, argv, &data);

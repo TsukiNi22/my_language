@@ -63,7 +63,7 @@ int kamion(int const argc, char const *argv[], compiler_t *data)
 
     // Tokenize every file found
     for (size_t i = 0; i < data->files->len; i++) {
-        tokens = tokenizer(data->id, data->files->data[i], &data->err_sys);
+        tokens = tokenizer(data, data->id, data->files->data[i]);
         if (!tokens)
             return err_custom("Tokenizer error", KO, ERR_INFO);
         if (ht_insert(data->tokens, my_strdup(data->files->data[i]), tokens, &free_hash_data_str) == KO)
