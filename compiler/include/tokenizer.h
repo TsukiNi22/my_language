@@ -41,6 +41,7 @@ typedef struct token_s {
 
     /* position information */
     char const *file;
+    char const *line;
     size_t x;
     size_t y;
 

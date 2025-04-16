@@ -19,8 +19,10 @@ File Description:
 ## and call each part of the compiler
 \**************************************************************/
 
+#include "define.h"     // STDOUT define
 #include "my_string.h"  // get_fullpath, my_strcmp function
 #include "hashtable.h"  // hashatble functions
+#include "write.h"      // my_printf functions
 #include "array.h"      // array_t type
 #include "memory.h"     // my_strdup function
 #include "tokenizer.h"  // tokenizer type
@@ -102,6 +104,13 @@ int kamion(int const argc, char const *argv[], compiler_t *data)
         tokens = tokenizer(data, data->id, data->files->data[i]);
         if (!tokens)
             return err_custom("Tokenizer error", KO, ERR_INFO);
+        if (tokens->len == 0) {
+            data->nb_warning++;
+            my_printf("%O%C%S[Warging n°%d]%R %S%s:%u:%u%R -> %s: %s%R\n",
+            STDOUT, 175, 0, 175, data->nb_warning, data->files->data[i], 1, 1,
+            "File", "Empty file, won't be taken in the compilation");
+            continue;
+        }
         if (ht_insert(data->tokens, my_strdup(data->files->data[i]), tokens, &free_hash_data_str) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
     }

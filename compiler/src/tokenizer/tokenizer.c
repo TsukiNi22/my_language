@@ -39,6 +39,7 @@ File Description:
 */
 array_t *tokenizer(compiler_t *data, hashtable_t *id, char const *file)
 {
+    array_t *tokens = NULL;
     FILE *fs = NULL;
     char *line= NULL;
     int res = 0;
@@ -46,6 +47,11 @@ array_t *tokenizer(compiler_t *data, hashtable_t *id, char const *file)
     // Check for potential null pointer
     if (!data || !id || !file)
         return err_prog_n(PTR_ERR, ERR_INFO);
+
+    // Init the token array
+    tokens = new_array();
+    if (!tokens)
+        return err_prog_n(UNDEF_ERR, ERR_INFO);
 
     // Set the stream for the file to tokenize
     fs = fopen(file, "r");
@@ -55,10 +61,9 @@ array_t *tokenizer(compiler_t *data, hashtable_t *id, char const *file)
     // For each line in the file extract token
     while ((res = getline(&line, &(size_t){0}, fs)) != KO) {
         line[res - 1] = '\0';
-        // ...
     }
 
     fclose(fs);
     free(line);
-    return NULL;
+    return tokens;
 }
