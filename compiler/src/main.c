@@ -48,6 +48,12 @@ int main(int const argc, char const *argv[])
     data.exe_name = argv[0];
     data.help = false;
     data.err_sys = false;
+    data.nb_error = 0;
+    data.nb_warning = 0;
+
+    err_c15(&data, KO, "file.c15", 6, "Tokenizer error", "Unknow token found", "i'm a line 'this is the error' yet", 13, 29, true);
+    err_c15(&data, KO, "file.c15", 6, "Tokenizer error", "Unknow token found", "i'm a line 'this is the error' yet", 13, 29, false);
+    return KO;
 
     // Call of the compiler and recuperation of the ouput
     res = kamion(argc, argv, &data);

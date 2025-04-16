@@ -24,9 +24,10 @@ File Description:
     /* INCLUDE */
 
     /* type */
-    #include "hashtable.h" // hashtable_t
-    #include "array.h" // array_t
-    #include <stdbool.h> // boolean
+    #include "hashtable.h"  // hashtable_t
+    #include "array.h"      // array_t
+    #include <stddef.h>     // size_t
+    #include <stdbool.h>    // boolean
 
 //----------------------------------------------------------------//
 /* TYPEDEF */
@@ -50,6 +51,8 @@ typedef struct compiler_s {
     /* ouput */
     bool help;
     bool err_sys;
+    size_t nb_error;
+    size_t nb_warning;
 } compiler_t;
 
 //----------------------------------------------------------------//

@@ -12,7 +12,9 @@
     /* INCLUDE */
 
     /* type */
-    #include <stdbool.h> // boolean
+    #include "kamion.h"     // compiler_t
+    #include <stddef.h>     // size_t
+    #include <stdbool.h>    // boolean
 
     //----------------------------------------------------------------//
     /* DEFINE */
@@ -69,6 +71,12 @@ typedef struct err_s {
 
 //----------------------------------------------------------------//
 /* PROTOTYPE */
+
+/* compiler error */
+int err_c15(compiler_t *data, int to_return,
+    char const *file, size_t n,
+    char const *type, char const *err, char const *line,
+    size_t start, size_t end, bool warning); // Error: KO
 
 /* error_handling */
 void err_prog_v(error_code_t code, err_t err); // Error: None

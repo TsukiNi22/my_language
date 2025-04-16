@@ -29,7 +29,8 @@ endif
 GLOBAL :=		main.c \
 				const.c \
 				kamion.c \
-				free_data.c
+				free_data.c \
+				error_handling.c
 
 INIT :=			init/init_data.c \
 				init/data/init_global.c \
