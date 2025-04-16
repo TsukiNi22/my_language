@@ -22,7 +22,7 @@ git clone https://github.com/TsukiNi22/my_language.git c15
 To create a link to the compiler:
 ```sh
 cd c15
-make
+make sys_cmd -C compiler
 ```
 
 To use it or for more information use `-h` or `--help`:
