@@ -54,3 +54,73 @@ int (* const flag_functions[])(compiler_t *, int const, char const *[]) = {
     &flag_directory, // directory
     &flag_Directory  // Directory
 };
+
+/* token str */
+char const *token_str[] = {
+    ";",         // del_sep_1
+    "::",        // del_sep_2
+    "@",         // del_comment
+    "@>",        // del_open_comment
+    "<@",        // del_close_comment
+    "(",         // del_open_parenthesis
+    ")",         // del_close_parenthesis
+    "{",         // del_open_curly
+    "}",         // del_close_curly
+    "'",         // del_char
+    "\"",        // del_str
+
+    "=",         // op_eq
+    "!",         // op_not
+    "?",         // op_bool
+    "-",         // op_sub
+    "+",         // op_add
+    "*",         // op_mult
+    "/",         // op_div
+    "^",         // op_pow
+    "%",         // op_modulo
+    "//",        // op_int_div
+    "&",         // op_and
+    "|",         // op_or
+    ">>",        // op_r_shift
+    "<<",        // op_l_shift
+    "<-",        // op_access
+    "->",        // op_dereferencing
+    "++",        // op_inc
+    "--",        // op_dec
+
+    "char",      // t_char
+    "str",       // t_str
+    "bool",      // t_bool
+    "bin",       // t_bin
+    "oct",       // t_oct
+    "int",       // t_int
+    "hex",       // t_hex
+    "float",     // t_float
+    "ptr",       // t_ptr
+    "array",     // t_array
+    "struct",    // t_struct
+    "unsigned",  // t_unsigned
+
+    "if",        // flc_if
+    "&if",       // flc_and_if
+    "|if",       // flc_or_if
+    "elif",      // flc_elif
+    "else",      // flc_else
+    "for",       // flc_for
+    "do",        // flc_do
+    "break",     // flc_break
+    "continue",  // flc_continue
+    "return",    // flc_return
+    "jump",      // flc_jump
+    "ifjp",      // flc_if_jump
+    "exit",      // flc_exit
+    "error",     // flc_error
+
+    "<<<",       // kw_write
+    ">>>",       // kw_read
+    "set",       // kw_define
+    "get",       // kw_get
+    "from",      // kw_from
+    "@error@",   // kw_error
+    "none"       // kw_none
+};
