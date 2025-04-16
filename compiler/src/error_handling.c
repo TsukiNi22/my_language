@@ -140,14 +140,14 @@ int err_kmc_arg(compiler_t *data, int to_return,
     if (!should && arg) {
         res += my_putchar(ouput, ' ');
         res += color_rgb(ouput, 0, 125, 0);
-        for (index = 0; data->argv[index] != arg; index++) {
+        for (index = 0; index < data->argc && data->argv[index] != arg; index++) {
             res += my_putstr(ouput, data->argv[index]);
             res += my_putchar(ouput, ' ');
             lens[2] += my_strlen(data->argv[index]) + 1;
         }
         res += my_printf("%O%C%s", ouput, 175 * !warning, 150 * warning, 150 * warning, arg);
         res += color_rgb(ouput, 0, 125, 0);
-        for (index += 1; data->argv[index]; index++) {
+        for (index += 1; index < data->argc; index++) {
             res += my_putchar(ouput, ' ');
             res += my_putstr(ouput, data->argv[index]);
         }
@@ -160,7 +160,7 @@ int err_kmc_arg(compiler_t *data, int to_return,
     } else if (should && arg) {
         res += my_putchar(ouput, ' ');
         res += color_rgb(ouput, 0, 125, 0);
-        for (index = 0; data->argv[index]; index++) {
+        for (index = 0; index < data->argc; index++) {
             res += my_putstr(ouput, data->argv[index]);
             res += my_putchar(ouput, ' ');
             lens[2] += my_strlen(data->argv[index]) + 1;
@@ -169,7 +169,7 @@ int err_kmc_arg(compiler_t *data, int to_return,
         }
         res += my_printf("%O%C%s", ouput, 175 * !warning, 150 * warning, 150 * warning, should);
         res += color_rgb(ouput, 0, 125, 0);
-        for (index += 1; data->argv[index]; index++) {
+        for (index += 1; index < data->argc; index++) {
             res += my_putchar(ouput, ' ');
             res += my_putstr(ouput, data->argv[index]);
         }
@@ -182,7 +182,7 @@ int err_kmc_arg(compiler_t *data, int to_return,
     } else if (!should && !arg) {
         res += strong(ouput);
         res += color_rgb(ouput, 175 * !warning, 150 * warning, 150 * warning);
-        for (int i = 0; data->argv[i]; i++) {
+        for (int i = 0; i < data->argc; i++) {
             res += my_putchar(ouput, ' ');
             res += my_putstr(ouput, data->argv[i]);
             lens[2] += my_strlen(data->argv[i]) + 1;

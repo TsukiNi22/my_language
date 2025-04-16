@@ -49,6 +49,7 @@ int main(int const argc, char const *argv[])
         return flag_help();
 
     // Initialisation of the var used for error return and help
+    data.argc = argc;
     data.argv = argv;
     data.exe_name = argv[0];
     data.help = false;

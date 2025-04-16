@@ -40,7 +40,7 @@ static int full_flag(compiler_t *data, int const argc, char const *argv[], int c
     }
 
     // Error handling for unknow flag with '--'
-    return err_kmc_arg(data, KO, "Option", "Unrecognized option", argv[i], NULL, false);
+    return err_kmc_arg(data, KO, &argv[i][2], "Unrecognized option", argv[i], NULL, false);
 }
 
 // Detect if the given char in a flag
@@ -73,10 +73,10 @@ static int flag(compiler_t *data, int const argc, char const *argv[], int const 
     for (int j = 1; argv[i][j]; j++) {
         // Error handling for unknow flag
         if (!is_flag_char(argv[i][j], &index))
-            return err_kmc_arg(data, KO, "Option", "Invalid option", my_strndup(&argv[i][j], 1), NULL, false);
+            return err_kmc_arg(data, KO, my_strndup(&argv[i][j], 1), "Unrecognized option", argv[i], NULL, false);
         // Error handling for flag that can't can be with other in the same '-'
         if (flags_argc[index] != 0 && (j > 1 || argv[i][j + 1]))
-            return err_kmc_arg(data, KO, "Option", "Can't be combined with other", my_strndup(&argv[i][j], 1), NULL, false);
+            return err_kmc_arg(data, KO, my_strndup(&argv[i][j], 1), "Can't be combined with other", argv[i], NULL, false);
         // Call of the function of the flag to set the var in the structure
         if (flag_functions[index](data, argc - i, &(argv[i])) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);

@@ -52,7 +52,7 @@ array_t *tokenizer(compiler_t *data, hashtable_t *id, char const *file)
     if (!fs)
         return err_prog_n(UNDEF_ERR, ERR_INFO);
 
-    // For each line in the file extartc token
+    // For each line in the file extract token
     while ((res = getline(&line, &(size_t){0}, fs)) != KO) {
         line[res - 1] = '\0';
         // ...
