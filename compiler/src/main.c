@@ -20,6 +20,7 @@ File Description:
 \**************************************************************/
 
 #include "kamion.h"     // compiler function, compiler_t type
+#include "my_string.h"  // concat_params function
 #include "write.h"      // printf function
 #include "error.h"      // error handling
 #include <stdbool.h>    // boolean type
@@ -45,14 +46,19 @@ int main(int const argc, char const *argv[])
         return err_prog(PTR_ERR, KO, ERR_INFO);
     
     // Initialisation of the var used for error return and help
+    data.concat_argv = concat_params((char **) argv);
     data.exe_name = argv[0];
     data.help = false;
     data.err_sys = false;
     data.nb_error = 0;
     data.nb_warning = 0;
+    if (!data.concat_argv)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
-    err_c15(&data, KO, "file.c15", 6, "Tokenizer error", "Unknow token found", "i'm a line 'this is the error' yet", 13, 29, true);
-    err_c15(&data, KO, "file.c15", 6, "Tokenizer error", "Unknow token found", "i'm a line 'this is the error' yet", 13, 29, false);
+    err_c15(&data, KO, "file.c15", 6, "Tokenizer Error", "Unknow token found", "i'm a line 'this is the error' yet", 13, 29, true);
+    err_c15(&data, KO, "file.c15", 6, "Tokenizer Error", "Unknow token found", "i'm a line 'this is the error' yet", 13, 29, false);
+    err_kmc_arg(&data, KO, "Argument Error", "Missing binary_name", argv[1], true);
+    err_kmc_arg(&data, KO, "Argument Error", "Missing binary_name", argv[1], false);
     return KO;
 
     // Call of the compiler and recuperation of the ouput

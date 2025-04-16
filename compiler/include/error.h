@@ -23,8 +23,8 @@
     #define ERR_INFO ((err_t){__FILE__, __func__, __LINE__})
 
     /* error_return_write */
-    #define PUT_ERROR 0
-    #define CUSTOM_PUT_ERROR 0
+    #define PUT_ERROR 1
+    #define CUSTOM_PUT_ERROR 1
     #define SYSTEM_PUT_ERROR 1
 
     /* error_return */
@@ -77,6 +77,9 @@ int err_c15(compiler_t *data, int to_return,
     char const *file, size_t n,
     char const *type, char const *err, char const *line,
     size_t start, size_t end, bool warning); // Error: KO
+int err_kmc_arg(compiler_t *data, int to_return,
+    char const *type, char const *err, char const *arg,
+    bool warning); // Error: KO
 
 /* error_handling */
 void err_prog_v(error_code_t code, err_t err); // Error: None
