@@ -1,0 +1,2 @@
+int tes = 0; @error@ Yet
+str another = "EEE"; @error@ another comment @error@ on a error comment

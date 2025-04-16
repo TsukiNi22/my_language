@@ -77,8 +77,8 @@ int flag_directory(compiler_t *data, int const argc, char const *argv[]); // Err
 int flag_Directory(compiler_t *data, int const argc, char const *argv[]); // Error: KO
 
 /* useful */
-bool is_valid_dir(compiler_t *data, char const *path); // Error: false
-bool is_valid_file(compiler_t *data, char const *path); // Error: false
+bool is_valid_dir(compiler_t *data, char const *path, bool err); // Error: false
+bool is_valid_file(compiler_t *data, char const *path, bool err); // Error: false
 
 /* exit */
 int free_data(compiler_t *data); // Error: KO

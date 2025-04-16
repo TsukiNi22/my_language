@@ -34,7 +34,7 @@ File Description:
 ##  path -> directory path
 ----------------------------------------------------------------
 */
-bool is_valid_dir(compiler_t *data, char const *path)
+bool is_valid_dir(compiler_t *data, char const *path, bool err)
 {
     struct stat st = {0};
 
@@ -52,7 +52,10 @@ bool is_valid_dir(compiler_t *data, char const *path)
     // Get stat and Check the type of file
     if (lstat(path, &st) != 0)
         return err_system(data, false, path, strerror(errno));
-    if (!S_ISDIR(st.st_mode))
+    if (!S_ISDIR(st.st_mode)) {
+        if (!err)
+            return false;
         return err_system(data, false, path, "The given path is definitly not a directory");
+    }
     return true;
 }

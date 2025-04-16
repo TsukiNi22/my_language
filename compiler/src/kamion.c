@@ -49,5 +49,10 @@ int kamion(int const argc, char const *argv[], compiler_t *data)
     // Exit in case of a '-h' or '--help'
     if (data->help)
         return OK;
+
+    #include <stdio.h>
+    #include <stddef.h>
+    for (size_t i = 0; i < data->files->len; i++)
+        printf("|%s|\n", (char *) data->files->data[i]);
     return OK;
 }
