@@ -100,7 +100,7 @@ int err_c15(compiler_t *data, int to_return,
 ##  warning -> a bool, true if it's a warning
 ----------------------------------------------------------------
 */
-int err_kmc(compiler_t *data, int to_return,
+int err_kmc_arg(compiler_t *data, int to_return,
     char const *type, char const *err,
     char const *arg, char const *should,
     bool warning)

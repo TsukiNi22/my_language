@@ -37,7 +37,11 @@ int flag_binary(compiler_t *data, int const argc, char const *argv[])
 
     // Check argument
     if (argc < 2 || argv[1][0] == '-')
-        return err_kmc(data, KO, "Argument", "Insufficient argument, need a 'binary_name'", *argv, "binary_name", false);
+        return err_kmc_arg(data, KO, "Argument", "Insufficient argument, need a 'binary_name'", *argv, "binary_name", false);
+
+    // If the option have already been writed
+    if (data->binary)
+        return err_kmc_arg(data, OK, "Option", "Duplicated option", *argv, NULL, true);
 
     data->binary = argv[1];
     return OK;

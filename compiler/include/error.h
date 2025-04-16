@@ -77,7 +77,7 @@ int err_c15(compiler_t *data, int to_return,
     char const *file, size_t n,
     char const *type, char const *err, char const *line,
     size_t start, size_t end, bool warning); // Error: KO
-int err_kmc(compiler_t *data, int to_return,
+int err_kmc_arg(compiler_t *data, int to_return,
     char const *type, char const *err,
     char const *arg, char const *shoudl,
     bool warning); // Error: KO

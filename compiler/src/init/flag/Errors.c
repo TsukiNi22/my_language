@@ -36,6 +36,10 @@ int flag_Errors(compiler_t *data, int const argc, char const *argv[])
     if (!data || !argv)
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
+    // If the option have already been writed
+    if (data->errors)
+        return err_kmc_arg(data, OK, "Option", "Duplicated option", *argv, NULL, true);
+
     // Set the option to true
     data->errors = true;
     return OK;
