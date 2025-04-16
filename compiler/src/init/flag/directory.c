@@ -43,6 +43,7 @@ int flag_directory(compiler_t *data, int const argc, char const *argv[])
     DIR *dir = NULL;
     char *path = NULL;
     char *ptr = NULL;
+    size_t before = 0;
 
     // Check for potential null pointer
     if (!data || !argv)
@@ -59,6 +60,8 @@ int flag_directory(compiler_t *data, int const argc, char const *argv[])
     if (!dir)
         return err_system(data, KO, argv[1], strerror(errno));
 
+    // Get the file with end in .15 and .15h in the given path
+    before = data->files->len;
     while ((entry = readdir(dir))) {
         // Check if the file end with .15 or .15h
         for (int i = 0; entry->d_name[i]; i++) {
@@ -76,6 +79,9 @@ int flag_directory(compiler_t *data, int const argc, char const *argv[])
         } else
             free(path);
     }
+    if (before == data->files->len)
+        err_kmc_arg(data, KO, "Argument", "No file in '.15' or '.15h' find in the given path", argv[1], NULL, true);
+
     closedir(dir);
     return OK;
 }

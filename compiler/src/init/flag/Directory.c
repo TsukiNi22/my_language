@@ -81,6 +81,8 @@ static int readdir_rec(compiler_t *data, char const *dir_name)
 */
 int flag_Directory(compiler_t *data, int const argc, char const *argv[])
 {
+    size_t before = 0;
+
     // Check for potential null pointer
     if (!data || !argv)
         return err_prog(PTR_ERR, KO, ERR_INFO);
@@ -92,5 +94,10 @@ int flag_Directory(compiler_t *data, int const argc, char const *argv[])
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
     // Start the recursive for obtain file in .15 or .15h
-    return readdir_rec(data, argv[1]);
+    before = data->files->len;
+    if (readdir_rec(data, argv[1]) == KO)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    if (before == data->files->len)
+        err_kmc_arg(data, KO, "Argument", "No file in '.15' or '.15h' find in the given path", argv[1], NULL, true);
+    return OK;
 }
