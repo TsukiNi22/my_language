@@ -22,6 +22,7 @@ File Description:
 #include "tokenizer.h"  // tokenizer functions
 #include "error.h"      // error handling
 #include <stddef.h>     // NULL define
+#include <stdbool.h>    // bool type
 
 /* Main tokenizer function
 ----------------------------------------------------------------
@@ -33,7 +34,7 @@ File Description:
 ##  return -> a list of all the token found in the given file
 ----------------------------------------------------------------
 */
-array_t *tokenizer(hashtable_t *id, char const *file)
+array_t *tokenizer(hashtable_t *id, char const *file, bool *err_sys)
 {
     // Check for potential null pointer
     if (!id || !file)

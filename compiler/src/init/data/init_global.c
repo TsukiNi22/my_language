@@ -18,9 +18,12 @@ File Description:
 \**************************************************************/
 
 #include "hashtable.h"  // hashtable functions
+#include "memory.h"     // my_strdup functions
 #include "array.h"      // array functions
+#include "token.h"      // array functions
 #include "kamion.h"     // compiler_t type
 #include "error.h"      // error handling
+#include <stdlib.h>     // malloc function
 #include <stdbool.h>    // bool type
 
 /* Global initialisation function
@@ -32,6 +35,8 @@ File Description:
 */
 int init_global(compiler_t *data)
 {
+    token_id_t *id = NULL;
+
     // Check for potential null pointer
     if (!data)
         return err_prog(PTR_ERR, KO, ERR_INFO);
@@ -46,5 +51,15 @@ int init_global(compiler_t *data)
     data->files = new_array();
     if (!data->files)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
+
+    // Init hashtable element for token id
+    for (int i = 0; token_str[i]; i++) {
+        id = malloc(sizeof(token_id_t));
+        if (!id)
+            return err_prog(MALLOC_ERR, KO, ERR_INFO);
+        *id = i;
+        if (ht_insert(data->id, my_strdup(token_str[i]), id, &free_hash_data_str) == KO)
+            return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    }
     return OK;
 }

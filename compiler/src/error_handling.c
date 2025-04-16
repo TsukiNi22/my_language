@@ -111,7 +111,7 @@ int err_kmc_arg(compiler_t *data, int to_return,
     int res = 0;
 
     // Check for potential null pointer
-    if (!data || (!type && !warning) || !err || !arg)
+    if (!data || (!type && !warning) || !err)
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
     // setup of the ouput to standart ouput if it's a warning
@@ -120,12 +120,12 @@ int err_kmc_arg(compiler_t *data, int to_return,
 
     // Get the start of the arg (a pointer who does not point to the error can occur)
     ptr = my_strstr((char *) data->concat_argv, arg);
-    if (!ptr)
+    if (arg && !ptr)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
     lens[0] = my_strlen(arg);
     lens[1] = my_strlen(should);
-    if (lens[0] == KO || (should && lens[1] == KO))
+    if ((arg && lens[0] == KO) || (should && lens[1] == KO))
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
     data->err_sys = true;
@@ -141,7 +141,7 @@ int err_kmc_arg(compiler_t *data, int to_return,
         res += my_printf("%O%C%S[Warging n°%d]%R %s: %s.\n", ouput, 175, 0, 175, data->nb_warning, type, err);
     }
     res += my_printf("%O%C-------------------------------------------%R\n", ouput, 175, 100, 0);
-    if (!should) {
+    if (!should && arg) {
         res += my_printf("%O %S%C%.*s%C%s%C%s%R\n", ouput,
         0, 125, 0, ptr - data->concat_argv, data->concat_argv,
         175 * !warning, 150 * warning, 150 * warning, arg,
@@ -150,7 +150,7 @@ int err_kmc_arg(compiler_t *data, int to_return,
             res += my_putchar(ouput, ' ');
         for (int i = 0; i < lens[0]; i++)
             res += my_putchar(ouput, '^');
-    } else {
+    } else if (should && arg) {
         res += my_printf("%O %S%C%.*s %C%s%C%s%R\n", ouput,
         0, 125, 0, (ptr - data->concat_argv) + lens[0], data->concat_argv,
         175 * !warning, 150 * warning, 150 * warning, should,
@@ -158,6 +158,11 @@ int err_kmc_arg(compiler_t *data, int to_return,
         for (long int i = 0; i < 1 + (ptr - data->concat_argv) + lens[0] + 1; i++)
             res += my_putchar(ouput, ' ');
         for (int i = 0; i < lens[1]; i++)
+            res += my_putchar(ouput, '^');
+    } else if (!should && !arg) {
+        res += my_printf("%O %S%C%s%R\n", ouput, 175 * !warning, 150 * warning, 150 * warning, data->concat_argv);
+        res += my_putchar(ouput, ' ');
+        for (int i = 0; data->concat_argv[i] && data->concat_argv[i + 1]; i++)
             res += my_putchar(ouput, '^');
     }
     res += my_putchar(ouput, '\n');

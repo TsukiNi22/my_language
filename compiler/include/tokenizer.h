@@ -27,6 +27,7 @@ File Description:
     #include "hashtable.h" // hashtable_t
     #include "array.h" // array_t
     #include <stddef.h> // size_t
+    #include <stdbool.h> // bool
 
 //----------------------------------------------------------------//
 /* TYPEDEF */
@@ -50,6 +51,6 @@ typedef struct token_s {
 /* PROTOTYPE */
 
 /* tokenizer */
-array_t *tokenizer(hashtable_t *id, char const *file); // Error: NULL
+array_t *tokenizer(hashtable_t *id, char const *file, bool *err_sys); // Error: NULL
 
 #endif /* TOKENIZER_H */

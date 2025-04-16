@@ -92,4 +92,7 @@ extern char const *full_flags[];
 extern int const flags_argc[];
 extern int (* const flag_functions[])(compiler_t *, int const, char const *[]);
 
+/* token id */
+extern char const *token_str[];
+
 #endif /* KAMION_H */

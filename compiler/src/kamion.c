@@ -19,8 +19,13 @@ File Description:
 ## and call each part of the compiler
 \**************************************************************/
 
-#include "kamion.h" // compiler_t type
-#include "error.h"  // error handling
+#include "hashtable.h"  // hashatble functions
+#include "array.h"      // array_t type
+#include "memory.h"     // my_strdup function
+#include "tokenizer.h"  // tokenizer type
+#include "kamion.h"     // compiler_t type
+#include "error.h"      // error handling
+#include <stddef.h>     // NULL define
 
 /* Main compiler function
 ----------------------------------------------------------------
@@ -35,6 +40,8 @@ File Description:
 */
 int kamion(int const argc, char const *argv[], compiler_t *data)
 {
+    array_t *tokens = NULL;
+
     // Check for potential null pointer
     if (!data || !argv)
         return err_prog(PTR_ERR, KO, ERR_INFO);
@@ -50,9 +57,17 @@ int kamion(int const argc, char const *argv[], compiler_t *data)
     if (data->help)
         return OK;
 
-    #include <stdio.h>
-    #include <stddef.h>
-    for (size_t i = 0; i < data->files->len; i++)
-        printf("|%s|\n", (char *) data->files->data[i]);
+    // Execption
+    if (data->files->len == 0)
+        return err_kmc_arg(data, KO, "File", "No given file or no file found in given directory", NULL, NULL, false);
+
+    // Tokenize every file found
+    for (size_t i = 0; i < data->files->len; i++) {
+        tokens = tokenizer(data->id, data->files->data[i], &data->err_sys);
+        if (!tokens)
+            return err_custom("Tokenizer error", KO, ERR_INFO);
+        if (ht_insert(data->tokens, my_strdup(data->files->data[i]), tokens, &free_hash_data_str) == KO)
+            return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    }
     return OK;
 }
