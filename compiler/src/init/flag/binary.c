@@ -37,9 +37,8 @@ int flag_binary(compiler_t *data, int const argc, char const *argv[])
 
     // Check argument
     if (argc < 2 || argv[1][0] == '-')
-        return err_system(data, KO, *argv, "Insufficient argument, need a 'binary_name'");
-    if (!is_valid_file(data, argv[1]))
-        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+        return err_kmc(data, KO, "Argument", "Insufficient argument, need a 'binary_name'", *argv, "binary_name", false);
+
     data->binary = argv[1];
     return OK;
 }
