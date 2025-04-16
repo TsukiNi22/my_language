@@ -17,8 +17,9 @@ File Description:
 ## Handle the Directory flag option
 \**************************************************************/
 
-#include "kamion.h" // compiler_t type
-#include "error.h"  // error handling
+#include "kamion.h"     // compiler_t type
+#include "error.h"      // error handling
+#include <stdbool.h>    // bool type
 
 /* Directory function
 ----------------------------------------------------------------

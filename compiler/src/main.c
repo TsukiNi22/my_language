@@ -55,10 +55,12 @@ int main(int const argc, char const *argv[])
     if (!data.concat_argv)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
-    err_c15(&data, KO, "file.c15", 6, "Tokenizer Error", "Unknow token found", "i'm a line 'this is the error' yet", 13, 29, true);
-    err_c15(&data, KO, "file.c15", 6, "Tokenizer Error", "Unknow token found", "i'm a line 'this is the error' yet", 13, 29, false);
-    err_kmc_arg(&data, KO, "Argument Error", "Missing binary_name", argv[1], true);
-    err_kmc_arg(&data, KO, "Argument Error", "Missing binary_name", argv[1], false);
+    err_c15(&data, KO, "file.c15", 6, "Tokenizer", "Unknow token found", "i'm a line 'this is the error' yet", 13, 29, true);
+    err_c15(&data, KO, "file.c15", 6, "Tokenizer", "Unknow token found", "i'm a line 'this is the error' yet", 13, 29, false);
+    err_kmc_arg(&data, KO, "Argument", "Missing binary_name", argv[1], NULL, true);
+    err_kmc_arg(&data, KO, "Argument", "Missing binary_name", argv[1], NULL, false);
+    err_kmc_arg(&data, KO, "Argument", "Missing binary_name", argv[1], "binary_name", true);
+    err_kmc_arg(&data, KO, "Argument", "Missing binary_name", argv[1], "binary_name", false);
     return KO;
 
     // Call of the compiler and recuperation of the ouput

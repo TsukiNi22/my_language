@@ -66,16 +66,15 @@ int err_c15(compiler_t *data, int to_return,
     if (data->nb_warning + data->nb_error > 1)
         res += my_putchar(ouput, '\n');
     if (!warning) {
-        res += my_printf("%OError n°%d during the check of the file '%S%s:%u:%u%R'.\n", ouput, data->nb_error, file, n, start);
-        res += my_printf("%O%C%s:%R %C%s.%R\n", ouput, 205, 0, 0, type, 150, 0, 150, err);
+        res += my_printf("%O%C%S[Error n°%d]%R %S%s:%u:%u%R -> %s: %s%R\n", ouput, 205, 0, 0, data->nb_error, file, n, start, type, err);
     } else {
-        res += my_printf("%OWarging n°%d in the file '%S%s:%u:%u%R': %C%s%R\n", ouput, data->nb_warning, file, n, start, 150, 0, 150, err);
+        res += my_printf("%O%C%S[Warging n°%d]%R %S%s:%u:%u%R -> %s: %s%R\n", ouput, 175, 0, 175, data->nb_warning, file, n, start, type, err);
     }
     res += my_printf("%O%C-------------------------------------------%R\n", ouput, 175, 100, 0);
-    res += my_printf("%O%C%d | %C%.*s%C%.*s%R%C%s%R\n", ouput,
+    res += my_printf("%O%C%d | %S%C%.*s%C%.*s%C%s%R\n", ouput,
     175, 100, 0, n,
     0, 125, 0, start - 1, line,
-    205 - 55 * warning, 0, 150 * warning, end - (start - 1), &line[start - 1],
+    175 - 30 * warning, 0, 150 * warning, end - (start - 1), &line[start - 1],
     0, 125, 0, &line[end]);
     for (size_t i = 0; i < 3 + my_log(n, 10) + (start - 1); i++)
         res += my_putchar(ouput, ' ');
@@ -101,12 +100,13 @@ int err_c15(compiler_t *data, int to_return,
 ----------------------------------------------------------------
 */
 int err_kmc_arg(compiler_t *data, int to_return,
-    char const *type, char const *err, char const *arg,
+    char const *type, char const *err,
+    char const *arg, char const *should,
     bool warning)
 {
     char *ptr = NULL;
+    int lens[2] = {0};
     int ouput = STDERR;
-    int len = 0;
     int res = 0;
 
     // Check for potential null pointer
@@ -122,8 +122,9 @@ int err_kmc_arg(compiler_t *data, int to_return,
     if (!ptr)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
-    len = my_strlen(arg);
-    if (len == KO)
+    lens[0] = my_strlen(arg);
+    lens[1] = my_strlen(should);
+    if (lens[0] == KO || (should && lens[1] == KO))
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
     data->nb_warning += warning;
@@ -133,20 +134,30 @@ int err_kmc_arg(compiler_t *data, int to_return,
     if (data->nb_warning + data->nb_error > 1)
         res += my_putchar(ouput, '\n');
     if (!warning) {
-        res += my_printf("%OError n°%d append in argument.\n", ouput, data->nb_error);
-        res += my_printf("%O%C%s:%R %C%s.%R\n", ouput, 205, 0, 0, type, 150, 0, 150, err);
+        res += my_printf("%O%C%S[Error n°%d]%R %s: %s.\n", ouput, 205, 0, 0, data->nb_error, type, err);
     } else {
-        res += my_printf("%OWarging n°%d in argument: %C%s%R\n", ouput, data->nb_warning, 150, 0, 150, err);
+        res += my_printf("%O%C%S[Warging n°%d]%R %s: %s.\n", ouput, 175, 0, 175, data->nb_warning, type, err);
     }
     res += my_printf("%O%C-------------------------------------------%R\n", ouput, 175, 100, 0);
-    res += my_printf("%O %C%.*s%C%s%R%C%s%R\n", ouput,
-    0, 125, 0, ptr - data->concat_argv, data->concat_argv,
-    205 - 55 * warning, 0, 150 * warning, arg,
-    0, 125, 0, ptr + len);
-    for (size_t i = 0; i < 1 + ptr - data->concat_argv; i++)
-        res += my_putchar(ouput, ' ');
-    for (size_t i = 0; i < len; i++)
-        res += my_putchar(ouput, '^');
+    if (!should) {
+        res += my_printf("%O %S%C%.*s%C%s%C%s%R\n", ouput,
+        0, 125, 0, ptr - data->concat_argv, data->concat_argv,
+        175 * !warning, 150 * warning, 150 * warning, arg,
+        0, 125, 0, ptr + lens[0]);
+        for (size_t i = 0; i < 1 + ptr - data->concat_argv; i++)
+            res += my_putchar(ouput, ' ');
+        for (size_t i = 0; i < lens[0]; i++)
+            res += my_putchar(ouput, '^');
+    } else {
+        res += my_printf("%O %S%C%.*s %C%s%C%s%R\n", ouput,
+        0, 125, 0, (ptr - data->concat_argv) + lens[0], data->concat_argv,
+        175 * !warning, 150 * warning, 150 * warning, should,
+        0, 125, 0, ptr + lens[0]);
+        for (size_t i = 0; i < 1 + (ptr - data->concat_argv) + lens[0] + 1; i++)
+            res += my_putchar(ouput, ' ');
+        for (size_t i = 0; i < lens[1]; i++)
+            res += my_putchar(ouput, '^');
+    }
     res += my_putchar(ouput, '\n');
     res += my_printf("%O%C-------------------------------------------%R\n", ouput, 175, 100, 0);
     if (res != OK)
