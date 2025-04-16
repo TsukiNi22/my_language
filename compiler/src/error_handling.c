@@ -114,7 +114,7 @@ int err_kmc_arg(compiler_t *data, int to_return,
     if (!data || (!type && !warning) || !err || !arg)
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
-    // setup of the ouput to standart ouput if it's a warging
+    // setup of the ouput to standart ouput if it's a warning
     if (warning)
         ouput = STDOUT;
 
@@ -146,18 +146,18 @@ int err_kmc_arg(compiler_t *data, int to_return,
         0, 125, 0, ptr - data->concat_argv, data->concat_argv,
         175 * !warning, 150 * warning, 150 * warning, arg,
         0, 125, 0, ptr + lens[0]);
-        for (size_t i = 0; i < 1 + ptr - data->concat_argv; i++)
+        for (long int i = 0; i < 1 + ptr - data->concat_argv; i++)
             res += my_putchar(ouput, ' ');
-        for (size_t i = 0; i < lens[0]; i++)
+        for (int i = 0; i < lens[0]; i++)
             res += my_putchar(ouput, '^');
     } else {
         res += my_printf("%O %S%C%.*s %C%s%C%s%R\n", ouput,
         0, 125, 0, (ptr - data->concat_argv) + lens[0], data->concat_argv,
         175 * !warning, 150 * warning, 150 * warning, should,
         0, 125, 0, ptr + lens[0]);
-        for (size_t i = 0; i < 1 + (ptr - data->concat_argv) + lens[0] + 1; i++)
+        for (long int i = 0; i < 1 + (ptr - data->concat_argv) + lens[0] + 1; i++)
             res += my_putchar(ouput, ' ');
-        for (size_t i = 0; i < lens[1]; i++)
+        for (int i = 0; i < lens[1]; i++)
             res += my_putchar(ouput, '^');
     }
     res += my_putchar(ouput, '\n');

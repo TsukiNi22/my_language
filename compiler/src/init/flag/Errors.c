@@ -17,6 +17,7 @@ File Description:
 ## Handle the Errors flag option
 \**************************************************************/
 
+#include "macro.h"      // UNUSED macro
 #include "kamion.h"     // compiler_t type
 #include "error.h"      // error handling
 #include <stdbool.h>    // bool type
@@ -30,7 +31,7 @@ File Description:
 ##  argv -> arguments given to the binary
 ----------------------------------------------------------------
 */
-int flag_Errors(compiler_t *data, int const argc, char const *argv[])
+int flag_Errors(compiler_t *data, UNUSED int const argc, char const *argv[])
 {
     // Check for potential null pointer
     if (!data || !argv)
