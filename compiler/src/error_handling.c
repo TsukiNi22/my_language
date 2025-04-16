@@ -105,10 +105,10 @@ int err_kmc_arg(compiler_t *data, int to_return,
     char const *arg, char const *should,
     bool warning)
 {
-    char *ptr = NULL;
-    int lens[2] = {0};
+    int lens[3] = {0};
     int ouput = STDERR;
     int res = 0;
+    int index = 0;
 
     // Check for potential null pointer
     if (!data || (!type && !warning) || !err)
@@ -118,13 +118,9 @@ int err_kmc_arg(compiler_t *data, int to_return,
     if (warning)
         ouput = STDOUT;
 
-    // Get the start of the arg (a pointer who does not point to the error can occur)
-    ptr = my_strstr((char *) data->concat_argv, arg);
-    if (arg && !ptr)
-        return err_prog(UNDEF_ERR, KO, ERR_INFO);
-
     lens[0] = my_strlen(arg);
     lens[1] = my_strlen(should);
+    lens[2] = 0;
     if ((arg && lens[0] == KO) || (should && lens[1] == KO))
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
@@ -142,27 +138,59 @@ int err_kmc_arg(compiler_t *data, int to_return,
     }
     res += my_printf("%O%C-------------------------------------------%R\n", ouput, 175, 100, 0);
     if (!should && arg) {
-        res += my_printf("%O %S%C%.*s%C%s%C%s%R\n", ouput,
-        0, 125, 0, ptr - data->concat_argv, data->concat_argv,
-        175 * !warning, 150 * warning, 150 * warning, arg,
-        0, 125, 0, ptr + lens[0]);
-        for (long int i = 0; i < 1 + ptr - data->concat_argv; i++)
+        res += my_putchar(ouput, ' ');
+        res += color_rgb(ouput, 0, 125, 0);
+        for (index = 0; data->argv[index] != arg; index++) {
+            res += my_putstr(ouput, data->argv[index]);
+            res += my_putchar(ouput, ' ');
+            lens[2] += my_strlen(data->argv[index]) + 1;
+        }
+        res += my_printf("%O%C%s", ouput, 175 * !warning, 150 * warning, 150 * warning, arg);
+        res += color_rgb(ouput, 0, 125, 0);
+        for (index += 1; data->argv[index]; index++) {
+            res += my_putchar(ouput, ' ');
+            res += my_putstr(ouput, data->argv[index]);
+        }
+        res += reset_ouput(ouput);
+        res += my_putchar(ouput, '\n');
+        for (long int i = 0; i < 1 + lens[2]; i++)
             res += my_putchar(ouput, ' ');
         for (int i = 0; i < lens[0]; i++)
             res += my_putchar(ouput, '^');
     } else if (should && arg) {
-        res += my_printf("%O %S%C%.*s %C%s%C%s%R\n", ouput,
-        0, 125, 0, (ptr - data->concat_argv) + lens[0], data->concat_argv,
-        175 * !warning, 150 * warning, 150 * warning, should,
-        0, 125, 0, ptr + lens[0]);
-        for (long int i = 0; i < 1 + (ptr - data->concat_argv) + lens[0] + 1; i++)
+        res += my_putchar(ouput, ' ');
+        res += color_rgb(ouput, 0, 125, 0);
+        for (index = 0; data->argv[index]; index++) {
+            res += my_putstr(ouput, data->argv[index]);
+            res += my_putchar(ouput, ' ');
+            lens[2] += my_strlen(data->argv[index]) + 1;
+            if (data->argv[index] == arg)
+                break;
+        }
+        res += my_printf("%O%C%s", ouput, 175 * !warning, 150 * warning, 150 * warning, should);
+        res += color_rgb(ouput, 0, 125, 0);
+        for (index += 1; data->argv[index]; index++) {
+            res += my_putchar(ouput, ' ');
+            res += my_putstr(ouput, data->argv[index]);
+        }
+        res += reset_ouput(ouput);
+        res += my_putchar(ouput, '\n');
+        for (long int i = 0; i < 1 + lens[2]; i++)
             res += my_putchar(ouput, ' ');
         for (int i = 0; i < lens[1]; i++)
             res += my_putchar(ouput, '^');
     } else if (!should && !arg) {
-        res += my_printf("%O %S%C%s%R\n", ouput, 175 * !warning, 150 * warning, 150 * warning, data->concat_argv);
+        res += strong(ouput);
+        res += color_rgb(ouput, 175 * !warning, 150 * warning, 150 * warning);
+        for (int i = 0; data->argv[i]; i++) {
+            res += my_putchar(ouput, ' ');
+            res += my_putstr(ouput, data->argv[i]);
+            lens[2] += my_strlen(data->argv[i]) + 1;
+        }
+        res += reset_ouput(ouput);
+        res += my_putchar(ouput, '\n');
         res += my_putchar(ouput, ' ');
-        for (int i = 0; data->concat_argv[i] && data->concat_argv[i + 1]; i++)
+        for (int i = 0; i < lens[2] - 1; i++)
             res += my_putchar(ouput, '^');
     }
     res += my_putchar(ouput, '\n');
