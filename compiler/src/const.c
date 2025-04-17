@@ -61,8 +61,9 @@ int (* const flag_functions[])(compiler_t *, int const, char const *[]) = {
 
 /* token str */
 char const *token_str[] = {
-    ";",         // del_sep_1
-    "::",        // del_sep_2
+    ";",         // del_expresion_end
+    ",",         // del_sep_1
+    ":",         // del_sep_2
     "@",         // del_comment
     "@>",        // del_open_comment
     "<@",        // del_close_comment
