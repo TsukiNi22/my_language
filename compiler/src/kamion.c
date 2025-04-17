@@ -56,7 +56,7 @@ static int direct_file(compiler_t *data, int const argc, char const *argv[])
         }
         
         // Set the file in the array
-        if (is_valid_file(data, argv[i], false) && add_array(data->files, (char *) argv[i]) == KO)
+        if (is_valid_file(data, argv[i], false) && add_array(data->files, my_strdup((char *) argv[i])) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
     }
     return OK;
@@ -76,6 +76,7 @@ static int direct_file(compiler_t *data, int const argc, char const *argv[])
 int kamion(int const argc, char const *argv[], compiler_t *data)
 {
     array_t *tokens = NULL;
+    int res = OK;
 
     // Check for potential null pointer
     if (!data || !argv)
@@ -97,7 +98,7 @@ int kamion(int const argc, char const *argv[], compiler_t *data)
 
     // Execption
     if (data->files->len == 0)
-        return err_kmc_arg(data, KO, "File", "No given file or no file found in given directory", NULL, NULL, false);
+        return err_kmc_arg(data, KO, "File", "No valid file found for the compilation", NULL, NULL, false);
 
     // Tokenize every file found
     for (size_t i = 0; i < data->files->len; i++) {
@@ -106,9 +107,12 @@ int kamion(int const argc, char const *argv[], compiler_t *data)
             return err_custom("Tokenizer error", KO, ERR_INFO);
         if (tokens->len == 0) {
             data->nb_warning++;
-            my_printf("%O%C%S[Warging n°%d]%R %S%s:%u:%u%R -> %s: %s%R\n",
+            res += my_printf("%O%C%S[Warging n°%d]%R %S%s:%u:%u%R -> %s: %s%R\n",
             STDOUT, 175, 0, 175, data->nb_warning, data->files->data[i], 1, 1,
             "File", "Empty file, won't be taken in the compilation");
+            res += delete_array(&tokens, &free_token);
+            if (res != OK)
+                return err_prog(UNDEF_ERR, KO, ERR_INFO);
             continue;
         }
         if (ht_insert(data->tokens, my_strdup(data->files->data[i]), tokens, &free_hash_data_str) == KO)

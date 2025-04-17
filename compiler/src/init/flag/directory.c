@@ -52,8 +52,8 @@ int flag_directory(compiler_t *data, int const argc, char const *argv[])
     // Check argument
     if (argc < 2 || argv[1][0] == '-')
         return err_kmc_arg(data, KO, "Argument", "Insufficient argument, need a 'directory_path'", *argv, "directory_path", false);
-    if (!is_valid_dir(data, argv[1], true))
-        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    if (!is_valid_dir(data, argv[1], false))
+        return err_kmc_arg(data, KO, "Argument", "Invalid directory given", argv[1], NULL, false);
 
     // Open the directory to read it's content
     dir = opendir(argv[1]);

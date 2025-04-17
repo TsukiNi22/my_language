@@ -36,12 +36,12 @@ File Description:
 /* token */
 typedef struct token_s {
     /* tokn type information */
-    char *type;
-    char *id;
+    int type;
+    int id;
 
     /* position information */
-    char const *file;
-    char const *line;
+    char *file;
+    char *line;
     size_t x;
     size_t y;
 
@@ -54,5 +54,8 @@ typedef struct token_s {
 
 /* tokenizer */
 array_t *tokenizer(compiler_t *data, hashtable_t *id, char const *file); // Error: NULL
+
+/* exit */
+int free_token(void *ptr);
 
 #endif /* TOKENIZER_H */

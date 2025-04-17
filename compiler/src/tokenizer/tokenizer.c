@@ -27,6 +27,15 @@ File Description:
 #include <stddef.h>     // NULL define
 #include <stdbool.h>    // bool type
 
+// Extract the token of the given line
+int extract_token(compiler_t *data, hashtable_t *id, array_t *tokens, char const *line)
+{
+    // Check for potential null pointer
+    if (!data || !id || !tokens || !line)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    return OK;
+}
+
 /* Main tokenizer function
 ----------------------------------------------------------------
  *  
@@ -61,6 +70,8 @@ array_t *tokenizer(compiler_t *data, hashtable_t *id, char const *file)
     // For each line in the file extract token
     while ((res = getline(&line, &(size_t){0}, fs)) != KO) {
         line[res - 1] = '\0';
+        if (extract_token(data, id, tokens, line) == KO)
+            return err_prog_n(UNDEF_ERR, ERR_INFO);
     }
 
     fclose(fs);
