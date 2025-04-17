@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  17/04/2025 by Tsukini
+##  18/04/2025 by Tsukini
 
 File Name:
 ##  tokens_dump.c
@@ -20,7 +20,18 @@ File Description:
 #include "hashtable.h"  // hashtable_t type + functions
 #include "write.h"      // writing function
 #include "tokenizer.h"  // token_t type
+#include "token.h"      // token defines
 #include "error.h"      // error handling
+
+static char *type_str[] = {
+    "Delimitor",
+    "Operator",
+    "Type",
+    "Flow Controler",
+    "Key Word",
+    "Literal",
+    "Identifier",
+};
 
 static int display_token(void *ptr)
 {
@@ -29,8 +40,11 @@ static int display_token(void *ptr)
     // Check for potential null pointer
     if (!ptr)
         return err_prog(PTR_ERR, KO, ERR_INFO);
-    return my_printf(" \t|%d| \t|%d| \t|%u| \t|%d| \t|%u| \t|%s|\n",
-    tok->type, tok->id, tok->y, tok->x, tok->size, tok->value);
+    if (tok->id != KO && tok->id < KW_NONE)
+        return my_printf("\t|%-14s|\t|%-8s|\t|%u|\t|%d|\t|%u|\t|%s|\n",
+        type_str[tok->type], token_str[tok->id], tok->y, tok->x, tok->size, tok->value);
+    return my_printf("\t|%-14s|\t|%-8s|\t|%u|\t|%d|\t|%u|\t|%s|\n",
+    type_str[tok->type], NULL, tok->y, tok->x, tok->size, tok->value);
 }
 
 /* Tokens Dump for debug
@@ -56,9 +70,9 @@ int tokens_dump(hashtable_t *tokens)
 
     for (int i = 0; res == OK && keys[i]; i++) {
         res += my_printf("Tokens File: %S%s%R\n", keys[i]);
-        res += my_putstr(STDOUT, "-----------------------------------------------------------------\n");
-        res += my_putstr(STDOUT, "|n°|\t|type|\t|id|\t|line|\t|start|\t|size|\t|value|\n");
-        res += my_putstr(STDOUT, "-----------------------------------------------------------------\n");
+        res += my_putstr(STDOUT, "--------------------------------------------------------------------------------\n");
+        res += my_putstr(STDOUT, "|n°|\t|type          |\t|id      |\t|line|\t|start|\t|size|\t|value|\n");
+        res += my_putstr(STDOUT, "--------------------------------------------------------------------------------\n");
         if (array_dump(ht_search(tokens, keys[i]), &display_token) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
         if (keys[i + 1])
