@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  15/04/2025 by Tsukini
+##  17/04/2025 by Tsukini
 
 File Name:
 ##  binary.c
@@ -40,8 +40,10 @@ int flag_binary(compiler_t *data, int const argc, char const *argv[])
         return err_kmc_arg(data, KO, "Argument", "Insufficient argument, need a 'binary_name'", *argv, "binary_name", false);
 
     // If the option have already been writed
-    if (data->binary)
-        return err_kmc_arg(data, OK, "Option", "Duplicated option", *argv, NULL, true);
+    if (data->binary && !data->d_binary) {
+        data->d_binary = true;
+        return err_kmc_arg(data, OK, "Option", "Duplicated option (only say one time)", *argv, NULL, true);
+    }
 
     data->binary = argv[1];
     return OK;

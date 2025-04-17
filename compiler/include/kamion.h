@@ -44,6 +44,11 @@ typedef struct compiler_s {
     bool errors;
     char const *binary;
 
+    /* option duplicated */
+    bool d_binary;
+    bool d_errors;
+    bool d_tok_dump;
+
     /* token id */
     hashtable_t *id;
 

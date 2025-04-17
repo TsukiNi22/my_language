@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  15/04/2025 by Tsukini
+##  17/04/2025 by Tsukini
 
 File Name:
 ##  Errors.c
@@ -38,8 +38,10 @@ int flag_Errors(compiler_t *data, UNUSED int const argc, char const *argv[])
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
     // If the option have already been writed
-    if (data->errors)
-        return err_kmc_arg(data, OK, "Option", "Duplicated option", *argv, NULL, true);
+    if (data->errors && !data->d_errors) {
+        data->d_errors = true;
+        return err_kmc_arg(data, OK, "Option", "Duplicated option (only say one time)", *argv, NULL, true);
+    }
 
     // Set the option to true
     data->errors = true;

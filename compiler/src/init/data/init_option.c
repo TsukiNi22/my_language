@@ -39,5 +39,8 @@ int init_option(compiler_t *data)
     data->tok_dump = false; // Show tokens at the end
     data->errors = false; // Show errors at the end
     data->binary = NULL; // Ouput binary name
+    data->d_binary = false;
+    data->d_errors = false;
+    data->d_tok_dump = false;
     return OK;
 }

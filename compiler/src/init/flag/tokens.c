@@ -38,8 +38,10 @@ int flag_tokens(compiler_t *data, UNUSED int const argc, char const *argv[])
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
     // If the option have already been writed
-    if (data->tok_dump)
-        return err_kmc_arg(data, OK, "Option", "Duplicated option", *argv, NULL, true);
+    if (data->tok_dump && !data->d_tok_dump) {
+        data->d_tok_dump = true;
+        return err_kmc_arg(data, OK, "Option", "Duplicated option (only say one time)", *argv, NULL, true);
+    }
 
     // Set the option to true
     data->tok_dump = true;
