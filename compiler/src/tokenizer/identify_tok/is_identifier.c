@@ -36,9 +36,9 @@ File Description:
 ##  return -> if it's a valid format or not
 ----------------------------------------------------------------
 */
-bool is_identifier(token_t *tok, char *str, int **id)
+bool is_identifier(token_t *tok, char const *str, int **id)
 {
-    char const *pattern = "^[A-Za-z][A-Za-z0-9_]*$";
+    char const *pattern = "^[A-Za-z_][A-Za-z0-9_]*$";
     regex_t regex = {0};
     int res = 0;
 
