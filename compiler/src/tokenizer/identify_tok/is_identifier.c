@@ -19,7 +19,8 @@ File Description:
 
 #include "tokenizer.h"  // tokenizer functions
 #include "error.h"      // error handling
-#include <stdlib.h>     // free function
+#include <regex.h>      // regex functions
+#include <stdlib.h>     // malloc function
 #include <stddef.h>     // size_t type, NULL define
 #include <stdbool.h>    // bool type
 
@@ -37,10 +38,25 @@ File Description:
 */
 bool is_identifier(token_t *tok, char *str, int **id)
 {
+    char const *pattern = "^[A-Za-z][A-Za-z0-9_]*$";
+    regex_t regex = {0};
+    int res = 0;
+
     // Check for potential null pointer
     if (!tok || !str || !id)
         return err_prog(PTR_ERR, false, ERR_INFO);
 
+    // Check of the regex
+    if (regcomp(&regex, pattern, REG_EXTENDED | REG_NOSUB) != OK)
+        return err_prog(UNDEF_ERR, false, ERR_INFO);
+    res = regexec(&regex, str, 0, NULL, 0);
+    regfree(&regex);
+
+    // If the regex is false
+    if (res != OK)
+        return false;
+
+    // Setup the id for a indentifier
     if (*id)
         free(*id);
     *id = malloc(sizeof(int));
