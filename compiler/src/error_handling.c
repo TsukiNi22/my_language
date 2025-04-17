@@ -77,7 +77,7 @@ int err_c15(compiler_t *data, int to_return,
     0, 125, 0, start - 1, line,
     175 - 30 * warning, 0, 150 * warning, end - (start - 1), &line[start - 1],
     0, 125, 0, &line[end]);
-    for (size_t i = 0; i < 3 + my_log(n, 10) + (start - 1); i++)
+    for (size_t i = 0; i < 3 + my_log(n + 0.1, 10) + (start - 1); i++)
         res += my_putchar(ouput, ' ');
     for (size_t i = 0; i < end - (start - 1); i++)
         res += my_putchar(ouput, '^');
@@ -138,6 +138,7 @@ int err_kmc_arg(compiler_t *data, int to_return,
     }
     res += my_printf("%O%C-------------------------------------------%R\n", ouput, 175, 100, 0);
     if (!should && arg) {
+        res += strong(ouput);
         res += my_putchar(ouput, ' ');
         res += color_rgb(ouput, 0, 125, 0);
         for (index = 0; index < data->argc && data->argv[index] != arg; index++) {
@@ -158,6 +159,7 @@ int err_kmc_arg(compiler_t *data, int to_return,
         for (int i = 0; i < lens[0]; i++)
             res += my_putchar(ouput, '^');
     } else if (should && arg) {
+        res += strong(ouput);
         res += my_putchar(ouput, ' ');
         res += color_rgb(ouput, 0, 125, 0);
         for (index = 0; index < data->argc; index++) {

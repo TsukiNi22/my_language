@@ -50,6 +50,9 @@ typedef struct compiler_s {
     array_t *files;
     hashtable_t *tokens;
 
+    /* token extraction */
+    bool comment;
+
     /* ouput */
     bool help;
     bool err_sys;
