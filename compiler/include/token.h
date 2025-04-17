@@ -104,7 +104,15 @@ typedef enum token_id_e {
     KW_ERROR,
     KW_NONE,
 
-    COMMENT
+    LIT_COMMENT,
+    LIT_CHAR,
+    LIT_STRING,
+    LIT_BOOL,
+    LIT_BINARY,
+    LIT_OCTAL,
+    LIT_HEXADECIMAL,
+    LIT_DECIMAL,
+    LIT_FLOAT
 } token_id_t;
 
 #endif /* TOKEN_H */
