@@ -113,7 +113,7 @@ static int extract_token(compiler_t *data, hashtable_t *ids, array_t *tokens,
         tok_start = (char *) &line[i];
         tok = malloc(sizeof(token_t));
         if (!tok || init_tok(tok) == KO)
-            return err_prog(MALLOC_ERR, KO, ERR_INFO);
+            return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
         // Try to find token in the line
         for (size = 1; tok_start[size - 1]; size++) {
@@ -135,6 +135,19 @@ static int extract_token(compiler_t *data, hashtable_t *ids, array_t *tokens,
         } else if (add_array(tokens, tok) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
         i += size - 1;
+
+        // In case of simple comment with '@'
+        if (valid && tok->type == DELIMITOR && tok->id == DEL_COMMENT) {
+            tok = malloc(sizeof(token_t));
+            if (!tok || init_tok(tok) == KO)
+                return err_prog(UNDEF_ERR, KO, ERR_INFO);
+            for (size = 1; line[i + (size - 1)]; size++);
+            if (setup_tok(tok, file, line, &line[i], n, i, size, &(int){LIT_COMMENT}) == KO)
+                return err_prog(UNDEF_ERR, KO, ERR_INFO);
+            if (add_array(tokens, tok) == KO)
+                return err_prog(UNDEF_ERR, KO, ERR_INFO);
+            return OK;
+        }
     }
     return OK;
 }
