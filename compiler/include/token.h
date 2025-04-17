@@ -29,7 +29,9 @@ typedef enum type_e {
     OPERATOR,
     TYPE,
     FLOW_CONTROLER,
-    KEY_WORD
+    KEY_WORD,
+    LITERAL,
+    IDENTIFIER
 } type_t;
 
 /* id value */
@@ -100,7 +102,9 @@ typedef enum token_id_e {
     KW_GET,
     KW_FROM,
     KW_ERROR,
-    KW_NONE
+    KW_NONE,
+
+    COMMENT
 } token_id_t;
 
 #endif /* TOKEN_H */
