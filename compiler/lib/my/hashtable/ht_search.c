@@ -10,7 +10,7 @@
 #include "hashtable.h"
 #include "error.h"
 
-char *ht_search(hashtable_t *ht, char *key)
+void *ht_search(hashtable_t *ht, char *key)
 {
     hash_linked_data_t *data = NULL;
     array_t *array = NULL;

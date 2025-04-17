@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  14/04/2025 by Tsukini
+##  17/04/2025 by Tsukini
 
 File Name:
 ##  kamion.c
@@ -118,5 +118,8 @@ int kamion(int const argc, char const *argv[], compiler_t *data)
         if (ht_insert(data->tokens, my_strdup(data->files->data[i]), tokens, &free_hash_data_str) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
     }
+
+    if (data->tok_dump)
+        return tokens_dump(data->tokens);
     return OK;
 }

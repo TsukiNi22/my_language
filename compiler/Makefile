@@ -41,7 +41,8 @@ INIT :=			init/init_data.c \
 				init/flag/binary.c \
 				init/flag/Errors.c \
 				init/flag/directory.c \
-				init/flag/Directory.c
+				init/flag/Directory.c \
+				init/flag/tokens.c
 
 USEFUL := 		useful/is_valid_dir.c \
 				useful/is_valid_file.c
@@ -55,7 +56,9 @@ TOKENIZER :=	tokenizer/tokenizer.c \
 				tokenizer/identify_tok/is_identifier.c \
 				tokenizer/identify_tok/is_literal.c
 
-FILES := $(GLOBAL) $(INIT)
+DEBUG := 		debug/tokens_dump.c
+
+FILES := $(GLOBAL) $(INIT) $(DEBUG)
 FILES += $(USEFUL) $(TOKENIZER)
 SRC := $(addprefix src/, $(FILES))
 OBJ := $(SRC:%.c=$(BUILD_DIR)/%.o)

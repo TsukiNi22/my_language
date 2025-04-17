@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  15/04/2025 by Tsukini
+##  17/04/2025 by Tsukini
 
 File Name:
 ##  kamion.h
@@ -40,6 +40,7 @@ typedef struct compiler_s {
     char const *exe_name;
 
     /* option */
+    bool tok_dump;
     bool errors;
     char const *binary;
 
@@ -79,6 +80,7 @@ int flag_binary(compiler_t *data, int const argc, char const *argv[]); // Error:
 int flag_Errors(compiler_t *data, int const argc, char const *argv[]); // Error: KO
 int flag_directory(compiler_t *data, int const argc, char const *argv[]); // Error: KO
 int flag_Directory(compiler_t *data, int const argc, char const *argv[]); // Error: KO
+int flag_tokens(compiler_t *data, int const argc, char const *argv[]); // Error: KO
 
 /* useful */
 bool is_valid_dir(compiler_t *data, char const *path, bool err); // Error: false

@@ -11,33 +11,37 @@ Edition:
 ##  17/04/2025 by Tsukini
 
 File Name:
-##  init_option.c
+##  tokens.c
 
 File Description:
-## Initialisation of var used in option
+## Handle the tokens flag option
 \**************************************************************/
 
+#include "macro.h"      // UNUSED macro
 #include "kamion.h"     // compiler_t type
 #include "error.h"      // error handling
-#include <stddef.h>     // NULL define
 #include <stdbool.h>    // bool type
 
-/* Option initialisation function
+/* Errors function
 ----------------------------------------------------------------
- * Initialisation of var that will be used in option for flag
+ * This function will set the option show tokens at end to true
 ----------------------------------------------------------------
 ##  data -> main data structure
+##  argc -> number of argument given to the binary
+##  argv -> arguments given to the binary
 ----------------------------------------------------------------
 */
-int init_option(compiler_t *data)
+int flag_tokens(compiler_t *data, UNUSED int const argc, char const *argv[])
 {
     // Check for potential null pointer
-    if (!data)
+    if (!data || !argv)
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
-    // Set to default value
-    data->tok_dump = false; // Show tokens at the end
-    data->errors = false; // Show errors at the end
-    data->binary = NULL; // Ouput binary name
+    // If the option have already been writed
+    if (data->tok_dump)
+        return err_kmc_arg(data, OK, "Option", "Duplicated option", *argv, NULL, true);
+
+    // Set the option to true
+    data->tok_dump = true;
     return OK;
 }

@@ -39,11 +39,14 @@ typedef struct token_s {
     int type;
     int id;
 
-    /* position information */
+    /*  */
     char *file;
     char *line;
+
+    /* position information */
     size_t x;
     size_t y;
+    size_t size;
 
     /* literal | identifier */
     char *value;
@@ -63,6 +66,9 @@ bool is_operator(token_t *tok, char *str); // Error: false
 bool is_delimitor(token_t *tok, char *str); // Error: false
 bool is_identifier(token_t *tok, char *str); // Error: false
 bool is_literal(token_t *tok, char *str); // Error: false
+
+/* debug */
+int tokens_dump(hashtable_t *tokens);
 
 /* exit */
 int free_token(void *ptr);

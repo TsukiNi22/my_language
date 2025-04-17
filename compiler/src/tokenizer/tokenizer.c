@@ -28,8 +28,26 @@ File Description:
 #include <stddef.h>     // size_t type, NULL define
 #include <stdbool.h>    // bool type
 
+// Init the token to default value
+static int init_tok(token_t *tok)
+{
+    // Check for potential null pointer
+    if (!tok)
+        return err_prog(PTR_ERR, KO, ERR_INFO);
+
+    tok->type = -1;
+    tok->id = -1;
+    tok->file = NULL;
+    tok->line = NULL;
+    tok->x = 0;
+    tok->y = 0;
+    tok->size = 0;
+    tok->value = NULL;
+    return OK;
+}
+
 // Extract the token of the given line
-int extract_token(compiler_t *data, hashtable_t *id, array_t *tokens, char const *file, char const *line, int n)
+static int extract_token(compiler_t *data, hashtable_t *id, array_t *tokens, char const *file, char const *line, int n)
 {
     token_t *tok = NULL;
     char *tok_start = NULL;
@@ -42,24 +60,35 @@ int extract_token(compiler_t *data, hashtable_t *id, array_t *tokens, char const
 
     // Loop while we havn't check every token until the last char
     for (int i = 0; line[i];) {
-        tok_start = (char *) &line[i];
         valid = false;
+        tok_start = (char *) &line[i];
         tok = malloc(sizeof(token_t));
-        if (!tok)
+        if (!tok || init_tok(tok) == KO)
             return err_prog(MALLOC_ERR, KO, ERR_INFO);
 
+        // Try to find token in the line
         for (size = 1; tok_start[size - 1]; size++) {
-            if (is_key_word(tok, my_strndup(tok_start, size))
-                || is_flow_controler(tok, my_strndup(tok_start, size))
-                || is_type(tok, my_strndup(tok_start, size))
-                || is_operator(tok, my_strndup(tok_start, size))
-                || is_delimitor(tok, my_strndup(tok_start, size))
-                || is_identifier(tok, my_strndup(tok_start, size))
+            if (is_key_word(tok, my_strndup(tok_start, size)) || is_flow_controler(tok, my_strndup(tok_start, size))
+                || is_type(tok, my_strndup(tok_start, size)) || is_operator(tok, my_strndup(tok_start, size))
+                || is_delimitor(tok, my_strndup(tok_start, size)) || is_identifier(tok, my_strndup(tok_start, size))
                 || is_literal(tok, my_strndup(tok_start, size))) {
                 valid = true;
+                tok->x = i;
+                tok->y = n;
+                tok->size = size;
+                if (tok->value && tok->file && tok->line) {
+                    free(tok->value);
+                    free(tok->file);
+                    free(tok->line);
+                }
+                tok->file = my_strdup(file);
+                tok->line = my_strdup(line);
+                tok->value = my_strndup(tok_start, size);
             } else if (valid)
                 break;
         }
+
+        // Check if a token have been found
         if (!valid) {
             free(tok);
             return err_c15(data, KO, file, n, "Tokenizer", "Can't identify this", line, i + 1, i + size, false);

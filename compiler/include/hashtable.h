@@ -54,7 +54,7 @@ int ht_delete(hashtable_t *ht, char *key, int (*free_hash_data)(void *)); // Err
 
 /* retrieve */
 char **ht_keys(hashtable_t *ht); // Error: NULL
-char *ht_search(hashtable_t *ht, char *key); // Error: NULL
+void *ht_search(hashtable_t *ht, char *key); // Error: NULL
 
 /* free */
 int free_hash_data_str(void *data); // Error: KO
