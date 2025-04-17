@@ -46,8 +46,34 @@ static int init_tok(token_t *tok)
     return OK;
 }
 
+// Setup the token to given value
+static int setup_tok(token_t *tok,
+    char const *file, char const *line, char const *tok_start,
+    int const n, int const i, size_t const size)
+{
+    // Check for potential null pointer
+    if (!tok)
+        return err_prog(PTR_ERR, KO, ERR_INFO);
+
+    tok->x = i;
+    tok->y = n;
+    tok->size = size;
+    if (tok->value && tok->file && tok->line) {
+        free(tok->value);
+        free(tok->file);
+        free(tok->line);
+    }
+    tok->file = my_strdup(file);
+    tok->line = my_strdup(line);
+    tok->value = my_strndup(tok_start, size);
+    if (!tok->file || !tok->line || !tok->value)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    return OK;
+}
+
 // Extract the token of the given line
-static int extract_token(compiler_t *data, hashtable_t *id, array_t *tokens, char const *file, char const *line, int n)
+static int extract_token(compiler_t *data, hashtable_t *id, array_t *tokens,
+    char const *file, char const *line, int const n)
 {
     token_t *tok = NULL;
     char *tok_start = NULL;
@@ -73,17 +99,8 @@ static int extract_token(compiler_t *data, hashtable_t *id, array_t *tokens, cha
                 || is_delimitor(tok, my_strndup(tok_start, size)) || is_identifier(tok, my_strndup(tok_start, size))
                 || is_literal(tok, my_strndup(tok_start, size))) {
                 valid = true;
-                tok->x = i;
-                tok->y = n;
-                tok->size = size;
-                if (tok->value && tok->file && tok->line) {
-                    free(tok->value);
-                    free(tok->file);
-                    free(tok->line);
-                }
-                tok->file = my_strdup(file);
-                tok->line = my_strdup(line);
-                tok->value = my_strndup(tok_start, size);
+                if (setup_tok(tok, file, line, tok_start, n, i, size) == KO)
+                    return err_prog(UNDEF_ERR, KO, ERR_INFO);
             } else if (valid)
                 break;
         }
