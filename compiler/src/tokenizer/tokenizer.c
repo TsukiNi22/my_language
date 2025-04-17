@@ -21,6 +21,7 @@ File Description:
 #include "array.h"      // array_t type
 #include "memory.h"     // my_strndup type
 #include "tokenizer.h"  // tokenizer functions
+#include "token.h"      // token enum + define
 #include "kamion.h"     // compiler_t type
 #include "error.h"      // error handling
 #include <stdio.h>      // file handling functions
@@ -48,40 +49,61 @@ static int init_tok(token_t *tok)
 
 // Setup the token to given value
 static int setup_tok(token_t *tok,
-    char const *file, char const *line, char const *tok_start,
-    int const n, int const i, size_t const size)
+    char const *file, char const *line, char const *tok_str,
+    int const n, int const i, size_t const size,
+    int *id)
 {
     // Check for potential null pointer
-    if (!tok)
+    if (!tok || !file || !line || !tok_str || !id)
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
+    // Setup type and id with the id found
+    tok->id = *id;
+    if (*id == -1)
+        tok->type = IDENTIFIER;
+    else if (*id < MAX_DEL)
+        tok->type = DELIMITOR;
+    else if (*id < MAX_OP)
+        tok->type = OPERATOR;
+    else if (*id < MAX_T)
+        tok->type = TYPE;
+    else if (*id < MAX_FLC)
+        tok->type = FLOW_CONTROLER;
+    else if (*id < MAX_KW)
+        tok->type = KEY_WORD;
+    else
+        tok->type = LITERAL;
+
+    // Setup other info for position in file and file
     tok->x = i;
     tok->y = n;
     tok->size = size;
-    if (tok->value && tok->file && tok->line) {
-        free(tok->value);
+    if (tok->file && tok->line && tok->value) {
         free(tok->file);
         free(tok->line);
+        free(tok->value);
     }
     tok->file = my_strdup(file);
     tok->line = my_strdup(line);
-    tok->value = my_strndup(tok_start, size);
+    tok->value = my_strdup(tok_str);
     if (!tok->file || !tok->line || !tok->value)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
     return OK;
 }
 
 // Extract the token of the given line
-static int extract_token(compiler_t *data, hashtable_t *id, array_t *tokens,
+static int extract_token(compiler_t *data, hashtable_t *ids, array_t *tokens,
     char const *file, char const *line, int const n)
 {
     token_t *tok = NULL;
     char *tok_start = NULL;
+    char *tok_str = NULL;
+    int *id = NULL;
     bool valid = false;
     size_t size = 0;
 
     // Check for potential null pointer
-    if (!data || !id || !tokens || !file || !line)
+    if (!data || !ids || !tokens || !file || !line)
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
     // Loop while we havn't check every token until the last char
@@ -94,15 +116,15 @@ static int extract_token(compiler_t *data, hashtable_t *id, array_t *tokens,
 
         // Try to find token in the line
         for (size = 1; tok_start[size - 1]; size++) {
-            if (is_key_word(tok, my_strndup(tok_start, size)) || is_flow_controler(tok, my_strndup(tok_start, size))
-                || is_type(tok, my_strndup(tok_start, size)) || is_operator(tok, my_strndup(tok_start, size))
-                || is_delimitor(tok, my_strndup(tok_start, size)) || is_identifier(tok, my_strndup(tok_start, size))
-                || is_literal(tok, my_strndup(tok_start, size))) {
+            tok_str = my_strndup(tok_start, size);
+            id = ht_search(ids, tok_str);
+            if (id || is_identifier(tok, tok_str, &id) || is_literal(tok, tok_str, &id)) {
                 valid = true;
-                if (setup_tok(tok, file, line, tok_start, n, i, size) == KO)
+                if (setup_tok(tok, file, line, tok_str, n, i, size, id) == KO)
                     return err_prog(UNDEF_ERR, KO, ERR_INFO);
             } else if (valid)
                 break;
+            free(tok_str);
         }
 
         // Check if a token have been found

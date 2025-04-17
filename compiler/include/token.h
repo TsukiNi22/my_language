@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  16/04/2025 by Tsukini
+##  17/04/2025 by Tsukini
 
 File Name:
 ##  token_id.c
@@ -19,6 +19,16 @@ File Description:
 
 #ifndef TOKEN_H
     #define TOKEN_H
+
+    //----------------------------------------------------------------//
+    /* DEFINE */
+    
+    /* delimitation for id */
+    #define MAX_DEL DEL_STRING
+    #define MAX_OP OP_DEC
+    #define MAX_T T_UNSIGNED
+    #define MAX_FLC FLC_ERROR
+    #define MAX_KW KW_NONE
 
 //----------------------------------------------------------------//
 /* TYPEDEF */
@@ -47,7 +57,7 @@ typedef enum token_id_e {
     DEL_OPEN_CURLY,
     DEL_CLOSE_CURLY,
     DEL_CHAR,
-    DEL_STR,
+    DEL_STRING,
 
     OP_EQ,
     OP_NOT,

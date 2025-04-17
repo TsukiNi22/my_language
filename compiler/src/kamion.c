@@ -54,7 +54,7 @@ static int direct_file(compiler_t *data, int const argc, char const *argv[])
             err_kmc_arg(data, OK, "Argument", "Invalid extension, won't be taken in the compilation", argv[i], NULL, true);
             continue;
         }
-        
+    
         // Set the file in the array
         if (is_valid_file(data, argv[i], false) && add_array(data->files, my_strdup((char *) argv[i])) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);

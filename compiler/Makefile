@@ -48,11 +48,6 @@ USEFUL := 		useful/is_valid_dir.c \
 				useful/is_valid_file.c
 
 TOKENIZER :=	tokenizer/tokenizer.c \
-				tokenizer/identify_tok/is_key_word.c \
-				tokenizer/identify_tok/is_flow_controler.c \
-				tokenizer/identify_tok/is_type.c \
-				tokenizer/identify_tok/is_operator.c \
-				tokenizer/identify_tok/is_delimitor.c \
 				tokenizer/identify_tok/is_identifier.c \
 				tokenizer/identify_tok/is_literal.c
 

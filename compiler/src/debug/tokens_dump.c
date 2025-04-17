@@ -43,6 +43,7 @@ static int display_token(void *ptr)
 int tokens_dump(hashtable_t *tokens)
 {
     char **keys = NULL;
+    int res = OK;
 
     // Check for potential null pointer
     if (!tokens)
@@ -53,13 +54,17 @@ int tokens_dump(hashtable_t *tokens)
     if (!keys)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
-    for (int i = 0; keys[i]; i++) {
-        my_printf("Tokens File: %S%s%R\n", keys[i]);
-        my_putstr(STDOUT, "-----------------------------------------------------------------\n");
-        my_putstr(STDOUT, "|n°|\t|type|\t|id|\t|line|\t|start|\t|size|\t|value|\n");
-        my_putstr(STDOUT, "-----------------------------------------------------------------\n");
+    for (int i = 0; res == OK && keys[i]; i++) {
+        res += my_printf("Tokens File: %S%s%R\n", keys[i]);
+        res += my_putstr(STDOUT, "-----------------------------------------------------------------\n");
+        res += my_putstr(STDOUT, "|n°|\t|type|\t|id|\t|line|\t|start|\t|size|\t|value|\n");
+        res += my_putstr(STDOUT, "-----------------------------------------------------------------\n");
         if (array_dump(ht_search(tokens, keys[i]), &display_token) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
+        if (keys[i + 1])
+            res += my_putchar(STDOUT, '\n');
     }
+    if (res != OK)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
     return free_hash_keys(keys);
 }
