@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  17/04/2025 by Tsukini
+##  18/04/2025 by Tsukini
 
 File Name:
 ##  is_literal.c
@@ -78,10 +78,6 @@ bool is_literal(token_t *tok, char const *str, int **id)
         val = LIT_DECIMAL;
     else if (is_regex("^([0-9]+\\.[0-9]*|\\.[0-9]+)$", str)) // float
         val = LIT_FLOAT;
-    else if (is_regex("^\"([^\"\\\\]|\\\\.)*\"$", str)) // string
-        val = LIT_STRING;
-    else if (is_regex("^'(\\.|[^'\\\\])'$", str)) // char
-        val = LIT_CHAR;
 
     if (val == KO)
         return false;

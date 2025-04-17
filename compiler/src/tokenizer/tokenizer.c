@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  17/04/2025 by Tsukini
+##  18/04/2025 by Tsukini
 
 File Name:
 ##  tokenizer.c
@@ -60,7 +60,7 @@ static int setup_tok(token_t *tok,
     // Setup type and id with the id found
     tok->id = *id;
     if (*id == -1)
-        tok->type = IDENTIFIER;
+        tok->type = IDENTIFIERS;
     else if (*id < MAX_DEL)
         tok->type = DELIMITOR;
     else if (*id < MAX_OP)
@@ -108,6 +108,7 @@ static int extract_token(compiler_t *data, hashtable_t *ids, array_t *tokens,
 
     // Loop while we havn't check every token until the last char
     for (int i = 0; line[i];) {
+        for (; line[i] == ' '; i++);
         valid = false;
         tok_start = (char *) &line[i];
         tok = malloc(sizeof(token_t));
@@ -133,14 +134,15 @@ static int extract_token(compiler_t *data, hashtable_t *ids, array_t *tokens,
             return err_c15(data, KO, file, n, "Tokenizer", "Can't identify this", line, i + 1, i + size, false);
         } else if (add_array(tokens, tok) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
-        i += size;
+        i += size - 1;
     }
     return OK;
 }
 
 /* Main tokenizer function
 ----------------------------------------------------------------
- *  
+ *  Extract the token of a given file
+ *  add the token found to the tokens hashtable
 ----------------------------------------------------------------
 ##  id -> all the possible token as: key=strings | value=id
 ##  file -> file to get the tokens

@@ -48,8 +48,8 @@ USEFUL := 		useful/is_valid_dir.c \
 				useful/is_valid_file.c
 
 TOKENIZER :=	tokenizer/tokenizer.c \
-				tokenizer/identify_tok/is_identifier.c \
-				tokenizer/identify_tok/is_literal.c
+				tokenizer/is_identifier.c \
+				tokenizer/is_literal.c
 
 DEBUG := 		debug/tokens_dump.c
 

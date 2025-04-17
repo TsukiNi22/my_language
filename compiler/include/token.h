@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  17/04/2025 by Tsukini
+##  18/04/2025 by Tsukini
 
 File Name:
 ##  token_id.c
@@ -41,7 +41,7 @@ typedef enum type_e {
     FLOW_CONTROLER,
     KEY_WORD,
     LITERAL,
-    IDENTIFIER
+    IDENTIFIERS
 } type_t;
 
 /* id value */
