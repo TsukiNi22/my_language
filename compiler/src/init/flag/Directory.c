@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  15/04/2025 by Tsukini
+##  18/04/2025 by Tsukini
 
 File Name:
 ##  Directory.c
@@ -51,16 +51,16 @@ static int readdir_rec(compiler_t *data, char const *dir_name)
             if (entry->d_name[i] == '.')
                 ptr = &entry->d_name[i];
         }
-        if (my_strcmp(ptr, ".15") != 0 && my_strcmp(ptr, ".15h") != 0)
-            continue;
 
         // Set the file in the array
         path = get_full_path(dir_name, entry->d_name);
-        if (is_valid_dir(data, path, false)) {
+        if (my_strcmp(entry->d_name, ".") != 0 && my_strcmp(entry->d_name, "..") != 0
+            && is_valid_dir(data, path, false)) {
             if (readdir_rec(data, path) == KO)
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
             free(path);
-        } else if (is_valid_file(data, path, false)) {
+        } else if ((my_strcmp(ptr, ".15") == 0 || my_strcmp(ptr, ".15h") == 0)
+            && is_valid_file(data, path, false)) {
             if (add_array(data->files, path) == KO)
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
         } else
