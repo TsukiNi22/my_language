@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  17/04/2025 by Tsukini
+##  18/04/2025 by Tsukini
 
 File Name:
 ##  kamion.h
@@ -55,9 +55,6 @@ typedef struct compiler_s {
     /* file information */
     array_t *files;
     hashtable_t *tokens;
-
-    /* token extraction */
-    bool comment;
 
     /* ouput */
     bool help;

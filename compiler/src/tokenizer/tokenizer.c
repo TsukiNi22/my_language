@@ -75,8 +75,7 @@ static int setup_tok(token_t *tok,
     else
         tok->type = LITERAL;
 
-    if ((tok->type == LITERAL && tok->id != LIT_COMMENT && tok->id != LIT_CHAR && tok->id != LIT_STRING)
-        || tok->type == IDENTIFIERS)
+    if ((tok->type == LITERAL && tok->id != LIT_COMMENT) || tok->type == IDENTIFIERS)
         free(id);
 
     // Setup other info for position in file and file
@@ -96,51 +95,17 @@ static int setup_tok(token_t *tok,
     return OK;
 }
 
-static int handle_strings(compiler_t *data, array_t *tokens, token_t *tok,
-    char const *file, char const *line, char const *tok_str, char const *tok_start,
-    int const n, int const i, size_t const size,
-    int *id)
-{
-    // Check for potential null pointer
-    if (!data || !tokens || !tok || !file || !line || !tok_str || !tok_start)
-        return err_prog(PTR_ERR, KO, ERR_INFO);
-    
-    if (!data->comment && id
-        && (tokens->len == 0 || (((token_t *) tokens->data[tokens->len - 1])->id != LIT_CHAR
-        && ((token_t *) tokens->data[tokens->len - 1])->id != LIT_STRING))
-        && (*id == DEL_STRING || *id == DEL_CHAR)) {
-        data->comment = true;
-        if (setup_tok(tok, file, line, tok_str, n, i, size, id) == KO)
-            return err_prog(UNDEF_ERR, KO, ERR_INFO);
-        return 2;
-    } else if (data->comment && id
-        && (tokens->len == 0
-        || (*id == DEL_CHAR && ((token_t *) tokens->data[tokens->len - 1])->id == DEL_CHAR)
-        || (*id == DEL_STRING && ((token_t *) tokens->data[tokens->len - 1])->id == DEL_STRING))) {
-        data->comment = false;
-        free((char *) tok_str);
-        tok_str = my_strndup(tok_start, size - 1);
-        if (*id == DEL_CHAR && setup_tok(tok, file, line, tok_str, n, i, size, &(int){LIT_CHAR}) == KO)
-            return err_prog(UNDEF_ERR, KO, ERR_INFO);
-        else if (*id == DEL_STRING && setup_tok(tok, file, line, tok_str, n, i, size, &(int){LIT_STRING}) == KO)
-            return err_prog(UNDEF_ERR, KO, ERR_INFO);
-        return 3;
-    }
-    return OK;
-}
-
 // Extract the token of the given line
-static int extract_token(compiler_t *data, hashtable_t *ids, array_t *tokens,
-    char const *file, char const *line, int const n)
+static int extract_tokens(compiler_t *data, hashtable_t *ids, array_t *tokens,
+    char const *file, char const *line, int const y)
 {
     token_t *tok = NULL;
     char *tok_start = NULL;
     char *tok_str = NULL;
-    char *str = NULL;
     int *id = NULL;
     bool valid = false;
+    size_t max_size = 0;
     size_t size = 0;
-    int res = 0;
 
     // Check for potential null pointer
     if (!data || !ids || !tokens || !file || !line)
@@ -150,6 +115,7 @@ static int extract_token(compiler_t *data, hashtable_t *ids, array_t *tokens,
     for (int i = 0; line[i];) {
         for (; line[i] == ' ' || line[i] == '\t'; i++);
         valid = false;
+        max_size = 0;
         tok_start = (char *) &line[i];
         tok = malloc(sizeof(token_t));
         if (!tok || init_tok(tok) == KO)
@@ -158,48 +124,109 @@ static int extract_token(compiler_t *data, hashtable_t *ids, array_t *tokens,
         // Try to find token in the line
         for (size = 1; tok_start[size - 1]; size++) {
             tok_str = my_strndup(tok_start, size);
-            if (data->comment) {
-                str = my_strndup(&tok_start[size - 1], 1);
-                id = ht_search(ids, str);
-                free(str);
-            } else
-                id = ht_search(ids, tok_str);
-            if (id || data->comment || is_identifier(tok_str, &id) || is_literal(tok_str, &id)) {
+            id = ht_search(ids, tok_str);
+            if (id || is_identifier(tok_str, &id) || is_literal(tok_str, &id)) {
                 valid = true;
-                res = handle_strings(data, tokens, tok, file, line, tok_str, tok_start, n, i, size, id);
-                if (res == KO)
+                max_size = size;
+                if (setup_tok(tok, file, line, tok_str, y, i, size, id) == KO)
                     return err_prog(UNDEF_ERR, KO, ERR_INFO);
-                if (res >= 2) {
-                    size += (res == 2);
-                    break;
-                }
-                if (!data->comment && setup_tok(tok, file, line, tok_str, n, i, size, id) == KO)
-                    return err_prog(UNDEF_ERR, KO, ERR_INFO);
-            } else if (valid)
-                break;
+            }
             free(tok_str);
         }
 
         // Check if a token have been found
         if (!valid) {
             free(tok);
-            return err_c15(data, KO, file, n, "Tokenizer", "Can't identify this", line, i + 1, i + (size - 1), false);
+            return err_c15(data, KO, file, y, "Tokenizer", "Can't identify this", line, i + 1, i + (size - 1), false);
         } else if (add_array(tokens, tok) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
-        i += size - 1;
+        i += max_size;
 
         // In case of simple comment with '@'
-        if (valid && tok->type == DELIMITOR && tok->id == DEL_COMMENT) {
+        if (valid && ((tok->type == DELIMITOR && tok->id == DEL_COMMENT)
+            || (tok->type == KEY_WORD && tok->id == KW_ERROR))) {
             tok = malloc(sizeof(token_t));
             if (!tok || init_tok(tok) == KO)
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
-            for (size = 1; line[i + (size - 1)]; size++);
-            if (setup_tok(tok, file, line, &line[i], n, i, size, &(int){LIT_COMMENT}) == KO)
+            for (size = 1; line[i + (size + 1)]; size++);
+            if (setup_tok(tok, file, line, &line[i], y, i, size, &(int){LIT_COMMENT}) == KO)
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
             if (add_array(tokens, tok) == KO)
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
             return OK;
         }
+    }
+    return OK;
+}
+
+// Obtain the file in a char *
+static char *get_file(const char *file)
+{
+    FILE *fs = NULL;
+    char *buff = NULL;
+    size_t size = 0;
+    size_t res = 0;
+
+    // Check for potential null pointer
+    if (!file)
+        return err_prog_n(PTR_ERR, ERR_INFO);
+
+    // Set the stream for the file to tokenize
+    fs = fopen(file, "r");
+    if (!fs)
+        return err_prog_n(UNDEF_ERR, ERR_INFO);
+
+    // Get the size
+    fseek(fs, 0, SEEK_END);
+    size = ftell(fs);
+    rewind(fs);
+
+    // Malloc the good size for the whole file
+    if (my_malloc_c(&buff, (size * 2) + 2) == KO)
+        return err_prog_n(UNDEF_ERR, ERR_INFO);
+
+    // Set the file content
+    res = fread(buff, 1, size, fs);
+    if (res != size)
+        return err_prog_n(UNDEF_ERR, ERR_INFO);
+
+    fclose(fs);
+    return buff;
+}
+
+// Set all the \n to \ and n
+static int set_buff_n(char *buff)
+{
+    bool char_b, string_b, comment_b = false;
+    int len = 0;
+
+    // Check for potential null pointer
+    if (!buff)
+        return err_prog(PTR_ERR, KO, ERR_INFO);
+
+    for (len = 0; buff[len]; len++);
+    for (int i = 0; buff[i]; i++) {
+        // Skip the simple '@' comment
+        if (buff[i] == '@' && (i == 0 || buff[i - 1] != '<') && buff[i + 1] != '>')
+            for (; buff[i] && buff[i] != '\n'; i++);
+        
+        // Detect if in a string a char or a comment
+        if (!string_b && !comment_b && buff[i] == '\'')
+            char_b = !char_b;
+        if (!char_b && !comment_b && buff[i] == '\"')
+            string_b = !string_b;
+        if (!char_b && !string_b && !comment_b && my_strncmp(&buff[i], "@>", 2) == 0)
+            comment_b = true;
+        if (!char_b && !string_b && comment_b && my_strncmp(&buff[i], "<@", 2) == 0)
+            comment_b = false;
+
+        if (buff[i] == '\n' && (char_b || string_b || comment_b)) {
+            for (int j = len; j > i; j--)
+                buff[j + 1] = buff[j];
+            buff[i] = '\\';
+            buff[i + 1] = 'n';
+            i++;
+        }   
     }
     return OK;
 }
@@ -215,39 +242,39 @@ static int extract_token(compiler_t *data, hashtable_t *ids, array_t *tokens,
 ##  return -> a list of all the token found in the given file
 ----------------------------------------------------------------
 */
-array_t *tokenizer(compiler_t *data, hashtable_t *id, char const *file)
+array_t *tokenizer(compiler_t *data, hashtable_t *ids, char const *file)
 {
     array_t *tokens = NULL;
-    FILE *fs = NULL;
-    char *line= NULL;
-    int res = 0;
+    char *buff = NULL;
+    char *line = NULL;
+    int index = 0;
 
     // Check for potential null pointer
-    if (!data || !id || !file)
+    if (!data || !ids || !file)
         return err_prog_n(PTR_ERR, ERR_INFO);
     
-    data->comment = false;
-
     // Init the token array
     tokens = new_array();
     if (!tokens)
         return err_prog_n(UNDEF_ERR, ERR_INFO);
 
-    // Set the stream for the file to tokenize
-    fs = fopen(file, "r");
-    if (!fs)
+    // Set the file str for the \n in the line
+    buff = get_file(file);
+    if (!buff)
+        return err_prog_n(UNDEF_ERR, ERR_INFO);
+    if (set_buff_n(buff) == KO)
         return err_prog_n(UNDEF_ERR, ERR_INFO);
 
-    // For each line in the file extract token
-    for (int n = 1; (res = getline(&line, &(size_t){0}, fs)) != KO; n++) {
-        line[res - 1] = '\0';
-        if (my_str_is(line, " \t"))
-            continue;
-        if (extract_token(data, id, tokens, file, line, n) == KO)
+    // Extract all the token of the file
+    line = buff;
+    while (*line) {
+        for (index = 0; line[index] && line[index] != '\n'; index++);
+        line[index] = '\0';
+        if (extract_tokens(data, ids, tokens, file, line, 1) == KO)
             return err_prog_n(UNDEF_ERR, ERR_INFO);
+        line = &line[index + 1];
     }
 
-    fclose(fs);
-    free(line);
+    free(buff);
     return tokens;
 }

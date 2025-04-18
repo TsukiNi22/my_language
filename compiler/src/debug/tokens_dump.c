@@ -57,7 +57,7 @@ static int display_token(void *ptr)
         type_str[tok->type], token_str[tok->id], tok->y, tok->x, tok->size, tok->value);
     if (tok->id > MAX_KW)
         return my_printf("\t|%-14s|\t|%-8s|\t|%u|\t|%d|\t|%u|\t|%s|\n",
-        type_str[tok->type], lit_str[tok->id - MAX_KW], tok->y, tok->x, tok->size, tok->value);
+        type_str[tok->type], lit_str[tok->id - (MAX_KW + 1)], tok->y, tok->x, tok->size, tok->value);
     return my_printf("\t|%-14s|\t|%-8s|\t|%u|\t|%d|\t|%u|\t|%s|\n",
     type_str[tok->type], NULL, tok->y, tok->x, tok->size, tok->value);
 }

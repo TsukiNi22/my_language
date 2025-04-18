@@ -56,7 +56,7 @@ typedef struct token_s {
 /* PROTOTYPE */
 
 /* tokenizer */
-array_t *tokenizer(compiler_t *data, hashtable_t *id, char const *file); // Error: NULL
+array_t *tokenizer(compiler_t *data, hashtable_t *ids, char const *file); // Error: NULL
 
 /* identify token */
 bool is_identifier(char const *str, int **id); // Error: false

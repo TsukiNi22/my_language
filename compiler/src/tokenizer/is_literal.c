@@ -73,10 +73,16 @@ bool is_literal(char const *str, int **id)
         val = LIT_OCTAL;
     else if (is_regex("^0x[0-9a-fA-F]*$", str)) // hex
         val = LIT_HEXADECIMAL;
-    else if (is_regex("^[0-9]+$", str)) // int
+    else if (is_regex("^-?[0-9]+$", str)) // int
         val = LIT_DECIMAL;
-    else if (is_regex("^([0-9]+\\.[0-9]*|\\.[0-9]+)$", str)) // float
+    else if (is_regex("^-?([0-9]+\\.[0-9]*|\\.[0-9]+)$", str)) // float
         val = LIT_FLOAT;
+    else if (is_regex("^\"([^\"\\\\]|\\\\.)*\"$", str)) // string
+        val = LIT_STRING;
+    else if (is_regex("^'(\\.|[^'\\\\])'$", str)) // char
+        val = LIT_CHAR;
+    else if (is_regex("^@>.*<@$", str)) // char
+        val = LIT_COMMENT;
 
     // No pattern found
     if (val == KO)
