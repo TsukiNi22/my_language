@@ -19,7 +19,8 @@ File Description:
 
 #include "hashtable.h"  // hashtable_t type
 #include "array.h"      // array_t type
-#include "memory.h"     // my_strndup type
+#include "my_string.h"  // my_str_is function
+#include "memory.h"     // my_strndup function
 #include "tokenizer.h"  // tokenizer functions
 #include "token.h"      // token enum + define
 #include "kamion.h"     // compiler_t type
@@ -112,7 +113,10 @@ static int handle_strings(compiler_t *data, array_t *tokens, token_t *tok,
         if (setup_tok(tok, file, line, tok_str, n, i, size, id) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
         return 2;
-    } else if (data->comment && id && (*id == DEL_STRING || *id == DEL_CHAR)) {
+    } else if (data->comment && id
+        && (tokens->len == 0
+        || (*id == DEL_CHAR && ((token_t *) tokens->data[tokens->len - 1])->id == DEL_CHAR)
+        || (*id == DEL_STRING && ((token_t *) tokens->data[tokens->len - 1])->id == DEL_STRING))) {
         data->comment = false;
         free((char *) tok_str);
         tok_str = my_strndup(tok_start, size - 1);
@@ -179,7 +183,7 @@ static int extract_token(compiler_t *data, hashtable_t *ids, array_t *tokens,
         // Check if a token have been found
         if (!valid) {
             free(tok);
-            return err_c15(data, KO, file, n, "Tokenizer", "Can't identify this", line, i + 1, i + size, false);
+            return err_c15(data, KO, file, n, "Tokenizer", "Can't identify this", line, i + 1, i + (size - 1), false);
         } else if (add_array(tokens, tok) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
         i += size - 1;
@@ -237,6 +241,9 @@ array_t *tokenizer(compiler_t *data, hashtable_t *id, char const *file)
     // For each line in the file extract token
     for (int n = 1; (res = getline(&line, &(size_t){0}, fs)) != KO; n++) {
         line[res - 1] = '\0';
+        if (my_str_is(line, " \t"))
+            continue;
+        printf("Line see: |%s|\n", line);
         if (extract_token(data, id, tokens, file, line, n) == KO)
             return err_prog_n(UNDEF_ERR, ERR_INFO);
     }
