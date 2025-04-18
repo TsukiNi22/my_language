@@ -51,19 +51,18 @@ static bool is_regex(char const *pattern, char const *str)
  *  Identify the given string to know if it's a literal
  *  if it's the case then setup the tok
 ----------------------------------------------------------------
-##  tok -> struct of the token
 ##  str -> string to identif
 ##  id -> id to set for the token
 ----------------------------------------------------------------
 ##  return -> if it's a valid format or not
 ----------------------------------------------------------------
 */
-bool is_literal(token_t *tok, char const *str, int **id)
+bool is_literal(char const *str, int **id)
 {
     int val = KO;
 
     // Check for potential null pointer
-    if (!tok || !str)
+    if (!str || !id)
         return err_prog(PTR_ERR, false, ERR_INFO);
  
     if (is_regex("^(0|1|true|false)$", str)) // bool
@@ -79,11 +78,11 @@ bool is_literal(token_t *tok, char const *str, int **id)
     else if (is_regex("^([0-9]+\\.[0-9]*|\\.[0-9]+)$", str)) // float
         val = LIT_FLOAT;
 
+    // No pattern found
     if (val == KO)
         return false;
+    
     // Setup the id for a literal
-    if (*id)
-        free(*id);
     *id = malloc(sizeof(int));
     if (!*id)
         return err_prog(MALLOC_ERR, false, ERR_INFO);

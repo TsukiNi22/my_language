@@ -74,6 +74,10 @@ static int setup_tok(token_t *tok,
     else
         tok->type = LITERAL;
 
+    if ((tok->type == LITERAL && tok->id != LIT_COMMENT && tok->id != LIT_CHAR && tok->id != LIT_STRING)
+        || tok->type == IDENTIFIERS)
+        free(id);
+
     // Setup other info for position in file and file
     tok->x = i;
     tok->y = n;
@@ -98,6 +102,7 @@ static int extract_token(compiler_t *data, hashtable_t *ids, array_t *tokens,
     token_t *tok = NULL;
     char *tok_start = NULL;
     char *tok_str = NULL;
+    char *str = NULL;
     int *id = NULL;
     bool valid = false;
     size_t size = 0;
@@ -108,7 +113,7 @@ static int extract_token(compiler_t *data, hashtable_t *ids, array_t *tokens,
 
     // Loop while we havn't check every token until the last char
     for (int i = 0; line[i];) {
-        for (; line[i] == ' '; i++);
+        for (; line[i] == ' ' || line[i] == '\t'; i++);
         valid = false;
         tok_start = (char *) &line[i];
         tok = malloc(sizeof(token_t));
@@ -118,10 +123,35 @@ static int extract_token(compiler_t *data, hashtable_t *ids, array_t *tokens,
         // Try to find token in the line
         for (size = 1; tok_start[size - 1]; size++) {
             tok_str = my_strndup(tok_start, size);
-            id = ht_search(ids, tok_str);
-            if (id || is_identifier(tok, tok_str, &id) || is_literal(tok, tok_str, &id)) {
+            if (data->comment) {
+                str = my_strndup(&tok_start[size - 1], 1);
+                id = ht_search(ids, str);
+                free(str);
+            } else
+                id = ht_search(ids, tok_str);
+            if (id || data->comment || is_identifier(tok_str, &id) || is_literal(tok_str, &id)) {
                 valid = true;
-                if (setup_tok(tok, file, line, tok_str, n, i, size, id) == KO)
+                printf("%d |%s|\n", data->comment, tok_str);
+                if (!data->comment && id
+                    && (tokens->len == 0 || (((token_t *) tokens->data[tokens->len - 1])->id != LIT_CHAR
+                    && ((token_t *) tokens->data[tokens->len - 1])->id != LIT_STRING))
+                    && (*id == DEL_STRING || *id == DEL_CHAR)) {
+                    data->comment = true;
+                    if (setup_tok(tok, file, line, tok_str, n, i, size, id) == KO)
+                        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+                    size++;
+                    break;
+                } else if (data->comment && id && (*id == DEL_STRING || *id == DEL_CHAR)) {
+                    data->comment = false;
+                    free(tok_str);
+                    tok_str = my_strndup(tok_start, size - 1);
+                    if (*id == DEL_CHAR && setup_tok(tok, file, line, tok_str, n, i, size, &(int){LIT_CHAR}) == KO)
+                        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+                    else if (*id == DEL_STRING && setup_tok(tok, file, line, tok_str, n, i, size, &(int){LIT_STRING}) == KO)
+                        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+                    break;
+                }
+                if (!data->comment && setup_tok(tok, file, line, tok_str, n, i, size, id) == KO)
                     return err_prog(UNDEF_ERR, KO, ERR_INFO);
             } else if (valid)
                 break;

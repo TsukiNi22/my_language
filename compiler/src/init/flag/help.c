@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  14/04/2025 by Tsukini
+##  18/04/2025 by Tsukini
 
 File Name:
 ##  help.c
@@ -37,7 +37,7 @@ int flag_help(void)
     "\tThe name of the compiler is [35m\'kamion\'[36m or [35m\'kmc\'\n\n"
     "[32mINFORMATION\n"
     "\t-Multiple flag will overwrite the first!!!\n"
-    "\t-At least one file_path must be given or use the [35m\'-f\'[32m / [35m\'-F\'\n\n"
+    "\t-At least one file_path must be given\n\n"
     "[35mUSAGE\n"
     "\tkmc files_path... [-b binary_name] [-d directory_path] [-D directory_path]\n"
     "\tkmc [-b binary_name] [-d directory_path] [-D directory_path]\n"

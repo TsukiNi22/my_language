@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  17/04/2025 by Tsukini
+##  18/04/2025 by Tsukini
 
 File Name:
 ##  tokenizer.h
@@ -59,8 +59,8 @@ typedef struct token_s {
 array_t *tokenizer(compiler_t *data, hashtable_t *id, char const *file); // Error: NULL
 
 /* identify token */
-bool is_identifier(token_t *tok, char const *str, int **id); // Error: false
-bool is_literal(token_t *tok, char const *str, int **id); // Error: false
+bool is_identifier(char const *str, int **id); // Error: false
+bool is_literal(char const *str, int **id); // Error: false
 
 /* debug */
 int tokens_dump(hashtable_t *tokens);
