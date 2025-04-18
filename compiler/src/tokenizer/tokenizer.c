@@ -62,15 +62,15 @@ static int setup_tok(token_t *tok,
     tok->id = *id;
     if (*id == -1)
         tok->type = IDENTIFIERS;
-    else if (*id < MAX_DEL)
+    else if (*id <= MAX_DEL)
         tok->type = DELIMITOR;
-    else if (*id < MAX_OP)
+    else if (*id <= MAX_OP)
         tok->type = OPERATOR;
-    else if (*id < MAX_T)
+    else if (*id <= MAX_T)
         tok->type = TYPE;
-    else if (*id < MAX_FLC)
+    else if (*id <= MAX_FLC)
         tok->type = FLOW_CONTROLER;
-    else if (*id < MAX_KW)
+    else if (*id <= MAX_KW)
         tok->type = KEY_WORD;
     else
         tok->type = LITERAL;
@@ -270,7 +270,7 @@ array_t *tokenizer(compiler_t *data, hashtable_t *ids, char const *file)
     while (*line) {
         for (index = 0; line[index] && line[index] != '\n'; index++);
         line[index] = '\0';
-        if (extract_tokens(data, ids, tokens, file, line, 1) == KO)
+        if (!my_str_is(line, " \t") && extract_tokens(data, ids, tokens, file, line, 1) == KO)
             return err_prog_n(UNDEF_ERR, ERR_INFO);
         line = &line[index + 1];
     }
