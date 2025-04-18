@@ -243,7 +243,6 @@ array_t *tokenizer(compiler_t *data, hashtable_t *id, char const *file)
         line[res - 1] = '\0';
         if (my_str_is(line, " \t"))
             continue;
-        printf("Line see: |%s|\n", line);
         if (extract_token(data, id, tokens, file, line, n) == KO)
             return err_prog_n(UNDEF_ERR, ERR_INFO);
     }

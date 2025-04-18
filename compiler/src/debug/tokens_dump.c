@@ -33,6 +33,18 @@ static char *type_str[] = {
     "Identifier",
 };
 
+static char *lit_str[] = {
+    "Comment",
+    "Char",
+    "String",
+    "Bool",
+    "Binary",
+    "Octal",
+    "Hexa",
+    "Decimal",
+    "Float",
+};
+
 static int display_token(void *ptr)
 {
     token_t *tok = ptr;
@@ -40,9 +52,12 @@ static int display_token(void *ptr)
     // Check for potential null pointer
     if (!ptr)
         return err_prog(PTR_ERR, KO, ERR_INFO);
-    if (tok->id != KO && tok->id < KW_NONE)
+    if (tok->id != KO && tok->id <= MAX_KW)
         return my_printf("\t|%-14s|\t|%-8s|\t|%u|\t|%d|\t|%u|\t|%s|\n",
         type_str[tok->type], token_str[tok->id], tok->y, tok->x, tok->size, tok->value);
+    if (tok->id > MAX_KW)
+        return my_printf("\t|%-14s|\t|%-8s|\t|%u|\t|%d|\t|%u|\t|%s|\n",
+        type_str[tok->type], lit_str[tok->id - MAX_KW], tok->y, tok->x, tok->size, tok->value);
     return my_printf("\t|%-14s|\t|%-8s|\t|%u|\t|%d|\t|%u|\t|%s|\n",
     type_str[tok->type], NULL, tok->y, tok->x, tok->size, tok->value);
 }
