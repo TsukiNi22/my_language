@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  14/04/2025 by Tsukini
+##  18/04/2025 by Tsukini
 
 File Name:
 ##  free_data.c
@@ -39,6 +39,8 @@ int free_token(void *ptr)
     if (!ptr)
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
+    if (token->file)
+        free(token->file);
     if (token->line)
         free(token->line);
     if (token->value)
