@@ -95,9 +95,22 @@ static int setup_tok(token_t *tok,
     return OK;
 }
 
+// Given the real y in the file with the ptr
+static size_t get_line_y(char const **ptrs, char const *ptr)
+{
+    size_t y = 0;
+
+    // Check for potential null pointer
+    if (!ptrs || !ptr)
+        return err_prog(PTR_ERR, 0, ERR_INFO);
+
+    for (y = 0; ptrs[y] < ptr; y++);
+    return (y + 1);
+}
+
 // Extract the token of the given line
 static int extract_tokens(compiler_t *data, hashtable_t *ids, array_t *tokens,
-    char const *file, char const *line, int const y)
+    char const *file, char const *line, char const **ptrs)
 {
     token_t *tok = NULL;
     char *tok_start = NULL;
@@ -108,7 +121,7 @@ static int extract_tokens(compiler_t *data, hashtable_t *ids, array_t *tokens,
     size_t size = 0;
 
     // Check for potential null pointer
-    if (!data || !ids || !tokens || !file || !line)
+    if (!data || !ids || !tokens || !file || !line || !ptrs)
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
     // Loop while we havn't check every token until the last char
@@ -128,7 +141,7 @@ static int extract_tokens(compiler_t *data, hashtable_t *ids, array_t *tokens,
             if (id || is_identifier(tok_str, &id) || is_literal(tok_str, &id)) {
                 valid = true;
                 max_size = size;
-                if (setup_tok(tok, file, line, tok_str, y, i, size, id) == KO)
+                if (setup_tok(tok, file, line, tok_str, get_line_y(ptrs, &line[i]), i, size, id) == KO)
                     return err_prog(UNDEF_ERR, KO, ERR_INFO);
             }
             free(tok_str);
@@ -137,7 +150,7 @@ static int extract_tokens(compiler_t *data, hashtable_t *ids, array_t *tokens,
         // Check if a token have been found
         if (!valid) {
             free(tok);
-            return err_c15(data, KO, file, y, "Tokenizer", "Can't identify this", line, i + 1, i + (size - 1), false);
+            return err_c15(data, KO, file, get_line_y(ptrs, &line[i + 1]), "Tokenizer", "Can't identify this", line, i + 1, i + (size - 1), false);
         } else if (add_array(tokens, tok) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
         i += max_size;
@@ -149,7 +162,7 @@ static int extract_tokens(compiler_t *data, hashtable_t *ids, array_t *tokens,
             if (!tok || init_tok(tok) == KO)
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
             for (size = 1; line[i + (size + 1)]; size++);
-            if (setup_tok(tok, file, line, &line[i], y, i, size, &(int){LIT_COMMENT}) == KO)
+            if (setup_tok(tok, file, line, &line[i], get_line_y(ptrs, &line[i]), i, size, &(int){LIT_COMMENT}) == KO)
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
             if (add_array(tokens, tok) == KO)
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
@@ -192,6 +205,33 @@ static char *get_file(const char *file)
 
     fclose(fs);
     return buff;
+}
+
+// Set all the \n to a ptr in the list ptrs
+static int set_ptrs(char ***ptrs, char const *buff)
+{
+    int size = 0;
+
+    // Check for potential null pointer
+    if (!ptrs || !buff)
+        return err_prog(PTR_ERR, KO, ERR_INFO);
+
+    // Malloc the right size
+    for (int i = 0; buff[i]; i++)
+        size += (buff[i] == '\n');
+    *ptrs = malloc(sizeof(char *) * (size + 1));
+    if (!*ptrs)
+        return err_prog(MALLOC_ERR, KO, ERR_INFO);
+    (*ptrs)[size] = NULL;
+
+    // Set the ptr
+    for (int index, i = 0; buff[i]; i++) {
+        if (buff[i] == '\n') {
+            (*ptrs)[index] = (char *) &buff[i];
+            index++;
+        }
+    }
+    return OK;
 }
 
 // Set all the \n to \ and n
@@ -245,6 +285,7 @@ static int set_buff_n(char *buff)
 array_t *tokenizer(compiler_t *data, hashtable_t *ids, char const *file)
 {
     array_t *tokens = NULL;
+    char **ptrs = NULL;
     char *buff = NULL;
     char *line = NULL;
     int index = 0;
@@ -262,6 +303,8 @@ array_t *tokenizer(compiler_t *data, hashtable_t *ids, char const *file)
     buff = get_file(file);
     if (!buff)
         return err_prog_n(UNDEF_ERR, ERR_INFO);
+    if (set_ptrs(&ptrs, buff) == KO)
+        return err_prog_n(UNDEF_ERR, ERR_INFO);
     if (set_buff_n(buff) == KO)
         return err_prog_n(UNDEF_ERR, ERR_INFO);
 
@@ -270,11 +313,12 @@ array_t *tokenizer(compiler_t *data, hashtable_t *ids, char const *file)
     while (*line) {
         for (index = 0; line[index] && line[index] != '\n'; index++);
         line[index] = '\0';
-        if (!my_str_is(line, " \t") && extract_tokens(data, ids, tokens, file, line, 1) == KO)
+        if (!my_str_is(line, " \t") && extract_tokens(data, ids, tokens, file, line, (char const **) ptrs) == KO)
             return err_prog_n(UNDEF_ERR, ERR_INFO);
         line = &line[index + 1];
     }
 
     free(buff);
+    free(ptrs);
     return tokens;
 }
