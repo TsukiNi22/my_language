@@ -33,11 +33,11 @@ For language syntax or more information go to the file in the branch `wiki`
 
 ## Compiler Advencement made in `C`
 
-| Task              | State                                                      |
-| ----------------- | ---------------------------------------------------------- |
-| Lexer             |  Nothing                                                   |
-| Parser            |  Nothing                                                   |
-| Semantic Analyzer |  Nothing                                                   |
-| Optimizer         |  Nothing                                                   |
-| Code Generation   |  Nothing                                                   |
-| Linker            |  Nothing                                                   |
+| Task              | State        |
+| ----------------- | ------------ |
+| Lexer             |  Done        |
+| Parser            |  In progress |
+| Semantic Analyzer |  Nothing     |
+| Optimizer         |  Nothing     |
+| Code Generation   |  Nothing     |
+| Linker            |  Nothing     |
