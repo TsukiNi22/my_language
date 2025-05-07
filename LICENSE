@@ -1,4 +1,4 @@
-XARTANIA LICENSE - Version 1.0
+XARTANIA LICENSE - Version 1.2.1
 
 Copyright (c) 2025 Tsukini
 
@@ -16,21 +16,41 @@ for any claim, damages, or other liability, whether in an action
 of contract, tort, or otherwise, arising from the use of the
 Software.
 
-2. ATTRIBUTION REQUIRED FOR COMMERCIAL USE
-Any commercial use of the Software must include clear and
-visible credit to the original author: Tsukini.
+2. CREDITS
+Any use of the Software must include clear and
+visible credit to the original author.
+It must include the name/nickname of the author,
+a link to the original repository and a copy of this license.
 This can be done through a LICENSE file, an “About” section,
 or other relevant project documentation.
 
-3. LICENSE MUST BE INCLUDED
-Any redistribution or inclusion of the Software in a commercial
-or publicly distributed project must include a copy of this
-license, or a visible link to it if the project is distributed
-online.
-
-4. INTERPRETATION
+3. INTERPRETATION
 This license is intended to promote open usage while ensuring
 author acknowledgment and clear terms of reuse. It does not
 restrict usage, only requires fair credit and disclaimer respect.
+
+4. PATENT GRANT
+The author hereby grants you a perpetual, worldwide, royalty-free,
+non-exclusive license to make, use, sell, offer for sale, import, and
+otherwise exploit the Software under any patent rights the author may
+hold that are necessarily infringed by the use of the Software.
+
+If you initiate any patent litigation against the author or any user
+of the Software (including cross-claims or counterclaims), this patent
+license shall terminate immediately.
+
+5. LEGAL TERMS AND CONDITIONS
+This license does not grant permission to use the name
+'Tsukini', the project name, or any associated trademarks
+without prior written consent from the author.
+Any contributions to the Software shall be licensed under the same terms as this License.
+This license is compatible with open source projects licensed
+under permissive terms such as MIT or Apache-2.0, as long
+as the attribution and license inclusion requirements are met.
+Failure to comply with the terms of this license automatically
+terminates the rights granted herein.
+
+This license shall be governed by and interpreted in accordance
+with the laws of France, without regard to its conflict of law principles.
 
 Issued on 2025, by Tsukini
