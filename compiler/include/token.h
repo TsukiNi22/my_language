@@ -8,10 +8,10 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  18/04/2025 by Tsukini
+##  19/04/2025 by Tsukini
 
 File Name:
-##  token_id.c
+##  token.h
 
 File Description:
 ## Constant for the token info
