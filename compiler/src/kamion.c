@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  18/04/2025 by Tsukini
+##  27/05/2025 by Tsukini
 
 File Name:
 ##  kamion.c
@@ -62,45 +62,17 @@ static int direct_file(compiler_t *data, int const argc, char const *argv[])
     return OK;
 }
 
-/* Main compiler function
-----------------------------------------------------------------
- * Init uninitialized data in the main structure,
- * setup the option and other thing related to the flags
- * Call each of the part of the compiler and check the return
-----------------------------------------------------------------
-##  argc -> number of argument given to the binary
-##  argv -> arguments given to the binary
-##  data -> main data structure
-----------------------------------------------------------------
-*/
-int kamion(int const argc, char const *argv[], compiler_t *data)
+// Try to tokenize every file found
+static int tokenize_files(compiler_t *data)
 {
     array_t *tokens = NULL;
     int res = OK;
 
     // Check for potential null pointer
-    if (!data || !argv)
+    if (!data)
         return err_prog(PTR_ERR, KO, ERR_INFO);
-    
-    // Init uninitialized var in the main structure
-    if (init_data(data) == KO)
-        return err_custom("Data initialisation error", FATAL_ERR, ERR_INFO);
-    // Init var related to the flag '-' or '--'
-    if (init_flag(data, argc, argv) == KO)
-        return err_custom("Flag initialisation error", KO, ERR_INFO);
-    // Add the file given directly
-    if (direct_file(data, argc, argv) == KO)
-        return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
-    // Exit in case of a '-h' or '--help'
-    if (data->help)
-        return OK;
-
-    // Execption
-    if (data->files->len == 0)
-        return err_kmc_arg(data, KO, "File", "No valid file found for the compilation", NULL, NULL, false);
-
-    // Tokenize every file found
+    // For every given file
     for (size_t i = 0; i < data->files->len; i++) {
         tokens = tokenizer(data, data->id, data->files->data[i]);
         if (!tokens)
@@ -118,8 +90,47 @@ int kamion(int const argc, char const *argv[], compiler_t *data)
         if (ht_insert(data->tokens, my_strdup(data->files->data[i]), tokens, &free_hash_data_str) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
     }
+    return OK;
+}
 
+/* Main compiler function
+----------------------------------------------------------------
+ * Init uninitialized data in the main structure,
+ * setup the option and other thing related to the flags
+ * Call each of the part of the compiler and check the return
+----------------------------------------------------------------
+##  argc -> number of argument given to the binary
+##  argv -> arguments given to the binary
+##  data -> main data structure
+----------------------------------------------------------------
+*/
+int kamion(int const argc, char const *argv[], compiler_t *data)
+{
+    // Check for potential null pointer
+    if (!data || !argv)
+        return err_prog(PTR_ERR, KO, ERR_INFO);
+    
+    // Init the main structure & given arguments
+    if (init_data(data) == KO)
+        return err_custom("Data initialisation error", FATAL_ERR, ERR_INFO);
+    if (init_flag(data, argc, argv) == KO)
+        return err_custom("Flag initialisation error", KO, ERR_INFO);
+    if (direct_file(data, argc, argv) == KO)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+
+    // Exit in case of a '-h' or '--help'
+    if (data->help)
+        return OK;
+
+    // Execption
+    if (data->files->len == 0)
+        return err_kmc_arg(data, KO, "File", "No valid file found for the compilation", NULL, NULL, false);
+
+    // Tokenization
+    if (tokenize_files(data) == KO)
+        return err_custom("Tokenization error", KO, ERR_INFO);
     if (data->tok_dump)
         return tokens_dump(data->tokens);
+    
     return OK;
 }
