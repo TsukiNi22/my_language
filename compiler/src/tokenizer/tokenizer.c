@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  18/04/2025 by Tsukini
+##  30/05/2025 by Tsukini
 
 File Name:
 ##  tokenizer.c
@@ -276,6 +276,7 @@ static int set_buff_n(char *buff)
  *  Extract the token of a given file
  *  add the token found to the tokens hashtable
 ----------------------------------------------------------------
+##  data -> main data structure
 ##  id -> all the possible token as: key=strings | value=id
 ##  file -> file to get the tokens
 ----------------------------------------------------------------

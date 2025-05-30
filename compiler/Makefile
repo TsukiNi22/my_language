@@ -51,10 +51,12 @@ TOKENIZER :=	tokenizer/tokenizer.c \
 				tokenizer/is_identifier.c \
 				tokenizer/is_literal.c
 
+PARSER :=		parser/is_value.c
+
 DEBUG := 		debug/tokens_dump.c
 
 FILES := $(GLOBAL) $(INIT) $(DEBUG)
-FILES += $(USEFUL) $(TOKENIZER)
+FILES += $(USEFUL) $(TOKENIZER) $(PARSER)
 SRC := $(addprefix src/, $(FILES))
 OBJ := $(SRC:%.c=$(BUILD_DIR)/%.o)
 
