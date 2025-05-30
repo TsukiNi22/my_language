@@ -3,14 +3,14 @@
         - Write n bytes of a string (str) in the file descriptor (fd)
 
     Syntax:
-        fd << str:n
+        fd <<< str:n
 
 '>>>':
     Description:
         - Read n bytes of a file descriptor (fd) and write it in a strings (str)
 
     Syntax:
-        fd:n >> str
+        fd:n >>> str
 
 'set':
     Description:

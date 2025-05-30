@@ -1,0 +1,114 @@
+|   -> or
+[]  -> delimitor
+-   -> anything between a & z (a-z)
+*   -> at least 0
++   -> at least 1
+\   -> cancel the next char effect
+
+Comment:
+    [@> [char]* <@]|[@ [char]*]
+
+Char:
+    .
+
+String:
+    "[char]*"
+
+Litteral_Bin:
+    0b[0-1]*
+
+Litteral_Oct:
+    0[0-7]*
+
+Litteral_Hex:
+    0x[A-F|a-f|0-9]*
+
+Litteral_Dec:
+    [0-9]+
+
+Litteral_Float:
+    [Litteral_Dec.]|[Litteral_Dec.Litteral_Dec]|[.Litteral_Dec]
+    
+Litteral:
+    char|string|litteral_bin|litteral_oct|litteral_hex|litteral_dec|litteral_float
+    
+Identifier:
+    [A-Z|a-z]+[A-Z|a-z|0-9|_]*
+
+Value:
+    identifier|litteral|calcul|call
+
+Calcul:
+    [value]? operator value
+
+Call_Function:
+    identifier([value[, value]*]?)
+
+Call_Methode:
+    identifier.identifier([value[, value]*]?)
+
+Call:
+    call_function|call_methode
+
+Attribution:
+    identifier [[operator =]|= value|{[value[, value]*]}|{}]?
+
+Initialisation_Var:
+    type identifier [= value]?
+
+Initialisation_Array:
+    array [type]? identifier [= {[value[, value]*]}|{}]?
+
+Initialisation_Struct:
+    struct identifier {private {instructions} instructions} identifier
+
+Initialisation_Function:
+    type|none identifier([[type identifier][, type identifier]*]|none) {instructions}
+
+KeyWord_Read:
+    value:value >>> value
+
+KeyWord_Write:
+    value <<< value:value
+
+KeyWord_Set:
+    set identifier [value]?
+
+KeyWord_From:
+    get \*|[identifier]+ from litteral
+
+KeyWord_Error:
+    @error@ [char]*
+
+KeyWord:
+    keyword_read|keyword_write|keyword_set|keyword_from|keyword_error
+
+FlowController_If:
+    if|\|if|&if (value) {instructions}|instruction
+
+FlowController_Else:
+    flowcontroller_if else {instructions}|instruction|[if (value) {instructions}|instruction]
+
+FlowController_For:
+    for (value|[value, value]|[value, value, instruction]) {instructions}|instruction
+
+FlowController_Do:
+    do {instructions}|instruction
+
+FlowController_Jump:
+    [jump value]|[ifjp (value) value]
+
+FlowController_Other:
+    break|continue|[return [value]?]|[exit [value]?]|[error value [value]?]
+
+FlowController:
+    flowcontroller_if|flowcontroller_else|flowcontroller_for|flowcontroller_do|flowcontroller_jump|flowcontroller_other
+
+Instruction:
+    FlowController|KeyWord|Initialisation_Var|Attribution|Call;
+
+Instructions:
+    [instruction]*
+
+Files:
+    [KeyWord_From]* [KeyWord_Set]* [Initialisation_Function]*
