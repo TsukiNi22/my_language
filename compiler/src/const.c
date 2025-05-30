@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  18/04/2025 by Tsukini
+##  30/05/2025 by Tsukini
 
 File Name:
 ##  const.c
@@ -27,6 +27,7 @@ char const flags[] = {
     'd',
     'D',
     't',
+    '\0'
 };
 
 // Flag that are with '--'
@@ -37,6 +38,7 @@ char const *full_flags[] = {
     "--directory",
     "--Directory",
     "--tokens",
+    NULL
 };
 
 // Used for the number of arg of a flag (-1 for those who can't be conbined)
@@ -127,5 +129,7 @@ char const *token_str[] = {
     "get",       // kw_get
     "from",      // kw_from
     "@error@",   // kw_error
-    "none"       // kw_none
+    "none",      // kw_none
+
+    NULL
 };
