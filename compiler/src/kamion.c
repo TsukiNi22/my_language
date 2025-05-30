@@ -44,13 +44,13 @@ static int direct_file(compiler_t *data, int const argc, char const *argv[])
         if (argv[i][0] == '-')
             break;
 
-        // Check if the file end with .15 or .15h
+        // Check if the file end with the right extension
         ptr = NULL;
         for (int j = 0; argv[i][j]; j++) {
             if (argv[i][j] == '.')
                 ptr = (char *) &argv[i][j];
         }
-        if (my_strcmp(ptr, ".15") != 0 && my_strcmp(ptr, ".15h") != 0) {
+        if (my_strcmp(ptr, FILE_EXTENSION) != 0 && my_strcmp(ptr, HEADER_EXTENSION) != 0) {
             err_kmc_arg(data, OK, "Argument", "Invalid extension, won't be taken in the compilation", argv[i], NULL, true);
             continue;
         }

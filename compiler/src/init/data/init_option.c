@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  17/04/2025 by Tsukini
+##  30/05/2025 by Tsukini
 
 File Name:
 ##  init_option.c
@@ -38,7 +38,9 @@ int init_option(compiler_t *data)
     // Set to default value
     data->tok_dump = false; // Show tokens at the end
     data->errors = false; // Show errors at the end
-    data->binary = NULL; // Ouput binary name
+    data->binary = BINARY_NAME; // Ouput binary name
+
+    // Set Duplicated option
     data->d_binary = false;
     data->d_errors = false;
     data->d_tok_dump = false;

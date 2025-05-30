@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  18/04/2025 by Tsukini
+##  30/05/2025 by Tsukini
 
 File Name:
 ##  Directory.c
@@ -45,7 +45,7 @@ static int readdir_rec(compiler_t *data, char const *dir_name)
         return err_system(data, KO, dir_name, strerror(errno));
 
     while ((entry = readdir(dir))) {
-        // Check if the file end with .15 or .15h
+        // Check if the file end with the right extension
         ptr = NULL;
         for (int i = 0; entry->d_name[i]; i++) {
             if (entry->d_name[i] == '.')
@@ -59,7 +59,7 @@ static int readdir_rec(compiler_t *data, char const *dir_name)
             if (readdir_rec(data, path) == KO)
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
             free(path);
-        } else if ((my_strcmp(ptr, ".15") == 0 || my_strcmp(ptr, ".15h") == 0)
+        } else if (my_strcmp(ptr, FILE_EXTENSION) != 0 && my_strcmp(ptr, HEADER_EXTENSION) != 0
             && is_valid_file(data, path, false)) {
             if (add_array(data->files, path) == KO)
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
@@ -94,11 +94,11 @@ int flag_Directory(compiler_t *data, int const argc, char const *argv[])
     if (!is_valid_dir(data, argv[1], false))
         return err_kmc_arg(data, KO, "Argument", "Invalid directory given", argv[1], NULL, false);
 
-    // Start the recursive for obtain file in .15 or .15h
+    // Start the recursive for obtain file who end with the right extension
     before = data->files->len;
     if (readdir_rec(data, argv[1]) == KO)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
     if (before == data->files->len)
-        err_kmc_arg(data, KO, "Argument", "No file in '.15' or '.15h' find in the given path", argv[1], NULL, true);
+        err_kmc_arg(data, KO, "Argument", "No file with the right extension has been found in the given path", argv[1], NULL, true);
     return OK;
 }

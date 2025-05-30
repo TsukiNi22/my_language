@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  15/04/2025 by Tsukini
+##  30/05/2025 by Tsukini
 
 File Name:
 ##  directory.c
@@ -60,16 +60,16 @@ int flag_directory(compiler_t *data, int const argc, char const *argv[])
     if (!dir)
         return err_system(data, KO, argv[1], strerror(errno));
 
-    // Get the file with end in .15 and .15h in the given path
+    // Get the file with end with the right extension in the given path
     before = data->files->len;
     while ((entry = readdir(dir))) {
-        // Check if the file end with .15 or .15h
+        // Check if the file end with the right extension
         ptr = NULL;
         for (int i = 0; entry->d_name[i]; i++) {
             if (entry->d_name[i] == '.')
                 ptr = &entry->d_name[i];
         }
-        if (my_strcmp(ptr, ".15") != 0 && my_strcmp(ptr, ".15h") != 0)
+        if (my_strcmp(ptr, FILE_EXTENSION) != 0 && my_strcmp(ptr, HEADER_EXTENSION) != 0)
             continue;
 
         // Set the file in the array
@@ -81,7 +81,7 @@ int flag_directory(compiler_t *data, int const argc, char const *argv[])
             free(path);
     }
     if (before == data->files->len)
-        err_kmc_arg(data, KO, "Argument", "No file in '.15' or '.15h' find in the given path", argv[1], NULL, true);
+        err_kmc_arg(data, KO, "Argument", "No file with the right extension has been found in the given path", argv[1], NULL, true);
 
     closedir(dir);
     return OK;

@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  18/04/2025 by Tsukini
+##  30/05/2025 by Tsukini
 
 File Name:
 ##  kamion.h
@@ -28,6 +28,16 @@ File Description:
     #include "array.h"      // array_t
     #include <stddef.h>     // size_t
     #include <stdbool.h>    // boolean
+
+    //----------------------------------------------------------------//
+    /* DEFINE */
+
+    /* extension */
+    #define FILE_EXTENSION ".15"
+    #define HEADER_EXTENSION ".15h"
+
+    /* files_name */
+    #define BINARY_NAME "15.out"
 
 //----------------------------------------------------------------//
 /* TYPEDEF */
