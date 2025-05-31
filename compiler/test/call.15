@@ -1,1 +1,1 @@
-function_call(123, 124 func_call2(234234, 3+4), tkt)
+function_call(123+, a++b, ?124 // tkt:func_call2(234234, 3+4 + a < 2), tkt)
