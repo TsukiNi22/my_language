@@ -39,7 +39,7 @@ Value:
     identifier|litteral|calcul|call
 
 Calcul:
-    [value]? operator value
+    [value]? operator [value]?
 
 Call_Function:
     identifier([value[, value]*]?)
