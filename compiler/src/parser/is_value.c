@@ -20,7 +20,7 @@ File Description:
 
 #include "array.h"      // array functions
 #include "parser.h"     // parser functions
-#include "kamion.h"     // compiler_t type
+#include "kamion.h"     // compiler_t type, free_ptr function
 #include "error.h"      // error handling
 #include <stdlib.h>     // malloc function
 #include <stddef.h>     // size_t type, NULL define
@@ -55,6 +55,16 @@ static array_t *get_array_tokens(array_t *tokens, size_t start, size_t end)
     return array;
 }
 
+// Free simple pointer
+static int free_ptr(void *ptr)
+{
+    // Check for potential null pointer
+    if (!ptr)
+        return err_prog(PTR_ERR, KO, ERR_INFO);
+    free(ptr);
+    return OK;
+}
+
 /* Function to check if the list of token is a value
 ----------------------------------------------------------------
  * take a list of tokens and determine if it's a valid value
@@ -84,8 +94,10 @@ bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
     // recall the is_value for some execption
     for (size_t i = 0; i < array->len; i++) {
         toks_type = array->data[i];
-        if (toks_type->type == PRIO && is_value(tokens, toks_type->start + 1, toks_type->end - 1) == KO)
+        if (toks_type->type == PRIO && is_value(data, tokens, toks_type->start + 1, toks_type->end - 1) == KO)
             return err_prog(UNDEF_ERR, false, ERR_INFO);
+        if (toks_type->type == CALL) {
+        }
     }
 
     /*
