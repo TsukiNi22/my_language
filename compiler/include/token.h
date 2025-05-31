@@ -26,6 +26,7 @@ File Description:
     /* delimitation for id */
     #define MAX_DEL DEL_STRING
     #define MAX_OP OP_DEC
+    #define MAX_CMP CMP_LOGICAL_OR
     #define MAX_T T_UNSIGNED
     #define MAX_FLC FLC_ERROR
     #define MAX_KW KW_NONE
@@ -37,6 +38,7 @@ File Description:
 typedef enum type_e {
     DELIMITOR = 0,
     OPERATOR,
+    COMPARATOR,
     TYPE,
     FLOW_CONTROLER,
     KEY_WORD,
@@ -83,6 +85,18 @@ typedef enum token_id_e {
     OP_DEREFERENCING,
     OP_INC,
     OP_DEC,
+
+    CMP_GREATER_THAN,
+    CMP_GREATER_OR_EQUAL_THAN,
+    CMP_LESS_THAN,
+    CMP_LESS_OR_EQUAL_THAN,
+    CMP_EQUAL_TO,
+    CMP_STRICTLY_EQUAL_TO,
+    CMP_NOT_EQUAL_TO,
+    CMP_STRICTLY_NOT_EQUAL_TO,
+    CMP_SLIGHTLY_DIFFERENT,
+    CMP_LOGICAL_AND,
+    CMP_LOGICAL_OR,
 
     T_CHAR,
     T_STR,
