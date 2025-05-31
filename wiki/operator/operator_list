@@ -2,12 +2,6 @@ Operator list:
     '='     ->  Assignment
     '!'     ->  Logical NOT
     '?'     ->  Boolean Transformation
-    '>'     ->  Greater Than
-    '<'     ->  Less Than
-    '>='    ->  Greater or Equal Than
-    '<='    ->  Less or Equal Than
-    '||'    ->  Boolean Or
-    '&&'    ->  Boolean And
     '-'     ->  Subtraction
     '+'     ->  Addition
     '*'     ->  Multiplication
