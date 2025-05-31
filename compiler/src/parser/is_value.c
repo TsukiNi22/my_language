@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  30/05/2025 by Tsukini
+##  31/05/2025 by Tsukini
 
 File Name:
 ##  is_value.c
@@ -18,10 +18,42 @@ File Description:
 ##  value: identifier|litteral|calcul|call
 \**************************************************************/
 
+#include "array.h"      // array functions
 #include "parser.h"     // parser functions
 #include "kamion.h"     // compiler_t type
 #include "error.h"      // error handling
-#include <stddef.h>     // size_t type
+#include <stdlib.h>     // malloc function
+#include <stddef.h>     // size_t type, NULL define
+
+// return a the struct for tokens type, malloced & setup
+static tokens_type_t *setup_type(value_type_t type , size_t start, size_t end)
+{
+    tokens_type_t *toks_type = NULL;
+
+    // malloc & setup the struct
+    toks_type = malloc(sizeof(tokens_type_t));
+    if (!toks_type)
+        return err_prog_n(PTR_ERR, ERR_INFO);
+    toks_type->type = type;
+    toks_type->start = start;
+    toks_type->end = end;
+    return toks_type;
+}
+
+// return the array of type for the given token list
+static array_t *get_array_tokens(array_t *tokens, size_t start, size_t end)
+{
+    array_t *array = NULL;
+
+    // Check for potential null pointer
+    if (!tokens)
+        return err_prog_n(PTR_ERR, ERR_INFO);
+
+    array = new_array();
+    if (!array)
+        return err_prog_n(PTR_ERR, ERR_INFO);
+    return array;
+}
 
 /* Function to check if the list of token is a value
 ----------------------------------------------------------------
@@ -38,13 +70,22 @@ File Description:
 */
 bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
 {
+    tokens_type_t *toks_type = NULL;
+    array_t *array = NULL;
+
     // Check for potential null pointer
     if (!data || !tokens)
         return err_prog(PTR_ERR, false, ERR_INFO);
  
+    array = get_array_tokens(tokens, start, end);
+    if (!array)
+        return err_prog(UNDEF_ERR, false, ERR_INFO);
+
     /*
      * get list of type (Number, Identifier, Call, Prio, op1, op2)
      * for each type recall is_value for each Prio and each argument of call
     */
+    if (delete_array(&array, &free_ptr) == KO)
+        return err_prog(UNDEF_ERR, false, ERR_INFO);
     return true;
 }

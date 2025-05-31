@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  30/05/2025 by Tsukini
+##  31/05/2025 by Tsukini
 
 File Name:
 ##  parser.c
@@ -25,13 +25,13 @@ File Description:
 
     /* type */
     #include "kamion.h"     // compiler_t type
-    #include <stddef.h>    // boolean
-    #include <stdbool.h>    // boolean
+    #include <stddef.h>     // size_t type
+    #include <stdbool.h>    // boolean type
 
 //----------------------------------------------------------------//
 /* TYPEDEF */
 
-/* tree type value */
+/* type_value */
 typedef enum value_type_e {
     NUMBER = 0,
     IDENTIFIER,
@@ -40,6 +40,16 @@ typedef enum value_type_e {
     OP1,
     OP2
 } value_type_t;
+
+/* array_tokens_type */
+typedef struct tokens_type_s {
+    /* type */
+    value_type_t type;
+
+    /* position */
+    size_t start;
+    size_t end;
+} tokens_type_t;
 
 //----------------------------------------------------------------//
 /* PROTOTYPE */
