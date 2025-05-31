@@ -66,6 +66,8 @@ static int setup_tok(token_t *tok,
         tok->type = DELIMITOR;
     else if (*id <= MAX_OP)
         tok->type = OPERATOR;
+    else if (*id <= MAX_CMP)
+        tok->type = COMPARATOR;
     else if (*id <= MAX_T)
         tok->type = TYPE;
     else if (*id <= MAX_FLC)

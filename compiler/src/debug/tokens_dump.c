@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  18/04/2025 by Tsukini
+##  31/05/2025 by Tsukini
 
 File Name:
 ##  tokens_dump.c
@@ -26,6 +26,7 @@ File Description:
 static char *type_str[] = {
     "Delimitor",
     "Operator",
+    "Comparator",
     "Type",
     "Flow Controler",
     "Key Word",

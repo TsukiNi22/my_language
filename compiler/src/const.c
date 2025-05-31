@@ -79,10 +79,6 @@ char const *token_str[] = {
     "=",         // op_eq
     "!",         // op_not
     "?",         // op_bool
-    "<",         // op_greater_than
-    ">",         // op_least_than
-    "||",        // op_bool_or
-    "&&",        // op_bool_and
     "-",         // op_sub
     "+",         // op_add
     "*",         // op_mult
@@ -98,6 +94,18 @@ char const *token_str[] = {
     "->",        // op_dereferencing
     "++",        // op_inc
     "--",        // op_dec
+
+    ">",         // cmp_greater_than
+    ">=",        // cmp_greater_or_equal_than
+    "<",         // cmp_less_than
+    "<=",        // cmp_less_or_equal_than
+    "==",        // cmp_equal_to
+    "===",       // cmp_sctrictly_equal_to
+    "!=",        // cmp_not_equal_to
+    "!==",       // cmp_sctrictly_not_equla_to
+    "~=",        // cmp_slightly_different
+    "&&",        // cmp_logical_and
+    "||",        // cmp_logical_or
 
     "char",      // t_char
     "str",       // t_str
