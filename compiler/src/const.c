@@ -80,7 +80,9 @@ char const *token_str[] = {
     "!",         // op_not
     "?",         // op_bool
     "<",         // op_greater_than
-    ">",         // op_least_than
+    ">",         // op_less_than
+    "<=",        // op_greater_or_equal_than
+    ">=",        // op_less_or_equal_than
     "||",        // op_bool_or
     "&&",        // op_bool_and
     "-",         // op_sub
