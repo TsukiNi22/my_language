@@ -81,6 +81,13 @@ bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
     if (!array)
         return err_prog(UNDEF_ERR, false, ERR_INFO);
 
+    // recall the is_value for some execption
+    for (size_t i = 0; i < array->len; i++) {
+        toks_type = array->data[i];
+        if (toks_type->type == PRIO && is_value(tokens, toks_type->start + 1, toks_type->end - 1) == KO)
+            return err_prog(UNDEF_ERR, false, ERR_INFO);
+    }
+
     /*
      * get list of type (Number, Identifier, Call, Prio, op1, op2)
      * for each type recall is_value for each Prio and each argument of call

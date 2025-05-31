@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  19/04/2025 by Tsukini
+##  31/05/2025 by Tsukini
 
 File Name:
 ##  token.h
@@ -62,6 +62,10 @@ typedef enum token_id_e {
     OP_EQ,
     OP_NOT,
     OP_BOOL,
+    OP_GRATER_THAN,
+    OP_LEAST_THAN,
+    OP_BOOL_OR,
+    OP_BOOL_AND,
     OP_SUB,
     OP_ADD,
     OP_MULT,

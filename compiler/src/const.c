@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  30/05/2025 by Tsukini
+##  31/05/2025 by Tsukini
 
 File Name:
 ##  const.c
@@ -79,6 +79,10 @@ char const *token_str[] = {
     "=",         // op_eq
     "!",         // op_not
     "?",         // op_bool
+    "<",         // op_greater_than
+    ">",         // op_least_than
+    "||",        // op_bool_or
+    "&&",        // op_bool_and
     "-",         // op_sub
     "+",         // op_add
     "*",         // op_mult
