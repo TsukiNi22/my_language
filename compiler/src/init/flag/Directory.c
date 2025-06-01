@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  30/05/2025 by Tsukini
+##  01/06/2025 by Tsukini
 
 File Name:
 ##  Directory.c
@@ -59,7 +59,7 @@ static int readdir_rec(compiler_t *data, char const *dir_name)
             if (readdir_rec(data, path) == KO)
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
             free(path);
-        } else if (my_strcmp(ptr, FILE_EXTENSION) != 0 && my_strcmp(ptr, HEADER_EXTENSION) != 0
+        } else if ((my_strcmp(ptr, FILE_EXTENSION) == 0 || my_strcmp(ptr, HEADER_EXTENSION) == 0)
             && is_valid_file(data, path, false)) {
             if (add_array(data->files, path) == KO)
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
