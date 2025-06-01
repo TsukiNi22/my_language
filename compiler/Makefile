@@ -42,7 +42,8 @@ INIT :=			init/init_data.c \
 				init/flag/Errors.c \
 				init/flag/directory.c \
 				init/flag/Directory.c \
-				init/flag/tokens.c
+				init/flag/tokens.c \
+				init/flag/advencement.c
 
 USEFUL := 		useful/is_valid_dir.c \
 				useful/is_valid_file.c

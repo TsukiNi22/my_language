@@ -11,40 +11,39 @@ Edition:
 ##  01/06/2025 by Tsukini
 
 File Name:
-##  init_option.c
+##  advencement.c
 
 File Description:
-## Initialisation of var used in option
+## Handle the advencement flag option
 \**************************************************************/
 
+#include "macro.h"      // UNUSED macro
 #include "kamion.h"     // compiler_t type
 #include "error.h"      // error handling
-#include <stddef.h>     // NULL define
 #include <stdbool.h>    // bool type
 
-/* Option initialisation function
+/* Errors function
 ----------------------------------------------------------------
- * Initialisation of var that will be used in option for flag
+ * This function will set the option show advencement to true
 ----------------------------------------------------------------
 ##  data -> main data structure
+##  argc -> number of argument given to the binary
+##  argv -> arguments given to the binary
 ----------------------------------------------------------------
 */
-int init_option(compiler_t *data)
+int flag_advencement(compiler_t *data, UNUSED int const argc, char const *argv[])
 {
     // Check for potential null pointer
-    if (!data)
+    if (!data || !argv)
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
-    // Set to default value
-    data->tok_dump = false; // Show tokens at the end
-    data->adv_dump = false; // Show advencement
-    data->errors = false; // Show errors at the end
-    data->binary = BINARY_NAME; // Ouput binary name
+    // If the option have already been writed
+    if (data->adv_dump && !data->d_adv_dump) {
+        data->d_adv_dump = true;
+        return err_kmc_arg(data, OK, "Option", "Duplicated option (only say one time)", *argv, NULL, true);
+    }
 
-    // Set Duplicated option
-    data->d_binary = false;
-    data->d_errors = false;
-    data->d_tok_dump = false;
-    data->d_adv_dump = false;
+    // Set the option to true
+    data->adv_dump = true;
     return OK;
 }
