@@ -8,6 +8,18 @@
 Comment:
     [@> [char]* <@]|[@ [char]*]
 
+Operator_Both:
+    -|+|*|/|^|%|//|&|\||>>|<<|>|>=|<|<=|==|===|!=|!==|~=|&&|\|\|
+
+Operator_Before:
+    -|+
+
+Operator_After:
+    !|?|<-|->
+
+Operator:
+    operator_both|operator_before|operator_after
+
 Char:
     .
 
@@ -105,10 +117,10 @@ FlowController:
     flowcontroller_if|flowcontroller_else|flowcontroller_for|flowcontroller_do|flowcontroller_jump|flowcontroller_other
 
 Instruction:
-    FlowController|KeyWord|Initialisation_Var|Attribution|Call;
+    [flowcontroller|keyword|initialisation_var|attribution|call|identifier++identifier|identifier--identifier];
 
 Instructions:
     [instruction]*
 
 Files:
-    [KeyWord_From]* [KeyWord_Set]* [Initialisation_Function]*
+    [keyword_from]* [keyword_set]* [initialisation_function]* [initialisation_var]*
