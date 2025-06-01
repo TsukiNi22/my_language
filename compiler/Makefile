@@ -54,7 +54,8 @@ TOKENIZER :=	tokenizer/tokenizer.c \
 
 PARSER :=		parser/is_value.c
 
-DEBUG := 		debug/tokens_dump.c
+DEBUG := 		debug/tokens_dump.c \
+				debug/advencement_dump.c
 
 FILES := $(GLOBAL) $(INIT) $(DEBUG)
 FILES += $(USEFUL) $(TOKENIZER) $(PARSER)

@@ -105,6 +105,10 @@ int flag_advencement(compiler_t *data, int const argc, char const *argv[]); // E
 bool is_valid_dir(compiler_t *data, char const *path, bool err); // Error: false
 bool is_valid_file(compiler_t *data, char const *path, bool err); // Error: false
 
+/* debug */
+int setup_files_advencement(compiler_t *data); // Error: KO
+int advencement_dump(compiler_t *data); // Error: KO
+
 /* exit */
 int free_data(compiler_t *data); // Error: KO
 

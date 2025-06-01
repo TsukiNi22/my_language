@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  31/05/2025 by Tsukini
+##  01/06/2025 by Tsukini
 
 File Name:
 ##  tokenizer.c
@@ -237,13 +237,13 @@ static int set_ptrs(char ***ptrs, char const *buff)
 }
 
 // Set all the \n to \ and n
-static int set_buff_n(char *buff)
+static int set_buff_n(char *buff, size_t *total_adv)
 {
     bool char_b, string_b, comment_b = false;
     int len = 0;
 
     // Check for potential null pointer
-    if (!buff)
+    if (!buff || !total_adv)
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
     for (len = 0; buff[len]; len++);
@@ -263,11 +263,12 @@ static int set_buff_n(char *buff)
             comment_b = false;
 
         if (buff[i] == '\n' && (char_b || string_b || comment_b)) {
-            for (int j = len; j > i; j--)
+            for (int j = len + 1; j > i; j--)
                 buff[j + 1] = buff[j];
             buff[i] = '\\';
             buff[i + 1] = 'n';
             i++;
+            (*total_adv)++;
         }   
     }
     return OK;
@@ -308,18 +309,23 @@ array_t *tokenizer(compiler_t *data, hashtable_t *ids, char const *file)
         return err_prog_n(UNDEF_ERR, ERR_INFO);
     if (set_ptrs(&ptrs, buff) == KO)
         return err_prog_n(UNDEF_ERR, ERR_INFO);
-    if (set_buff_n(buff) == KO)
+    if (set_buff_n(buff, &(data->total_adv)) == KO)
         return err_prog_n(UNDEF_ERR, ERR_INFO);
 
     // Extract all the token of the file
     line = buff;
     while (*line) {
+        if (data->adv_dump && advencement_dump(data) == KO)
+            return err_prog_n(UNDEF_ERR, ERR_INFO);
         for (index = 0; line[index] && line[index] != '\n'; index++);
         line[index] = '\0';
         if (!my_str_is(line, " \t") && extract_tokens(data, ids, tokens, file, line, (char const **) ptrs) == KO)
             return err_prog_n(UNDEF_ERR, ERR_INFO);
         line = &line[index + 1];
+        data->actual_adv += (index + 1);
     }
+    if (data->adv_dump && advencement_dump(data) == KO)
+        return err_prog_n(UNDEF_ERR, ERR_INFO);
 
     free(buff);
     free(ptrs);

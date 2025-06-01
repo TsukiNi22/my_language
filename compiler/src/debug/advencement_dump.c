@@ -11,42 +11,69 @@ Edition:
 ##  01/06/2025 by Tsukini
 
 File Name:
-##  init_option.c
+##  advencement_dump.c
 
 File Description:
-## Initialisation of var used in option
+##  display global advencement
 \**************************************************************/
 
+#include "write.h"      // writing function
 #include "kamion.h"     // compiler_t type
 #include "error.h"      // error handling
-#include <stddef.h>     // NULL define
-#include <stdbool.h>    // bool type
+#include <stdio.h>      // file functions
+#include <unistd.h>     // file octet handler functions
+#include <stddef.h>     // size_t type
 
-/* Option initialisation function
+/* Setup the advencement
 ----------------------------------------------------------------
- * Initialisation of var that will be used in option for flag
+ * A function to get the total size of all file to compile
 ----------------------------------------------------------------
 ##  data -> main data structure
 ----------------------------------------------------------------
 */
-int init_option(compiler_t *data)
+int setup_files_advencement(compiler_t *data)
 {
+    FILE *fs = NULL;
+    size_t size = 0;
+
     // Check for potential null pointer
     if (!data)
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
-    // Set to default value
-    data->tok_dump = false; // Show tokens at the end
-    data->adv_dump = false; // Show advencement
-    data->actual_adv = 0;
-    data->total_adv = 0;
-    data->errors = false; // Show errors at the end
-    data->binary = BINARY_NAME; // Ouput binary name
+    // for each file get the total size (in octet)
+    for (size_t i = 0; i < data->files->len; i++) {
+        // Set the stream for the file to tokenize
+        fs = fopen(data->files->data[i], "r");
+        if (!fs)
+            return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
-    // Set Duplicated option
-    data->d_binary = false;
-    data->d_errors = false;
-    data->d_tok_dump = false;
-    data->d_adv_dump = false;
+        // Get the size
+        fseek(fs, 0, SEEK_END);
+        size = ftell(fs);
+
+        data->total_adv += size;       
+        fclose(fs);
+    }
+    return OK;
+}
+
+/* Advencement Dump for debug
+----------------------------------------------------------------
+ * A debuging function to display the global advencement
+----------------------------------------------------------------
+##  data -> main data structure
+----------------------------------------------------------------
+*/
+int advencement_dump(compiler_t *data)
+{
+    int res = OK;
+
+    // Check for potential null pointer
+    if (!data)
+        return err_prog(PTR_ERR, KO, ERR_INFO);
+    
+    res += my_printf("%u/%u\r", data->actual_adv, data->total_adv);
+    if (res != OK)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
     return OK;
 }
