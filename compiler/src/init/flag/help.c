@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  30/05/2025 by Tsukini
+##  01/06/2025 by Tsukini
 
 File Name:
 ##  help.c
@@ -48,6 +48,8 @@ int flag_help(void)
     "\t\tChange the name of the output executable to the given [31mbinary_name[0m (default: \'[31m%s[0m\')\n"
     "\t[32m-t, --tokens [0m\n"
     "\t\tDisplay all the tokens for each file at the end (default: \'[31mFalse[0m\')\n"
+    "\t[32m-a, --advencement [0m\n"
+    "\t\tDisplay the global advencement for each part of the compiler (default: \'[31mFalse[0m\')\n"
     "\t[32m-E, --Errors [0m([31mNot Working[0m)\n"
     "\t\tDisplay all the errors at the end and dosen't stop when encounter one error (default: \'[31mFalse[0m\')\n"
     "\t[32m-d, --directory [31mdirectory_path[0m\n"
