@@ -39,6 +39,9 @@ File Description:
     /* files_name */
     #define BINARY_NAME "15.out"
 
+    /* debug */
+    #define ADV_SIZE 50
+
 //----------------------------------------------------------------//
 /* TYPEDEF */
 

@@ -66,13 +66,34 @@ int setup_files_advencement(compiler_t *data)
 */
 int advencement_dump(compiler_t *data)
 {
+    float percent = .0;
+    size_t size = 0;
     int res = OK;
 
     // Check for potential null pointer
     if (!data)
         return err_prog(PTR_ERR, KO, ERR_INFO);
     
-    res += my_printf("%u/%u\r", data->actual_adv, data->total_adv);
+    // Setup percent already done
+    percent = (float) data->actual_adv / (float) data->total_adv;
+    size = percent * ADV_SIZE;
+
+    // Green part
+    res += my_putchar(STDOUT, '[');
+    res += color_rgb(STDOUT, 0, 255, 0);
+    for (size_t i = 0; i < size; i++)
+        res += my_putchar(STDOUT, '/');
+
+    // Red part
+    res += color_rgb(STDOUT, 255, 0, 0);
+    for (size_t i = size; i < ADV_SIZE; i++)
+        res += my_putchar(STDOUT, '-');
+
+    // Text part
+    res += reset_ouput(STDOUT);
+    printf("] %zu/%zu (%.2f%%)\r", data->actual_adv, data->total_adv, percent * 100);
+    fflush(stdout);
+    
     if (res != OK)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
     return OK;
