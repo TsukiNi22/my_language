@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  31/05/2025 by Tsukini
+##  01/06/2025 by Tsukini
 
 File Name:
 ##  kamion.h
@@ -39,6 +39,9 @@ File Description:
     /* files_name */
     #define BINARY_NAME "15.out"
 
+    /* debug */
+    #define ADV_SIZE 50
+
 //----------------------------------------------------------------//
 /* TYPEDEF */
 
@@ -51,6 +54,7 @@ typedef struct compiler_s {
 
     /* option */
     bool tok_dump;
+    bool adv_dump;
     bool errors;
     char const *binary;
 
@@ -58,6 +62,11 @@ typedef struct compiler_s {
     bool d_binary;
     bool d_errors;
     bool d_tok_dump;
+    bool d_adv_dump;
+
+    /* advencement option */
+    size_t actual_adv;
+    size_t total_adv;
 
     /* token id */
     hashtable_t *id;
@@ -93,10 +102,15 @@ int flag_Errors(compiler_t *data, int const argc, char const *argv[]); // Error:
 int flag_directory(compiler_t *data, int const argc, char const *argv[]); // Error: KO
 int flag_Directory(compiler_t *data, int const argc, char const *argv[]); // Error: KO
 int flag_tokens(compiler_t *data, int const argc, char const *argv[]); // Error: KO
+int flag_advencement(compiler_t *data, int const argc, char const *argv[]); // Error: KO
 
 /* useful */
 bool is_valid_dir(compiler_t *data, char const *path, bool err); // Error: false
 bool is_valid_file(compiler_t *data, char const *path, bool err); // Error: false
+
+/* debug */
+int setup_files_advencement(compiler_t *data); // Error: KO
+int advencement_dump(compiler_t *data); // Error: KO
 
 /* exit */
 int free_data(compiler_t *data); // Error: KO

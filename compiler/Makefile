@@ -42,7 +42,8 @@ INIT :=			init/init_data.c \
 				init/flag/Errors.c \
 				init/flag/directory.c \
 				init/flag/Directory.c \
-				init/flag/tokens.c
+				init/flag/tokens.c \
+				init/flag/advencement.c
 
 USEFUL := 		useful/is_valid_dir.c \
 				useful/is_valid_file.c
@@ -53,7 +54,8 @@ TOKENIZER :=	tokenizer/tokenizer.c \
 
 PARSER :=		parser/is_value.c
 
-DEBUG := 		debug/tokens_dump.c
+DEBUG := 		debug/tokens_dump.c \
+				debug/advencement_dump.c
 
 FILES := $(GLOBAL) $(INIT) $(DEBUG)
 FILES += $(USEFUL) $(TOKENIZER) $(PARSER)

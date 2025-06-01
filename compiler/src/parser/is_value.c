@@ -94,7 +94,7 @@ bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
     // recall the is_value for some execption
     for (size_t i = 0; i < array->len; i++) {
         toks_type = array->data[i];
-        if (toks_type->type == PRIO && is_value(data, tokens, toks_type->start + 1, toks_type->end - 1) == KO)
+        if (toks_type->type == PRIO && !is_value(data, tokens, toks_type->start + 1, toks_type->end - 1))
             return err_prog(UNDEF_ERR, false, ERR_INFO);
         if (toks_type->type == CALL) {
         }

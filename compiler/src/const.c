@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  31/05/2025 by Tsukini
+##  01/06/2025 by Tsukini
 
 File Name:
 ##  const.c
@@ -27,6 +27,7 @@ char const flags[] = {
     'd',
     'D',
     't',
+    'a',
     '\0'
 };
 
@@ -38,6 +39,7 @@ char const *full_flags[] = {
     "--directory",
     "--Directory",
     "--tokens",
+    "--advencement",
     NULL
 };
 
@@ -49,6 +51,7 @@ int const flags_argc[] = {
     1,  // directory
     1,  // Directory
     0,  // tokens
+    0,  // advencement
 };
 
 // Function call at the detection of  a flag
@@ -59,6 +62,7 @@ int (* const flag_functions[])(compiler_t *, int const, char const *[]) = {
     &flag_directory, // directory
     &flag_Directory, // Directory
     &flag_tokens, // tokens
+    &flag_advencement, // advencement
 };
 
 /* token str */
@@ -66,6 +70,7 @@ char const *token_str[] = {
     ";",         // del_expresion_end
     ",",         // del_sep_1
     ":",         // del_sep_2
+    ".",         // del_access
     "@",         // del_comment
     "@>",        // del_open_comment
     "<@",        // del_close_comment

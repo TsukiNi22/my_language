@@ -51,6 +51,7 @@ typedef enum token_id_e {
     DEL_EXPRESSION_END = 0,
     DEL_SEP_1,
     DEL_SEP_2,
+    DEL_ACCESS,
     DEL_COMMENT,
     DEL_OPEN_COMMENT,
     DEL_CLOSE_COMMENT,

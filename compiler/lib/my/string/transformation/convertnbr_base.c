@@ -26,8 +26,11 @@ char *convertnbr_base(unsigned long long nbr, char const *base)
         return err_prog_n(ARGV_ERR, ERR_INFO);
     for (int n = nbr; n >= 1; size++)
         n /= base_size;
+    size += (nbr == 0);
     if (my_malloc_c(&my_nbr, size + 1) == KO)
         return err_prog_n(UNDEF_ERR, ERR_INFO);
+    if (nbr == 0)
+        my_nbr[0] = base[0];
     for (int i = 0; nbr >= 1; i++) {
         my_nbr[size - i - 1] = base[nbr % base_size];
         nbr /= base_size;

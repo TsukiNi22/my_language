@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  31/05/2025 by Tsukini
+##  01/06/2025 by Tsukini
 
 File Name:
 ##  kamion.c
@@ -22,7 +22,7 @@ File Description:
 #include "define.h"     // STDOUT define
 #include "my_string.h"  // get_fullpath, my_strcmp function
 #include "hashtable.h"  // hashatble functions
-#include "write.h"      // my_printf functions
+#include "write.h"      // my_printf, my_putchar functions
 #include "array.h"      // array_t type
 #include "memory.h"     // my_strdup function
 #include "tokenizer.h"  // tokenizer type
@@ -127,10 +127,14 @@ int kamion(int const argc, char const *argv[], compiler_t *data)
         return err_kmc_arg(data, KO, "File", "No valid file found for the compilation", NULL, NULL, false);
 
     // Tokenization
+    if (data->adv_dump && setup_files_advencement(data) == KO)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
     if (tokenize_files(data) == KO)
         return err_custom("Tokenization error", KO, ERR_INFO);
-    if (data->tok_dump)
-        return tokens_dump(data->tokens);
+    if (data->adv_dump && my_putchar(STDOUT, '\n') == KO)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    if (data->tok_dump && tokens_dump(data->tokens) == KO)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
     
     return OK;
 }
