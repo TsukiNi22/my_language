@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  31/05/2025 by Tsukini
+##  04/06/2025 by Tsukini
 
 File Name:
 ##  parser.c
@@ -35,10 +35,10 @@ File Description:
 typedef enum value_type_e {
     NUMBER = 0,
     IDENTIFIER,
-    CALL,
-    PRIO,
     OP1,
-    OP2
+    OP2,
+    PRIO,
+    CALL,
 } value_type_t;
 
 /* array_tokens_type */
