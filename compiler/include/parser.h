@@ -35,8 +35,8 @@ File Description:
 typedef enum value_type_e {
     NUMBER = 0,
     IDENTIFIER,
-    OP1,
-    OP2,
+    OP_1,
+    OP_2,
     PRIO,
     CALL,
 } value_type_t;

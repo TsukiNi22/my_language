@@ -21,6 +21,7 @@ File Description:
 #include "array.h"      // array functions
 #include "parser.h"     // parser functions
 #include "token.h"      // tokens define
+#include "tokenizer.h"  // token_t type
 #include "kamion.h"     // compiler_t type, free_ptr function
 #include "error.h"      // error handling
 #include <stdlib.h>     // malloc function
@@ -57,9 +58,9 @@ static size_t find_the_corresponding_parenthesis(array_t *tokens, size_t start)
     count = 1;
     for (index = start + 1; count > 0 && index < tokens->len; index++) {
         tok = tokens->data[index];
-        if (tok->type == DELEMITOR && tok->id == DEL_OPEN_PARENTHESIS)
+        if (tok->type == DELIMITOR && tok->id == DEL_OPEN_PARENTHESIS)
             count++;
-        else if (tok->type == DELEMITOR && tok->id == DEL_CLOSE_PARENTHESIS)
+        else if (tok->type == DELIMITOR && tok->id == DEL_CLOSE_PARENTHESIS)
             count--;
     }
     if (index >= tokens->len)
@@ -88,15 +89,15 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
     // set the data in the array
     for (size_t i = start; i <= end; i++) {
         tok = tokens->data[i];
-        if (tok->type == LITTERAL && add_array(array, setup_type(NUMBER, i, i)) == KO)
+        if (tok->type == LITERAL && add_array(array, setup_type(NUMBER, i, i)) == KO)
             return err_prog_n(UNDEF_ERR, ERR_INFO);
         else if (tok->type == IDENTIFIERS) {
             is_function = false;
             is_methode = false;
             if (i + 1 <= end) {
                 tok = tokens->data[i + 1];
-                is_function = (tok->type == DELEMITOR && tok->id == DEL_OPEN_PARENTHESIS);
-                is_methode = (tok->type == DELEMITOR && tok->id == DEL_ACCESS);
+                is_function = (tok->type == DELIMITOR && tok->id == DEL_OPEN_PARENTHESIS);
+                is_methode = (tok->type == DELIMITOR && tok->id == DEL_ACCESS);
             }
             if (!is_function && !is_methode) {
                 if (add_array(array, setup_type(IDENTIFIER, i, i)) == KO)
@@ -120,7 +121,7 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
                 }
                 if (i + 3 <= end)
                     tok = tokens->data[i + 3];
-                if (i + 3 > end || !(tok->type == DELEMITOR && tok->id == DEL_OPEN_PARENTHESIS)) {
+                if (i + 3 > end || !(tok->type == DELIMITOR && tok->id == DEL_OPEN_PARENTHESIS)) {
                     if (add_array(array, setup_type(NUMBER, i, size)) == KO)
                         return err_prog_n(UNDEF_ERR, ERR_INFO);
                     continue;
@@ -145,12 +146,12 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
                 return NULL;
             }
             op_2 = (tok->id == OP_NOT || tok->id == OP_BOOL || tok->id == OP_ACCESS || tok->id == OP_DEREFERENCING);
-            if (!c && add_array(array, setup_type(OP_1, i, i)) == KO)
+            if (!op_2 && add_array(array, setup_type(OP_1, i, i)) == KO)
                 return err_prog_n(UNDEF_ERR, ERR_INFO);
-            if (c && add_array(array, setup_type(OP_2, i, i)) == KO)
+            if (op_2 && add_array(array, setup_type(OP_2, i, i)) == KO)
                 return err_prog_n(UNDEF_ERR, ERR_INFO);
-        } else if (tok->type == DELEMITOR && tok->id == DEL_OPEN_PARENTHESIS) {
-            for (size = i; !(tok->type == DELEMITOR && tok->id == DEL_CLOSE_PARENTHESIS) && size <= end; size++)
+        } else if (tok->type == DELIMITOR && tok->id == DEL_OPEN_PARENTHESIS) {
+            for (size = i; !(tok->type == DELIMITOR && tok->id == DEL_CLOSE_PARENTHESIS) && size <= end; size++)
                 tok = tokens->data[size];
             if (size > end) {
                 tok = tokens->data[i];
@@ -171,7 +172,6 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
 static int get_start_end(array_t *tokens, size_t *start_ptr, size_t *end_ptr, size_t start, size_t end)
 {
     token_t *tok = NULL;
-    int count = 0;
 
     // Check for potential null pointer
     if (!tokens || !start_ptr || !end_ptr)
@@ -180,7 +180,7 @@ static int get_start_end(array_t *tokens, size_t *start_ptr, size_t *end_ptr, si
     // setup the first '('
     *start_ptr = start + 1;
     tok = tokens->data[start + 1];
-    if (tok->type == DELEMITOR && tok->id == DEL_ACCESS)
+    if (tok->type == DELIMITOR && tok->id == DEL_ACCESS)
         *start_ptr = start + 3;
     
     // setup the second ')'
@@ -193,7 +193,7 @@ static int get_start_end(array_t *tokens, size_t *start_ptr, size_t *end_ptr, si
 static int for_each_call_argument(compiler_t *data, array_t *tokens, size_t start, size_t end)
 {
     token_t *tok = NULL;
-    size_t *last_arg = start;
+    size_t last_arg = start;
     int count = 0;
 
     // Check for potential null pointer
@@ -202,11 +202,11 @@ static int for_each_call_argument(compiler_t *data, array_t *tokens, size_t star
     count = 0;
     for (size_t i = start; i <= end; i++) {
         tok = tokens->data[i];
-        if (tok->type == DELEMITOR && tok->id == DEL_OPEN_PARENTHESIS)
+        if (tok->type == DELIMITOR && tok->id == DEL_OPEN_PARENTHESIS)
             count++;
-        else if (tok->type == DELEMITOR && tok->id == DEL_CLOSE_PARENTHESIS)
+        else if (tok->type == DELIMITOR && tok->id == DEL_CLOSE_PARENTHESIS)
             count--;
-        if (count == 0 && tok->type == DELEMITOR && tok->id == DEL_SEP_1) {
+        if (count == 0 && tok->type == DELIMITOR && tok->id == DEL_SEP_1) {
             if (!is_value(data, tokens, last_arg, i - 1))
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
             last_arg = i + 1;
@@ -246,7 +246,7 @@ bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
 {
     tokens_type_t *toks_type = NULL;
     array_t *array = NULL;
-    size_t start, end = 0;
+    size_t start_prio, end_prio = 0;
 
     // Check for potential null pointer
     if (!data || !tokens)
@@ -262,9 +262,9 @@ bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
         if (toks_type->type == PRIO && !is_value(data, tokens, toks_type->start + 1, toks_type->end - 1))
             return err_prog(UNDEF_ERR, false, ERR_INFO);
         if (toks_type->type == CALL) {
-            if (get_start_end(tokens, &start, &end, toks_type->start, toks_type->end) == KO)
+            if (get_start_end(tokens, &start_prio, &end_prio, toks_type->start, toks_type->end) == KO)
                 return err_prog(UNDEF_ERR, false, ERR_INFO);
-            if (for_each_call_argument(data, tokens, start + 1, end - 1) == KO)
+            if (for_each_call_argument(data, tokens, start_prio + 1, end_prio - 1) == KO)
                 return err_prog(UNDEF_ERR, false, ERR_INFO);
         }
     }
