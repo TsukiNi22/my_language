@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  01/06/2025 by Tsukini
+##  08/06/2025 by Tsukini
 
 File Name:
 ##  advencement_dump.c
@@ -74,6 +74,10 @@ int advencement_dump(compiler_t *data)
     if (!data)
         return err_prog(PTR_ERR, KO, ERR_INFO);
     
+    // Empty file case
+    if (data->total_adv == 0)
+        return OK;
+
     // Setup percent already done
     percent = (float) data->actual_adv / (float) data->total_adv;
     size = percent * ADV_SIZE;

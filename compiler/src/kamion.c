@@ -66,6 +66,7 @@ static int direct_file(compiler_t *data, int const argc, char const *argv[])
 static int tokenize_files(compiler_t *data)
 {
     array_t *tokens = NULL;
+    size_t empty_file = 0;
     int res = OK;
 
     // Check for potential null pointer
@@ -85,11 +86,14 @@ static int tokenize_files(compiler_t *data)
             res += delete_array(&tokens, &free_token);
             if (res != OK)
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
+            empty_file++;
             continue;
         }
         if (ht_insert(data->tokens, my_strdup(data->files->data[i]), tokens, &free_hash_data_str) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
     }
+    if (empty_file >= data->files->len)
+        return err_kmc_arg(data, KO, "File", "No valid file found for the compilation", NULL, NULL, false);
     return OK;
 }
 
