@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  08/06/2025 by Tsukini
+##  09/06/2025 by Tsukini
 
 File Name:
 ##  kamion.c
@@ -29,6 +29,7 @@ File Description:
 #include "tokenizer.h"  // tokenizer type & function
 #include "kamion.h"     // compiler_t type
 #include "error.h"      // error handling
+#include <stdlib.h>     // free function
 #include <stddef.h>     // NULL define
 
 // Add the file given directly to the list
@@ -63,11 +64,20 @@ static int direct_file(compiler_t *data, int const argc, char const *argv[])
     return OK;
 }
 
+// Free simple pointer
+static int free_ptr(void *ptr)
+{
+    // Check for potential null pointer
+    if (!ptr)
+        return err_prog(PTR_ERR, KO, ERR_INFO);
+    free(ptr);
+    return OK;
+}
+
 // Try to tokenize every file found
 static int tokenize_files(compiler_t *data)
 {
     array_t *tokens = NULL;
-    size_t empty_file = 0;
     int res = OK;
 
     // Check for potential null pointer
@@ -87,13 +97,15 @@ static int tokenize_files(compiler_t *data)
             res += delete_array(&tokens, &free_token);
             if (res != OK)
                 return err_prog(UNDEF_ERR, KO, ERR_INFO);
-            empty_file++;
+            if (pop_array(data->files, &free_ptr, i) == KO)
+                return err_prog(UNDEF_ERR, KO, ERR_INFO);
+            i--;
             continue;
         }
         if (ht_insert(data->tokens, my_strdup(data->files->data[i]), tokens, &free_hash_data_str) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
     }
-    if (empty_file >= data->files->len)
+    if (data->files->len == 0)
         return err_kmc_arg(data, KO, "File", "No valid file found for the compilation", NULL, NULL, false);
     return OK;
 }
