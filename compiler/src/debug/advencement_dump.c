@@ -18,11 +18,42 @@ File Description:
 \**************************************************************/
 
 #include "write.h"      // writing function
+#include "array.h"      // array_t type
+#include "hashtable.h"  // hashtable search function
 #include "kamion.h"     // compiler_t type
 #include "error.h"      // error handling
 #include <stdio.h>      // file functions
 #include <unistd.h>     // file octet handler functions
-#include <stddef.h>     // size_t type
+#include <stddef.h>     // size_t type, NULL define
+
+/* Setup the advencement
+----------------------------------------------------------------
+ * A function to get the total size of all tokens of each file
+----------------------------------------------------------------
+##  data -> main data structure
+----------------------------------------------------------------
+*/
+int setup_tokens_advencement(compiler_t *data)
+{
+    array_t *tokens = NULL;
+
+    // Check for potential null pointer
+    if (!data)
+        return err_prog(PTR_ERR, KO, ERR_INFO);
+
+    // for each file get the total of tokens
+    data->total_adv = 0;
+    for (size_t i = 0; i < data->files->len; i++) {
+        // get the tokens array
+        tokens = ht_search(data->tokens, data->files->data[i]);
+        if (!tokens)
+            return err_prog(UNDEF_ERR, KO, ERR_INFO);
+
+        // increment the size
+        data->total_adv += tokens->len;
+    }
+    return OK;
+}
 
 /* Setup the advencement
 ----------------------------------------------------------------
@@ -41,6 +72,7 @@ int setup_files_advencement(compiler_t *data)
         return err_prog(PTR_ERR, KO, ERR_INFO);
 
     // for each file get the total size (in octet)
+    data->total_adv = 0;
     for (size_t i = 0; i < data->files->len; i++) {
         // Set the stream for the file to tokenize
         fs = fopen(data->files->data[i], "r");

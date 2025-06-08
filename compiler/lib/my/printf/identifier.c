@@ -212,8 +212,8 @@ int identifier(printf_data_t *data, bool *identifier)
 {
     if (!data || !identifier)
         return err_prog(PTR_ERR, KO, ERR_INFO);
-    if (data->str[data->i + 1] == IDENTIFIER) {
-        my_putchar(data->fd, IDENTIFIER);
+    if (data->str[data->i + 1] == ACTIVATION) {
+        my_putchar(data->fd, ACTIVATION);
         data->i++;
         *identifier = true;
         return OK;

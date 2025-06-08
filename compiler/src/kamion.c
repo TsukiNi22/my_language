@@ -25,7 +25,8 @@ File Description:
 #include "write.h"      // my_printf, my_putchar functions
 #include "array.h"      // array_t type
 #include "memory.h"     // my_strdup function
-#include "tokenizer.h"  // tokenizer type
+#include "parser.h"     // parser type & function
+#include "tokenizer.h"  // tokenizer type & function
 #include "kamion.h"     // compiler_t type
 #include "error.h"      // error handling
 #include <stddef.h>     // NULL define
@@ -139,7 +140,7 @@ int kamion(int const argc, char const *argv[], compiler_t *data)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
     // Parser
-    if (data->adv_dump && setup_parser_advencement(data) == KO)
+    if (data->adv_dump && setup_tokens_advencement(data) == KO)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
     for (size_t i = 0; i < data->files->len; i++) {
         if (parser(data, ht_search(data->tokens, data->files->data[i])) == KO)

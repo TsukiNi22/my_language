@@ -13,7 +13,7 @@ int specifiers_identifier(printf_data_t *data)
 {
     if (!data)
         return err_prog(PTR_ERR, KO, ERR_INFO);
-    if (my_putchar(data->fd, IDENTIFIER) == KO)
+    if (my_putchar(data->fd, ACTIVATION) == KO)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
     return OK;
 }

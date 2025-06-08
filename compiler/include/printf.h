@@ -23,7 +23,7 @@
     #define DEFAULT_OUPUT STDIN
 
     /* flag */
-    #define IDENTIFIER '%'
+    #define ACTIVATION '%'
     #define FLAGS "#0- +"
     #define FIELD_WIDHT "0123456789*"
     #define PRECISION "0123456789*"

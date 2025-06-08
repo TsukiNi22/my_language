@@ -78,7 +78,7 @@ int my_printf(char const *str, ...)
     va_start(data.ap, str);
     for (data.i = 0; str[data.i]; data.i++) {
         identifier_b = false;
-        if (str[data.i] == IDENTIFIER)
+        if (str[data.i] == ACTIVATION)
             res = identifier(&data, &identifier_b);
         if (res == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);

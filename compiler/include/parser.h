@@ -24,6 +24,7 @@ File Description:
     /* INCLUDE */
 
     /* type */
+    #include "array.h"      // array_t type
     #include "kamion.h"     // compiler_t type
     #include <stddef.h>     // size_t type
     #include <stdbool.h>    // boolean type
@@ -55,7 +56,7 @@ typedef struct tokens_type_s {
 /* PROTOTYPE */
 
 /* parser */
-int parser(compiler_t *data); // Error: KO
+int parser(compiler_t *data, array_t *tokens); // Error: KO
 
 /* detection */
 bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end); // Error: false
