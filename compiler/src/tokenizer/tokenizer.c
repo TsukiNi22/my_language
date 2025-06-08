@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  01/06/2025 by Tsukini
+##  08/06/2025 by Tsukini
 
 File Name:
 ##  tokenizer.c
@@ -140,7 +140,7 @@ static int extract_tokens(compiler_t *data, hashtable_t *ids, array_t *tokens,
         for (size = 1; tok_start[size - 1]; size++) {
             tok_str = my_strndup(tok_start, size);
             id = ht_search(ids, tok_str);
-            if (id || is_identifier(tok_str, &id) || is_literal(tok_str, &id)) {
+            if (id || is_identifier(tok_str, &id) || is_literal(data, tok_str, &id)) {
                 valid = true;
                 max_size = size;
                 if (setup_tok(tok, file, line, tok_str, get_line_y(ptrs, &line[i]), i, size, id) == KO)

@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  04/06/2025 by Tsukini
+##  08/06/2025 by Tsukini
 
 File Name:
 ##  tokenizer.h
@@ -60,7 +60,7 @@ array_t *tokenizer(compiler_t *data, hashtable_t *ids, char const *file); // Err
 
 /* identify token */
 bool is_identifier(char const *str, int **id); // Error: false
-bool is_literal(char const *str, int **id); // Error: false
+bool is_literal(compiler_t *data, char const *str, int **id); // Error: false
 
 /* debug */
 int tokens_dump(hashtable_t *tokens);

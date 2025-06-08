@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  31/05/2025 by Tsukini
+##  08/06/2025 by Tsukini
 
 File Name:
 ##  free_data.c
@@ -22,6 +22,7 @@ File Description:
 #include "tokenizer.h"  // token_t type
 #include "kamion.h"     // compiler_t type
 #include "error.h"      // error handling
+#include <regex.h>      // regex free function
 #include <stdlib.h>     // free function
 
 /* Token free function
@@ -75,6 +76,17 @@ static int free_ptr(void *ptr)
     return OK;
 }
 
+// Free regex
+static int free_regex(compiler_t *data)
+{
+    // Check for potential null pointer
+    if (!data)
+        return err_prog(PTR_ERR, KO, ERR_INFO);
+    for (int i = 0; i < REGEX_NUMBER; i++)
+        regfree(&(data->regex[i]));
+    return OK;
+}
+
 /* Free data function
 ----------------------------------------------------------------
  * Free the var in the main structure who was malloced
@@ -94,6 +106,7 @@ int free_data(compiler_t *data)
     res += delete_hashtable(data->id, &free_hash_data_str);
     res += delete_hashtable(data->tokens, &free_hash_tokens);
     res += delete_array(&data->files, &free_ptr);
+    res += free_regex(data);
     if (res != OK)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
     return OK;

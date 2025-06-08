@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  01/06/2025 by Tsukini
+##  04/06/2025 by Tsukini
 
 File Name:
 ##  kamion.c
@@ -104,6 +104,7 @@ static int tokenize_files(compiler_t *data)
 ##  data -> main data structure
 ----------------------------------------------------------------
 */
+bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end); // Error: false
 int kamion(int const argc, char const *argv[], compiler_t *data)
 {
     // Check for potential null pointer
@@ -136,5 +137,9 @@ int kamion(int const argc, char const *argv[], compiler_t *data)
     if (data->tok_dump && tokens_dump(data->tokens) == KO)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
     
+    array_t *toks = ht_search(data->tokens, data->files->data[0]);
+    if (!is_value(data, toks, 0, toks->len - 1))
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+
     return OK;
 }

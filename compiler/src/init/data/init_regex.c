@@ -11,37 +11,57 @@ Edition:
 ##  08/06/2025 by Tsukini
 
 File Name:
-##  init_data.c
+##  init_regex.c
 
 File Description:
-## Call of function to init main structure var
+## Initialisation of the regex
 \**************************************************************/
 
-#include "kamion.h" // compiler_t type
-#include "error.h"  // error handling
+#include "kamion.h"     // compiler_t type
+#include "error.h"      // error handling
+#include <regex.h>      // regex type & function
+#include <stddef.h>     // NULL define
 
-/* Init main structure function
+/* Regex initialisation function
 ----------------------------------------------------------------
- * Call of the function to initialise all var of the
- * main structure and check the init return
+ * Initialisation of the regex to optimize the execution
 ----------------------------------------------------------------
 ##  data -> main data structure
 ----------------------------------------------------------------
 */
-int init_data(compiler_t *data)
+int init_regex(compiler_t *data)
 {
     // Check for potential null pointer
     if (!data)
         return err_prog(PTR_ERR, KO, ERR_INFO);
-    
-    // Init global data used in every sub part
-    if (init_global(data) == KO)
+
+    // Bool Regex
+    if (regcomp(&(data->regex[0]), "^(0|1|true|false)$", REG_EXTENDED | REG_NOSUB) != OK)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
-    // Init the regex to optimize the execution
-    if (init_regex(data) == KO)
+    // Bin Regex
+    if (regcomp(&(data->regex[1]), "^0b[01]*$", REG_EXTENDED | REG_NOSUB) != OK)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
-    // Init option var used in flag init
-    if (init_option(data) == KO)
+    // Oct Regex
+    if (regcomp(&(data->regex[2]), "^0[0-7]*$", REG_EXTENDED | REG_NOSUB) != OK)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    // Hex Regex
+    if (regcomp(&(data->regex[3]), "^0x[0-9a-fA-F]*$", REG_EXTENDED | REG_NOSUB) != OK)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    // Int Regex
+    if (regcomp(&(data->regex[4]), "^-?[0-9]+$", REG_EXTENDED | REG_NOSUB) != OK)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    // Float Regex
+    if (regcomp(&(data->regex[5]), "^-?([0-9]+\\.[0-9]*|\\.[0-9]+)$", REG_EXTENDED | REG_NOSUB) != OK)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    // String Regex
+    if (regcomp(&(data->regex[6]), "^\"([^\"\\\\]|\\\\.)*\"$", REG_EXTENDED | REG_NOSUB) != OK)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    // Char Regex
+    if (regcomp(&(data->regex[7]), "^'(\\.|[^'\\\\])'$", REG_EXTENDED | REG_NOSUB) != OK)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    // Comment Regex
+    if (regcomp(&(data->regex[8]), "^@>.*<@$", REG_EXTENDED | REG_NOSUB) != OK)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+
     return OK;
 }

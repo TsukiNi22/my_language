@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  01/06/2025 by Tsukini
+##  08/06/2025 by Tsukini
 
 File Name:
 ##  kamion.h
@@ -26,6 +26,7 @@ File Description:
     /* type */
     #include "hashtable.h"  // hashtable_t
     #include "array.h"      // array_t
+    #include <regex.h>      // regex_t
     #include <stddef.h>     // size_t
     #include <stdbool.h>    // boolean
 
@@ -39,6 +40,9 @@ File Description:
     /* files_name */
     #define BINARY_NAME "15.out"
 
+    /* regex */
+    #define REGEX_NUMBER 9
+    
     /* debug */
     #define ADV_SIZE 50
 
@@ -51,6 +55,7 @@ typedef struct compiler_s {
     int argc;
     char const **argv;
     char const *exe_name;
+    regex_t regex[REGEX_NUMBER];
 
     /* option */
     bool tok_dump;
@@ -91,6 +96,7 @@ int kamion(int const argc, char const *argv[], compiler_t *data); // Error: KO
 /* init_data */
 int init_data(compiler_t *data); // Error: KO
 int init_global(compiler_t *data); // Error: KO
+int init_regex(compiler_t *data); // Error: KO
 int init_option(compiler_t *data); // Error: KO
 
 /* init_flag */

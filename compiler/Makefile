@@ -34,6 +34,7 @@ GLOBAL :=		main.c \
 
 INIT :=			init/init_data.c \
 				init/data/init_global.c \
+				init/data/init_regex.c \
 				init/data/init_option.c \
 				init/init_flag.c\
 				init/flag/null.c \
