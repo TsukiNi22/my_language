@@ -14,50 +14,27 @@ File Name:
 ##  parser.c
 
 File Description:
-## Parser information and prototype
+##  Main file of the parser, dispatch to other parser function
+##  to determine if the file is in the order of the syntax
 \**************************************************************/
 
-#ifndef PARSER_H
-    #define PARSER_H
+#include "parser.h"     // parser functions
+#include "kamion.h"     // compiler_t type, free_ptr function
+#include "error.h"      // error handling
+#include <stddef.h>     // size_t type
 
-    //----------------------------------------------------------------//
-    /* INCLUDE */
-
-    /* type */
-    #include "kamion.h"     // compiler_t type
-    #include <stddef.h>     // size_t type
-    #include <stdbool.h>    // boolean type
-
-//----------------------------------------------------------------//
-/* TYPEDEF */
-
-/* type_value */
-typedef enum value_type_e {
-    NUMBER = 0,
-    IDENTIFIER,
-    OP_1,
-    OP_2,
-    PRIO,
-    CALL,
-} value_type_t;
-
-/* array_tokens_type */
-typedef struct tokens_type_s {
-    /* type */
-    value_type_t type;
-
-    /* position */
-    size_t start;
-    size_t end;
-} tokens_type_t;
-
-//----------------------------------------------------------------//
-/* PROTOTYPE */
-
-/* parser */
-int parser(compiler_t *data); // Error: KO
-
-/* detection */
-bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end); // Error: false
-
-#endif /* PARSER_H */
+/* Parser function
+----------------------------------------------------------------
+ * Check the organisation of the token of a file
+----------------------------------------------------------------
+##  data -> main data structure
+----------------------------------------------------------------
+*/
+int parser(compiler_t *data)
+{
+    // Check for potential null pointer
+    if (!data)
+        return err_prog(PTR_ERR, KO, ERR_INFO);
+    
+    return OK;
+}

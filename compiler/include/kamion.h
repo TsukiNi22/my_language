@@ -116,6 +116,7 @@ bool is_valid_file(compiler_t *data, char const *path, bool err); // Error: fals
 
 /* debug */
 int setup_files_advencement(compiler_t *data); // Error: KO
+int setup_parser_advencement(compiler_t *data); // Error: KO
 int advencement_dump(compiler_t *data); // Error: KO
 
 /* exit */

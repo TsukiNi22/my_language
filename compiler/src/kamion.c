@@ -108,7 +108,6 @@ static int tokenize_files(compiler_t *data)
 ##  data -> main data structure
 ----------------------------------------------------------------
 */
-bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end); // Error: false
 int kamion(int const argc, char const *argv[], compiler_t *data)
 {
     // Check for potential null pointer
@@ -138,15 +137,19 @@ int kamion(int const argc, char const *argv[], compiler_t *data)
         return err_custom("Tokenization error", KO, ERR_INFO);
     if (data->adv_dump && my_putchar(STDOUT, '\n') == KO)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
+
+    // Parser
+    if (data->adv_dump && setup_parser_advencement(data) == KO)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    for (size_t i = 0; i < data->files->len; i++) {
+        if (parser(data, ht_search(data->tokens, data->files->data[i])) == KO)
+            return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    }
+    if (data->adv_dump && my_putchar(STDOUT, '\n') == KO)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+
+    // Print option (-t)
     if (data->tok_dump && tokens_dump(data->tokens) == KO)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
-    
-    // Test of the is_value function of the parser
-    /*
-    array_t *toks = ht_search(data->tokens, data->files->data[0]);
-    if (!is_value(data, toks, 0, toks->len - 1))
-        return err_prog(UNDEF_ERR, KO, ERR_INFO);
-    */
-
     return OK;
 }
