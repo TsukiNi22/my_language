@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  04/06/2025 by Tsukini
+##  08/06/2025 by Tsukini
 
 File Name:
 ##  is_value.c
@@ -89,6 +89,8 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
     // set the data in the array
     for (size_t i = start; i <= end; i++) {
         tok = tokens->data[i];
+        if ((tok->type == LITERAL && tok->id == LIT_COMMENT) || (tok->type == DELIMITOR && tok->id == DEL_COMMENT))
+            continue;
         if (tok->type == LITERAL && add_array(array, setup_type(NUMBER, i, i)) == KO)
             return err_prog_n(UNDEF_ERR, ERR_INFO);
         else if (tok->type == IDENTIFIERS) {
@@ -108,7 +110,7 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
                     return err_prog_n(UNDEF_ERR, ERR_INFO);
                 if (size == i + 1) {
                     tok = tokens->data[i + 1];
-                    err_c15(data, false, tok->file, tok->y, "Parser", "No closing parenthesis have been found", tok->line, tok->x, tok->x + tok->size, false);
+                    err_c15(data, false, tok->file, tok->y, "Parser", "0 No closing parenthesis have been found", tok->line, tok->x + 1, tok->x + tok->size, false);
                     return NULL;
                 }
                 if (add_array(array, setup_type(CALL, i, size)) == KO)
@@ -116,7 +118,7 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
             } else if (is_methode && i + 2 <= end) {
                 tok = tokens->data[i + 2];
                 if (!(tok->type == IDENTIFIERS)) {
-                    err_c15(data, false, tok->file, tok->y, "Parser", "Invalid token after an access", tok->line, tok->x, tok->x + tok->size, false);
+                    err_c15(data, false, tok->file, tok->y, "Parser", "Invalid token after an access", tok->line, tok->x + 1, tok->x + tok->size, false);
                     return NULL;
                 }
                 if (i + 3 <= end)
@@ -131,18 +133,18 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
                     return err_prog_n(UNDEF_ERR, ERR_INFO);
                 if (size == i + 3) {
                     tok = tokens->data[i + 3];
-                    err_c15(data, false, tok->file, tok->y, "Parser", "No closing parenthesis have been found", tok->line, tok->x, tok->x + tok->size, false);
+                    err_c15(data, false, tok->file, tok->y, "Parser", "1 No closing parenthesis have been found", tok->line, tok->x + 1, tok->x + tok->size, false);
                     return NULL;
                 }
                 if (add_array(array, setup_type(CALL, i, size)) == KO)
                     return err_prog_n(UNDEF_ERR, ERR_INFO);
             } else {
-                err_c15(data, false, tok->file, tok->y, "Parser", "Can't determine the use of this, the arithmetic expression is ending too early", tok->line, tok->x, tok->x + tok->size, false);
+                err_c15(data, false, tok->file, tok->y, "Parser", "Can't determine the use of this, the arithmetic expression is ending too early", tok->line, tok->x + 1, tok->x + tok->size, false);
                 return NULL;
             }
         } else if (tok->type == OPERATOR) {
             if (tok->id == OP_EQ) {
-                err_c15(data, false, tok->file, tok->y, "Parser", "Can't use an attribution in an arithmetic expression", tok->line, tok->x, tok->x + tok->size, false);
+                err_c15(data, false, tok->file, tok->y, "Parser", "Can't use an attribution in an arithmetic expression", tok->line, tok->x + 1, tok->x + tok->size, false);
                 return NULL;
             }
             op_2 = (tok->id == OP_NOT || tok->id == OP_BOOL || tok->id == OP_ACCESS || tok->id == OP_DEREFERENCING);
@@ -155,13 +157,13 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
                 tok = tokens->data[size];
             if (size > end) {
                 tok = tokens->data[i];
-                err_c15(data, false, tok->file, tok->y, "Parser", "No closing parenthesis have been found", tok->line, tok->x, tok->x + tok->size, false);
+                err_c15(data, false, tok->file, tok->y, "Parser", "2 No closing parenthesis have been found", tok->line, tok->x + 1, tok->x + tok->size, false);
                 return NULL;
             }
             if (add_array(array, setup_type(PRIO, i, size)) == KO)
                 return err_prog_n(UNDEF_ERR, ERR_INFO);
         } else {
-            err_c15(data, false, tok->file, tok->y, "Parser", "Can't use this in an arithmetic expression", tok->line, tok->x, tok->x + tok->size, false);
+            err_c15(data, false, tok->file, tok->y, "Parser", "Can't use this in an arithmetic expression", tok->line, tok->x + 1, tok->x + tok->size, false);
             return NULL;
         }
     }
