@@ -44,7 +44,7 @@ static tokens_type_t *setup_type(value_type_t type, size_t start, size_t end)
 }
 
 // return the index of the corresponding parenthesis
-static size_t find_the_corresponding_parenthesis(array_t *tokens, size_t start)
+static size_t find_the_corresponding_parenthesis(array_t *tokens, size_t start, size_t end)
 {
     token_t *tok = NULL;
     size_t index = 0;
@@ -56,16 +56,16 @@ static size_t find_the_corresponding_parenthesis(array_t *tokens, size_t start)
 
     // find the index of the corresponding parenthesis
     count = 1;
-    for (index = start + 1; count > 0 && index < tokens->len; index++) {
+    for (index = start + 1; count > 0 && index <= end; index++) {
         tok = tokens->data[index];
         if (tok->type == DELIMITOR && tok->id == DEL_OPEN_PARENTHESIS)
             count++;
         else if (tok->type == DELIMITOR && tok->id == DEL_CLOSE_PARENTHESIS)
             count--;
     }
-    if (index >= tokens->len)
+    if (index > end && count > 0)
         return err_prog(UNDEF_ERR, start, ERR_INFO);
-    return index;
+    return index - 1;
 }
 
 // return the array of type for the given token list
@@ -91,9 +91,10 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
         tok = tokens->data[i];
         if ((tok->type == LITERAL && tok->id == LIT_COMMENT) || (tok->type == DELIMITOR && tok->id == DEL_COMMENT))
             continue;
-        if (tok->type == LITERAL && add_array(array, setup_type(NUMBER, i, i)) == KO)
-            return err_prog_n(UNDEF_ERR, ERR_INFO);
-        else if (tok->type == IDENTIFIERS) {
+        if (tok->type == LITERAL) {
+            if (add_array(array, setup_type(NUMBER, i, i)) == KO)
+                return err_prog_n(UNDEF_ERR, ERR_INFO);
+        } else if (tok->type == IDENTIFIERS) {
             is_function = false;
             is_methode = false;
             if (i + 1 <= end) {
@@ -105,7 +106,7 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
                 if (add_array(array, setup_type(IDENTIFIER, i, i)) == KO)
                     return err_prog_n(UNDEF_ERR, ERR_INFO);
             } else if (is_function && i + 1 <= end) {
-                size = find_the_corresponding_parenthesis(tokens, i + 1);
+                size = find_the_corresponding_parenthesis(tokens, i + 1, end);
                 if (size == 0)
                     return err_prog_n(UNDEF_ERR, ERR_INFO);
                 if (size == i + 1) {
@@ -115,6 +116,7 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
                 }
                 if (add_array(array, setup_type(CALL, i, size)) == KO)
                     return err_prog_n(UNDEF_ERR, ERR_INFO);
+                i = size;
             } else if (is_methode && i + 2 <= end) {
                 tok = tokens->data[i + 2];
                 if (!(tok->type == IDENTIFIERS)) {
@@ -128,7 +130,7 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
                         return err_prog_n(UNDEF_ERR, ERR_INFO);
                     continue;
                 }
-                size = find_the_corresponding_parenthesis(tokens, i + 3);
+                size = find_the_corresponding_parenthesis(tokens, i + 3, end);
                 if (size == 0)
                     return err_prog_n(UNDEF_ERR, ERR_INFO);
                 if (size == i + 3) {
@@ -138,6 +140,7 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
                 }
                 if (add_array(array, setup_type(CALL, i, size)) == KO)
                     return err_prog_n(UNDEF_ERR, ERR_INFO);
+                i = size;
             } else {
                 err_c15(data, false, tok->file, tok->y, "Parser", "Can't determine the use of this, the arithmetic expression is ending too early", tok->line, tok->x + 1, tok->x + tok->size, false);
                 return NULL;
@@ -162,6 +165,7 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
             }
             if (add_array(array, setup_type(PRIO, i, size)) == KO)
                 return err_prog_n(UNDEF_ERR, ERR_INFO);
+            i = size;
         } else {
             err_c15(data, false, tok->file, tok->y, "Parser", "Can't use this in an arithmetic expression", tok->line, tok->x + 1, tok->x + tok->size, false);
             return NULL;
