@@ -23,6 +23,7 @@
     /* DEFINE */
 
     /* write */
+    #define BASE_BIN "01"
     #define BASE_OCT "01234567"
     #define BASE_DEC "0123456789"
     #define BASE_HEX "0123456789abcdef"
