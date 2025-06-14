@@ -1,0 +1,8 @@
+Debian/Ubuntu ->
+sudo apt-get install libpcre3-dev
+
+Arch ->
+sudo pacman -S pcre
+
+RedHat/Fedora ->
+sudo dnf install pcre-devel
