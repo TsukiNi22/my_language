@@ -56,7 +56,10 @@ typedef struct compiler_s {
     int argc;
     char const **argv;
     char const *exe_name;
+
+    /* tokenizer regex */
     pcre *regex[REGEX_NUMBER];
+    pcre_extra *study[REGEX_NUMBER];
 
     /* option */
     bool tok_dump;

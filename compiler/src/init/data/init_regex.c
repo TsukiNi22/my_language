@@ -42,6 +42,9 @@ int init_regex(compiler_t *data)
         data->regex[i] = pcre_compile(patterns[i], 0, &error, &erroffset, NULL);
         if (!data->regex[i])
             return err_custom(error, KO, ERR_INFO);
+
+        // Only for optimisation
+        data->study[i] = pcre_study(data->regex[i], 0, &error);
     }
 
     return OK;

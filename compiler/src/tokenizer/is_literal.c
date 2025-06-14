@@ -51,7 +51,7 @@ bool is_literal(compiler_t *data, char const *str, int **id)
     if (len == KO)
         return err_prog(UNDEF_ERR, false, ERR_INFO);
     for (int i = 0; i < REGEX_NUMBER; i++) {
-        if (pcre_exec(data->regex[i], NULL, str, len, 0, 0, NULL, 0) >= 0) {
+        if (pcre_exec(data->regex[i], data->study[i], str, len, 0, 0, NULL, 0) >= 0) {
             val = patterns_val[i];
             break;
         }

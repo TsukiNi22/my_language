@@ -82,8 +82,11 @@ static int free_regex(compiler_t *data)
     // Check for potential null pointer
     if (!data)
         return err_prog(PTR_ERR, KO, ERR_INFO);
-    for (int i = 0; i < REGEX_NUMBER; i++)
+    for (int i = 0; i < REGEX_NUMBER; i++) {
         pcre_free(data->regex[i]);
+        if (data->study[i])
+            pcre_free_study(data->study[i]);
+    }
     return OK;
 }
 
