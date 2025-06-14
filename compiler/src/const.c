@@ -88,6 +88,7 @@ token_id_t patterns_val[REGEX_NUMBER] = {
     LIT_DECIMAL,
     LIT_FLOAT,
     LIT_STRING,
+    LIT_CHAR,
     LIT_COMMENT,
 };
 

@@ -50,12 +50,35 @@ bool is_literal(compiler_t *data, char const *str, int **id)
     len = my_strlen(str);
     if (len == KO)
         return err_prog(UNDEF_ERR, false, ERR_INFO);
+
     for (int i = 0; i < REGEX_NUMBER; i++) {
         if (pcre_exec(data->regex[i], data->study[i], str, len, 0, 0, NULL, 0) >= 0) {
             val = patterns_val[i];
             break;
         }
     }
+
+    /*
+    if (pcre_exec(data->regex[0], data->study[0], str, len, 0, 0, NULL, 0) >= 0) { // bool
+        val = LIT_BOOL;
+    } else if ((str[0] >= '0' && str[0] <= '9') || str[0] == '-' || str[0] == '.') { // bin, oct, hex, int, float
+        for (int i = 1; i <= 5; i++) {
+            if (pcre_exec(data->regex[i], data->study[i], str, len, 0, 0, NULL, 0) >= 0) {
+                val = patterns_val[i];
+                break;
+            }
+        }
+    } else if (str[0] == '\"') { // str
+        if (pcre_exec(data->regex[6], data->study[6], str, len, 0, 0, NULL, 0) >= 0)
+            val = LIT_STRING;
+    } else if (str[0] == '\'') { // char
+        if (pcre_exec(data->regex[7], data->study[7], str, len, 0, 0, NULL, 0) >= 0)
+            val = LIT_CHAR;
+    } else if (str[0] == '@') { // comment
+        if (pcre_exec(data->regex[8], data->study[8], str, len, 0, 0, NULL, 0) >= 0)
+            val = LIT_COMMENT;
+    }
+    */
 
     // No pattern found
     if (val == KO)
