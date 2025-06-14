@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  08/06/2025 by Tsukini
+##  14/06/2025 by Tsukini
 
 File Name:
 ##  kamion.h
@@ -24,9 +24,10 @@ File Description:
     /* INCLUDE */
 
     /* type */
+    #include "token.h"      // token_id_t type
     #include "hashtable.h"  // hashtable_t
     #include "array.h"      // array_t
-    #include <regex.h>      // regex_t
+    #include <pcre.h>       // pcre
     #include <stddef.h>     // size_t
     #include <stdbool.h>    // boolean
 
@@ -55,7 +56,7 @@ typedef struct compiler_s {
     int argc;
     char const **argv;
     char const *exe_name;
-    regex_t regex[REGEX_NUMBER];
+    pcre *regex[REGEX_NUMBER];
 
     /* option */
     bool tok_dump;
@@ -130,6 +131,10 @@ extern char const flags[];
 extern char const *full_flags[];
 extern int const flags_argc[];
 extern int (* const flag_functions[])(compiler_t *, int const, char const *[]);
+
+/* regex */
+extern const char *patterns[REGEX_NUMBER];
+extern token_id_t patterns_val[REGEX_NUMBER];
 
 /* token id */
 extern char const *token_str[];

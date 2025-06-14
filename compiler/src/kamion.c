@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  09/06/2025 by Tsukini
+##  14/06/2025 by Tsukini
 
 File Name:
 ##  kamion.c
@@ -158,7 +158,7 @@ int kamion(int const argc, char const *argv[], compiler_t *data)
         if (parser(data, ht_search(data->tokens, data->files->data[i])) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
     }
-    if (data->adv_dump && my_putchar(STDOUT, '\n') == KO)
+    if (data->adv_dump && data->tok_dump && my_putchar(STDOUT, '\n') == KO)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
 
     // Print option (-t)

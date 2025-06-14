@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  08/06/2025 by Tsukini
+##  14/06/2025 by Tsukini
 
 File Name:
 ##  free_data.c
@@ -22,7 +22,7 @@ File Description:
 #include "tokenizer.h"  // token_t type
 #include "kamion.h"     // compiler_t type
 #include "error.h"      // error handling
-#include <regex.h>      // regex free function
+#include <pcre.h>       // regex free function
 #include <stdlib.h>     // free function
 
 /* Token free function
@@ -83,7 +83,7 @@ static int free_regex(compiler_t *data)
     if (!data)
         return err_prog(PTR_ERR, KO, ERR_INFO);
     for (int i = 0; i < REGEX_NUMBER; i++)
-        regfree(&(data->regex[i]));
+        pcre_free(data->regex[i]);
     return OK;
 }
 

@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  04/06/2025 by Tsukini
+##  14/06/2025 by Tsukini
 
 File Name:
 ##  const.c
@@ -17,6 +17,7 @@ File Description:
 ## Constant used in flag initialisation and other thing
 \**************************************************************/
 
+#include "token.h"  // token_id_t type
 #include "kamion.h" // compiler_t type
 
 // Flag that are with '-'
@@ -65,7 +66,32 @@ int (* const flag_functions[])(compiler_t *, int const, char const *[]) = {
     &flag_advencement, // advencement
 };
 
-/* token str */
+// Regex patterns for litteral
+const char *patterns[REGEX_NUMBER] = {
+    "^(0|1|true|false)$",               // Bool
+    "^0b[01]*$",                        // Bin
+    "^0[0-7]*$",                        // Oct
+    "^0x[0-9a-fA-F]*$",                 // Hex
+    "^-?[0-9]+$",                       // Int
+    "^-?([0-9]+\\.[0-9]*|\\.[0-9]+)$",  // Float
+    "^\"([^\"\\\\]|\\\\.)*\"$",         // String
+    "^'(\\.|[^'\\\\])'$",               // Char
+    "^@>.*<@$"                          // Comment
+};
+
+// Value of the patterns
+token_id_t patterns_val[REGEX_NUMBER] = {
+    LIT_BOOL,
+    LIT_BINARY,
+    LIT_OCTAL,
+    LIT_HEXADECIMAL,
+    LIT_DECIMAL,
+    LIT_FLOAT,
+    LIT_STRING,
+    LIT_COMMENT,
+};
+
+// token str
 char const *token_str[] = {
     ";",         // del_expresion_end
     ",",         // del_sep_1
