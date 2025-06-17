@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  08/06/2025 by Tsukini
+##  17/06/2025 by Tsukini
 
 File Name:
 ##  is_value.c
@@ -145,12 +145,12 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
                 err_c15(data, false, tok->file, tok->y, "Parser", "Can't determine the use of this, the arithmetic expression is ending too early", tok->line, tok->x + 1, tok->x + tok->size, false);
                 return NULL;
             }
-        } else if (tok->type == OPERATOR) {
-            if (tok->id == OP_EQ) {
+        } else if (tok->type == OPERATOR || tok->type == COMPARATOR) {
+            if (tok->type == OPERATOR && tok->id == OP_EQ) {
                 err_c15(data, false, tok->file, tok->y, "Parser", "Can't use an attribution in an arithmetic expression", tok->line, tok->x + 1, tok->x + tok->size, false);
                 return NULL;
             }
-            op_2 = (tok->id == OP_NOT || tok->id == OP_BOOL || tok->id == OP_ACCESS || tok->id == OP_DEREFERENCING);
+            op_2 = (tok->type == OPERATOR && (tok->id == OP_NOT || tok->id == OP_BOOL || tok->id == OP_ACCESS || tok->id == OP_DEREFERENCING));
             if (!op_2 && add_array(array, setup_type(OP_1, i, i)) == KO)
                 return err_prog_n(UNDEF_ERR, ERR_INFO);
             if (op_2 && add_array(array, setup_type(OP_2, i, i)) == KO)
@@ -223,7 +223,20 @@ static int for_each_call_argument(compiler_t *data, array_t *tokens, size_t star
     return OK;
 }
 
+// Is third operator
+static bool is_op3(token_t *tok)
+{
+    // Check for potential null pointer
+    if (!tok)
+        return err_prog(PTR_ERR, false, ERR_INFO);
+    return (tok->type == OPERATOR && (tok->id == OP_SUB || tok->id == OP_ADD));
+}
 
+// Is a val -> (NUMBER or IDENTIFIER or PRIO or CALL)
+static bool is_val(value_type_t type)
+{
+    return (type == NUMBER || type == IDENTIFIER || type == PRIO || type == CALL);
+}
 
 // Free simple pointer
 static int free_ptr(void *ptr)
@@ -250,7 +263,7 @@ static int free_ptr(void *ptr)
 */
 bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
 {
-    tokens_type_t *toks_type = NULL;
+    tokens_type_t *toks_type, tmp_toks_type = NULL;
     array_t *array = NULL;
     size_t start_prio, end_prio = 0;
 
@@ -265,9 +278,66 @@ bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
     // recall the is_value for some execption
     for (size_t i = 0; i < array->len; i++) {
         toks_type = array->data[i];
-        if (toks_type->type == PRIO && !is_value(data, tokens, toks_type->start + 1, toks_type->end - 1))
-            return err_prog(UNDEF_ERR, false, ERR_INFO);
-        if (toks_type->type == CALL) {
+        // val = i/n/call/prio
+        if (toks_type->type == NUMBER || toks_type->type == IDENTIFIER || toks_type->type == PRIO || toks_type->type == CALL) {
+            // val | op2 val | op1 val | val op1 | op1 val op1 | op2 val op1
+            // + & - who can also be val+ or val- -> val op3 same as val op1
+            if (i > 0) {
+                tmp_toks_type = array->data[i - 1];
+                if (tmp_toks_type->type != OP_1 && tmp_toks_type->type != OP_2)
+                    // Error
+            }
+            if (i + 1 < array->len) {
+                tmp_toks_type = array->data[i + 1];
+                if (tmp_toks_type->type != OP_1)
+                    // Error
+            }
+        } else if (toks_type->type == OP_1) {
+            // val op1 val | val op1 op2
+            // + & - who can also be val+ or val- -> val op3 op1 | op3 op1 val | op3 op1 op2 | val op3
+            if (i > 0) {
+                tmp_toks_type = array->data[i - 1];
+                if (!is_val(tmp_toks_type->type) && (tmp_toks_type->type != OP_1 || !is_op3(tokens->data[tmp_toks_type->start])))
+                    // Error
+            } else
+                // Error
+            if (i + 1 < array->len) {
+                tmp_toks_type = array->data[i + 1];
+                if (toks_type->type == OP_1 && is_op3(tokens->data[toks_type->start])) {
+                    tmp_toks_type = array->data[i - 1];
+                    if (is_val(tmp_toks_type->type)) {
+                        // val +|- op1
+                        tmp_toks_type = array->data[i + 1];
+                        if (tmp_toks_type->type != OP_1)
+                            // Error
+                    } else if (tmp_toks_type->type == OP_1 && is_op3(tokens->data[tmp_toks_type->start])) {
+                        // +|- +|- val
+                        // +|- +|- op2
+                        tmp_toks_type = array->data[i + 1];
+                        if (!is_val(tmp_toks_type->type) && tmp_toks_type->type != OP_2)
+                            // Error
+                    }
+                } else if (!is_val(tmp_toks_type->type) && tmp_toks_type->type != OP_2)
+                    // Error
+            } else if (toks_type->type != OP_1 || !is_op3(tokens->data[toks_type->start]))
+                // Error
+        } else if (toks_type->type == OP_2) {
+            // op2 val | op1 op2 val
+            if (i > 0) {
+                tmp_toks_type = array->data[i - 1];
+                if (tmp_toks_type->type != OP_1)
+                    // Error
+            }
+            if (i + 1 < array->len) {
+                tmp_toks_type = array->data[i + 1];
+                if (!is_val(tmp_toks_type->type))
+                    // Error
+            }
+        }
+        if (toks_type->type == PRIO) {
+            if (!is_value(data, tokens, toks_type->start + 1, toks_type->end - 1))
+                return err_prog(UNDEF_ERR, false, ERR_INFO);
+        } else if (toks_type->type == CALL) {
             if (get_start_end(tokens, &start_prio, &end_prio, toks_type->start, toks_type->end) == KO)
                 return err_prog(UNDEF_ERR, false, ERR_INFO);
             if (for_each_call_argument(data, tokens, start_prio + 1, end_prio - 1) == KO)
@@ -275,10 +345,6 @@ bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
         }
     }
 
-    /*
-     * get list of type (Number, Identifier, Call, Prio, op1, op2)
-     * for each type recall is_value for each Prio and each argument of call
-    */
     if (delete_array(&array, &free_ptr) == KO)
         return err_prog(UNDEF_ERR, false, ERR_INFO);
     return true;

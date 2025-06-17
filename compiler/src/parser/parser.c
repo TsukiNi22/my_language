@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  08/06/2025 by Tsukini
+##  15/06/2025 by Tsukini
 
 File Name:
 ##  parser.c
@@ -38,5 +38,15 @@ int parser(compiler_t *data, array_t *tokens)
     if (!data || !tokens)
         return err_prog(PTR_ERR, KO, ERR_INFO);
     
+    /*
+     ***************************************************************************
+     * KeyWord_From | KeyWord_Set | Initialisation_Function | Initialisation_Var
+     ***************************************************************************
+     * (kwf) get            -> KW_GET
+     * (kws) set            -> KW_DEFINE
+     * (fun) type | none    -> is_type or KW_NONE
+     * (var) type           -> is_type
+    */
+
     return OK;
 }
