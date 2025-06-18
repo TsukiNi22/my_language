@@ -155,7 +155,6 @@ int kamion(int const argc, char const *argv[], compiler_t *data)
     if (data->adv_dump && setup_tokens_advencement(data) == KO)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
     for (size_t i = 0; i < data->files->len; i++) {
-        array_t *toks = ht_search(data->tokens, data->files->data[i]);
         if (parser(data, ht_search(data->tokens, data->files->data[i])) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
     }
