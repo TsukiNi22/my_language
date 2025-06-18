@@ -238,6 +238,25 @@ static bool is_val(value_type_t type)
     return (type == NUMBER || type == IDENTIFIER || type == PRIO || type == CALL);
 }
 
+// Call the error function depends on the type
+static int error_handler(compiler_t *data, array_t *tokens, tokens_type_t *toks_type, char *message)
+{
+    token_t *tok = NULL;
+    
+    // Check for potential null pointer
+    if (!data || !tokens || !toks_type || !message)
+        return err_prog(PTR_ERR, KO, ERR_INFO);
+    
+    if (toks_type->type == NUMBER || toks_type->type == IDENTIFIER || toks_type->type == OP_1 || toks_type->type == OP_2) {
+        tok = tokens->data[toks_type->start];
+        return err_c15(data, false, tok->file, tok->y, "Parser", message, tok->line, tok->x + 1, tok->x + tok->size, false);
+    } else if (toks_type->type == PRIO || toks_type->type == CALL) {
+        tok = tokens->data[toks_type->start];
+        return err_c15(data, false, tok->file, tok->y, "Parser", message, tok->line, tok->x + 1, tok->x + tok->size, false);
+    }
+    return OK;
+}
+
 // Free simple pointer
 static int free_ptr(void *ptr)
 {
@@ -263,7 +282,7 @@ static int free_ptr(void *ptr)
 */
 bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
 {
-    tokens_type_t *toks_type, tmp_toks_type = NULL;
+    tokens_type_t *toks_type, *tmp_toks_type = NULL;
     array_t *array = NULL;
     size_t start_prio, end_prio = 0;
 
@@ -275,22 +294,23 @@ bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
     if (!array)
         return err_prog(UNDEF_ERR, false, ERR_INFO);
 
-    // recall the is_value for some execption
     for (size_t i = 0; i < array->len; i++) {
         toks_type = array->data[i];
-        // val = i/n/call/prio
+        
+        // check the order of the toks_type
+        // val = number/identifier/call/prio
         if (toks_type->type == NUMBER || toks_type->type == IDENTIFIER || toks_type->type == PRIO || toks_type->type == CALL) {
             // val | op2 val | op1 val | val op1 | op1 val op1 | op2 val op1
             // + & - who can also be val+ or val- -> val op3 same as val op1
             if (i > 0) {
                 tmp_toks_type = array->data[i - 1];
                 if (tmp_toks_type->type != OP_1 && tmp_toks_type->type != OP_2)
-                    // Error
+                    return error_handler(data, tokens, tmp_toks_type, "Can only be a valid operator before a value");
             }
             if (i + 1 < array->len) {
                 tmp_toks_type = array->data[i + 1];
                 if (tmp_toks_type->type != OP_1)
-                    // Error
+                    return error_handler(data, tokens, tmp_toks_type, "Can only be a valid operator after a value");
             }
         } else if (toks_type->type == OP_1) {
             // val op1 val | val op1 op2
@@ -298,42 +318,47 @@ bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
             if (i > 0) {
                 tmp_toks_type = array->data[i - 1];
                 if (!is_val(tmp_toks_type->type) && (tmp_toks_type->type != OP_1 || !is_op3(tokens->data[tmp_toks_type->start])))
-                    // Error
+                    return error_handler(data, tokens, tmp_toks_type, "Can only be a value or a special operator (-, +) before an operator");
             } else
-                // Error
+                return error_handler(data, tokens, toks_type, "You need a value or a special operator (-, +) before an operator");
             if (i + 1 < array->len) {
                 tmp_toks_type = array->data[i + 1];
                 if (toks_type->type == OP_1 && is_op3(tokens->data[toks_type->start])) {
                     tmp_toks_type = array->data[i - 1];
                     if (is_val(tmp_toks_type->type)) {
                         // val +|- op1
+                        // val +|- op2
+                        // val +|- val
                         tmp_toks_type = array->data[i + 1];
-                        if (tmp_toks_type->type != OP_1)
-                            // Error
+                        if (tmp_toks_type->type != OP_1 && tmp_toks_type->type != OP_2 && !is_val(tmp_toks_type->type))
+                            return error_handler(data, tokens, tmp_toks_type, "Can only be a operator after a special operator (+, -)");
                     } else if (tmp_toks_type->type == OP_1 && is_op3(tokens->data[tmp_toks_type->start])) {
                         // +|- +|- val
                         // +|- +|- op2
                         tmp_toks_type = array->data[i + 1];
                         if (!is_val(tmp_toks_type->type) && tmp_toks_type->type != OP_2)
-                            // Error
+                            return error_handler(data, tokens, tmp_toks_type, "Can only be a value or a special operator (!, ?, <-, ->) after an operator");
                     }
                 } else if (!is_val(tmp_toks_type->type) && tmp_toks_type->type != OP_2)
-                    // Error
-            } else if (toks_type->type != OP_1 || !is_op3(tokens->data[toks_type->start]))
-                // Error
+                    return error_handler(data, tokens, tmp_toks_type, "Can only be a value or a special operator (!, ?, <-, ->) after an operator");
+            } else if (toks_type->type != OP_1 || !is_op3(tokens->data[toks_type->start])) {
+                return error_handler(data, tokens, toks_type, "You need a value or a special operator (!, ?, <-, ->) after an operator");
+            }
         } else if (toks_type->type == OP_2) {
             // op2 val | op1 op2 val
             if (i > 0) {
                 tmp_toks_type = array->data[i - 1];
                 if (tmp_toks_type->type != OP_1)
-                    // Error
+                    return error_handler(data, tokens, tmp_toks_type, "Can only be a operator before a special operator (!, ?, <-, ->)");
             }
             if (i + 1 < array->len) {
                 tmp_toks_type = array->data[i + 1];
                 if (!is_val(tmp_toks_type->type))
-                    // Error
+                    return error_handler(data, tokens, tmp_toks_type, "Can only be a value after a special operator (!, ?, <-, ->)");
             }
         }
+    
+        // recall the is_value for some execption
         if (toks_type->type == PRIO) {
             if (!is_value(data, tokens, toks_type->start + 1, toks_type->end - 1))
                 return err_prog(UNDEF_ERR, false, ERR_INFO);
