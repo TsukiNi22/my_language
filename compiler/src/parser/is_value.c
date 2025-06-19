@@ -8,13 +8,13 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  17/06/2025 by Tsukini
+##  19/06/2025 by Tsukini
 
 File Name:
 ##  is_value.c
 
 File Description:
-##  Determine if the list of token given is a is_value
+##  Determine if the list of token given is a value
 ##  value: identifier|litteral|calcul|call
 \**************************************************************/
 
@@ -111,7 +111,7 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
                     return err_prog_n(UNDEF_ERR, ERR_INFO);
                 if (size == i + 1) {
                     tok = tokens->data[i + 1];
-                    err_c15(data, false, tok->file, tok->y, "Parser", "0 No closing parenthesis have been found", tok->line, tok->x + 1, tok->x + tok->size, false);
+                    err_c15(data, false, tok->file, tok->y, "Parser", "No closing parenthesis have been found", tok->line, tok->x + 1, tok->x + tok->size, false);
                     return NULL;
                 }
                 if (add_array(array, setup_type(CALL, i, size)) == KO)
@@ -135,7 +135,7 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
                     return err_prog_n(UNDEF_ERR, ERR_INFO);
                 if (size == i + 3) {
                     tok = tokens->data[i + 3];
-                    err_c15(data, false, tok->file, tok->y, "Parser", "1 No closing parenthesis have been found", tok->line, tok->x + 1, tok->x + tok->size, false);
+                    err_c15(data, false, tok->file, tok->y, "Parser", "No closing parenthesis have been found", tok->line, tok->x + 1, tok->x + tok->size, false);
                     return NULL;
                 }
                 if (add_array(array, setup_type(CALL, i, size)) == KO)
@@ -160,7 +160,7 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
                 tok = tokens->data[size];
             if (size > end) {
                 tok = tokens->data[i];
-                err_c15(data, false, tok->file, tok->y, "Parser", "2 No closing parenthesis have been found", tok->line, tok->x + 1, tok->x + tok->size, false);
+                err_c15(data, false, tok->file, tok->y, "Parser", "No closing parenthesis have been found", tok->line, tok->x + 1, tok->x + tok->size, false);
                 return NULL;
             }
             if (add_array(array, setup_type(PRIO, i, size)) == KO)

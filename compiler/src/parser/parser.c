@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  15/06/2025 by Tsukini
+##  19/06/2025 by Tsukini
 
 File Name:
 ##  parser.c
@@ -38,14 +38,31 @@ int parser(compiler_t *data, array_t *tokens)
     if (!data || !tokens)
         return err_prog(PTR_ERR, KO, ERR_INFO);
     
+    // Skip comment: @error@ @ comment
+
     /*
-     ***************************************************************************
-     * KeyWord_From | KeyWord_Set | Initialisation_Function | Initialisation_Var
-     ***************************************************************************
-     * (kwf) get            -> KW_GET
-     * (kws) set            -> KW_DEFINE
-     * (fun) type | none    -> is_type or KW_NONE
-     * (var) type           -> is_type
+     ***************
+     * instruction *
+     ***************
+     [flowcontroller|keyword|initialisation_var|attribution|call|identifier++identifier|identifier--identifier];
+     * flowcontroller;          | More information in the next comment
+     * keyword;                 | More information in the next comment
+     * initialisation_var;      | More information in the next comment
+     * attribution;             | More information in the next comment
+     * call;                    | More information in the next comment
+     * identifier++identifier;  | IDENTIFIERS OP_INC IDENTIFIERS
+     * identifier--identifier;  | IDENTIFIERS OP_DEC IDENTIFIERS
+    */
+
+    /*
+     *********
+     * start *
+     *********
+     * (from)       from    | KW_FROM
+     * (set)        set     | KW_SET
+     * (init var)   type    | TYPE IDENTIFIERS OPERATOR
+     * (init func)  none    | KW_NONE
+     * (init func)  type    | TYPE IDENTIFIERS DEL_OPEN_PARENTHESIS
     */
 
     return OK;
