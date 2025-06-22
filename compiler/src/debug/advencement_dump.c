@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  09/06/2025 by Tsukini
+##  22/06/2025 by Tsukini
 
 File Name:
 ##  advencement_dump.c
@@ -43,6 +43,7 @@ int setup_tokens_advencement(compiler_t *data)
 
     // for each file get the total of tokens
     data->total_adv = 0;
+    data->actual_adv = 0;
     for (size_t i = 0; i < data->files->len; i++) {
         // get the tokens array
         tokens = ht_search(data->tokens, data->files->data[i]);
@@ -73,6 +74,7 @@ int setup_files_advencement(compiler_t *data)
 
     // for each file get the total size (in octet)
     data->total_adv = 0;
+    data->actual_adv = 0;
     for (size_t i = 0; i < data->files->len; i++) {
         // Set the stream for the file to tokenize
         fs = fopen(data->files->data[i], "r");

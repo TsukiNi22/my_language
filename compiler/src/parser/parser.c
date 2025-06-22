@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  19/06/2025 by Tsukini
+##  22/06/2025 by Tsukini
 
 File Name:
 ##  parser.c
@@ -65,5 +65,8 @@ int parser(compiler_t *data, array_t *tokens)
      * (init func)  type    | TYPE IDENTIFIERS DEL_OPEN_PARENTHESIS
     */
 
+    if (data->adv_dump && advencement_dump(data) == KO)
+        return err_prog(UNDEF_ERR, KO, ERR_INFO);
+    
     return OK;
 }
