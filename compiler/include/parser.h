@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  18/06/2025 by Tsukini
+##  19/06/2025 by Tsukini
 
 File Name:
 ##  parser.c
@@ -60,5 +60,6 @@ int parser(compiler_t *data, array_t *tokens); // Error: KO
 
 /* detection */
 bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end); // Error: false
+bool is_type(compiler_t *data, array_t *tokens, size_t start, size_t end); // Error: false
 
 #endif /* PARSER_H */

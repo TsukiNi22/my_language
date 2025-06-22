@@ -54,7 +54,8 @@ TOKENIZER :=	tokenizer/tokenizer.c \
 				tokenizer/is_literal.c
 
 PARSER :=		parser/parser.c \
-				parser/is_value.c
+				parser/is_value.c \
+				parser/is_type.c
 
 DEBUG := 		debug/tokens_dump.c \
 				debug/advencement_dump.c
