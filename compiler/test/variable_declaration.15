@@ -1,0 +1,5 @@
+@unsigned int: (34 + 2) * (test) test = 0;
+unsigned int: (34 + 2) * yet.Nop test = 0;
+@unsigned int: (34 + 2 / func(nop2, func_second(test) % 2)) * yet.Nop test = 0;
+@unsigned int: 34 + 2 / func(nop2, func_second(test) % 2) * yet.Nop test = 0;
+@unsigned int: (34 + 2 / func(nop2,  2)) * yet.Nop test = 0;

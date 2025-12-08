@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  19/06/2025 by Tsukini
+##  06/12/2025 by Tsukini
 
 File Name:
 ##  is_type.c
@@ -65,7 +65,7 @@ static bool is_valid_resisable(compiler_t *data, array_t *tokens, size_t start, 
     if (tok->type != DELIMITOR && tok->id != DEL_SEP_2)
         return false;
 
-    // Check the value aafter the delimitor ':'
+    // Check the value after the delimitor ':'
     if (!is_value(data, tokens, start + 1, end))
         return false;
 

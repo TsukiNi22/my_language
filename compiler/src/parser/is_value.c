@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  19/06/2025 by Tsukini
+##  01/09/2025 by Tsukini
 
 File Name:
 ##  is_value.c
@@ -126,8 +126,9 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
                 if (i + 3 <= end)
                     tok = tokens->data[i + 3];
                 if (i + 3 > end || !(tok->type == DELIMITOR && tok->id == DEL_OPEN_PARENTHESIS)) {
-                    if (add_array(array, setup_type(NUMBER, i, size)) == KO)
+                    if (add_array(array, setup_type(NUMBER, i, i + 2)) == KO)
                         return err_prog_n(UNDEF_ERR, ERR_INFO);
+                    i += 2;
                     continue;
                 }
                 size = find_the_corresponding_parenthesis(tokens, i + 3, end);
@@ -158,7 +159,7 @@ static array_t *get_array_tokens(compiler_t *data, array_t *tokens, size_t start
         } else if (tok->type == DELIMITOR && tok->id == DEL_OPEN_PARENTHESIS) {
             for (size = i; !(tok->type == DELIMITOR && tok->id == DEL_CLOSE_PARENTHESIS) && size <= end; size++)
                 tok = tokens->data[size];
-            if (size > end) {
+            if (size > end + 1) {
                 tok = tokens->data[i];
                 err_c15(data, false, tok->file, tok->y, "Parser", "No closing parenthesis have been found", tok->line, tok->x + 1, tok->x + tok->size, false);
                 return NULL;
