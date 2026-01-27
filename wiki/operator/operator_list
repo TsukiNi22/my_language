@@ -6,11 +6,11 @@ Operator list:
     '+'     ->  Addition
     '*'     ->  Multiplication
     '/'     ->  Division
-    '^'     ->  Power
     '%'     ->  Modulo
     '//'    ->  Integer Division
     '&'     ->  Bitwise AND
     '|'     ->  Bitwise OR
+    '^'     ->  Bitwise XOR
     '>>'    ->  Right Shift
     '<<'    ->  Left Shift
     '<-'    ->  Access

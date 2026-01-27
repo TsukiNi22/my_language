@@ -62,13 +62,6 @@
     syntax:
         a / b
 
-'^':
-    description:
-        - The ouput is the first value raise to the power of the second value
-
-    syntax:
-        a^b
-
 '%':
     description:
         - The ouput is the remainder of the division of the first value by the second value
@@ -96,6 +89,13 @@
 
     syntax:
         a | b
+
+'^':
+    description:
+        - The ouput is the logical xor of each bits of the first and second value
+
+    syntax:
+        a^b
 
 '>>':
     description:

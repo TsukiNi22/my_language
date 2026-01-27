@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  19/06/2025 by Tsukini
+##  27/01/2026 by Tsukini
 
 File Name:
 ##  token.h
@@ -69,11 +69,11 @@ typedef enum token_id_e {
     OP_ADD,
     OP_MULT,
     OP_DIV,
-    OP_POW,
     OP_MODULO,
     OP_INT_DIV,
     OP_AND,
     OP_OR,
+    OP_XOR,
     OP_R_SHIFT,
     OP_L_SHIFT,
     OP_ACCESS,
