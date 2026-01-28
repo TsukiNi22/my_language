@@ -137,7 +137,7 @@
         - Substract the value to the variable
 
     syntax:
-        var--b
+        var--a
 
 '..=':
     description:
@@ -145,6 +145,7 @@
         - The ouput is the var (operator) the value
 
     syntax:
+        var != a
         var ?= a
         var -= a
         var += a
