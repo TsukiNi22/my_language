@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  19/06/2025 by Tsukini
+##  28/01/2026 by Tsukini
 
 File Name:
 ##  parser.c
@@ -32,25 +32,16 @@ File Description:
 //----------------------------------------------------------------//
 /* TYPEDEF */
 
-/* type_value */
-typedef enum value_type_e {
-    NUMBER = 0,
-    IDENTIFIER,
-    OP_1,
-    OP_2,
-    PRIO,
-    CALL,
-} value_type_t;
-
-/* array_tokens_type */
-typedef struct tokens_type_s {
-    /* type */
-    value_type_t type;
-
-    /* position */
-    size_t start;
-    size_t end;
-} tokens_type_t;
+/* op_type */
+typedef enum op_type_e {
+    A_OP_B,
+    V_OP_A,
+    __OP_A,
+    __OP_V,
+    V_OP__,
+    I_X_EQUAL_V,
+    I_SPE,
+} op_type_t;
 
 //----------------------------------------------------------------//
 /* PROTOTYPE */

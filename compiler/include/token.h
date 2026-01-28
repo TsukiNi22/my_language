@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  27/01/2026 by Tsukini
+##  28/01/2026 by Tsukini
 
 File Name:
 ##  token.h
@@ -52,6 +52,8 @@ typedef enum token_id_e {
     DEL_SEP_1,
     DEL_SEP_2,
     DEL_ACCESS,
+    DEL_OPEN_ARRAY,
+    DEL_CLOSE_ARRAY,
     DEL_COMMENT,
     DEL_OPEN_COMMENT,
     DEL_CLOSE_COMMENT,

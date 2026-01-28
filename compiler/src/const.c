@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  27/01/2026 by Tsukini
+##  28/01/2026 by Tsukini
 
 File Name:
 ##  const.c
@@ -98,6 +98,8 @@ char const *token_str[] = {
     ",",         // del_sep_1
     ":",         // del_sep_2
     ".",         // del_access
+    "[",         // del_open_array
+    "]",         // del_close_array
     "@",         // del_comment
     "@>",        // del_open_comment
     "<@",        // del_close_comment
