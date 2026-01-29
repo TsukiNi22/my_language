@@ -100,10 +100,15 @@ bool is_type(compiler_t *data, array_t *tokens, size_t start, size_t end)
 
     // Dispatch the check of type for unsigned / no unsigned / array / struct / other
     tok = tokens->data[start];
+
+    // unsigned dispatch
     if (tok->id == T_UNSIGNED) {
         tok = tokens->data[start + 1];
+        
+        // Check the existance of the type between the unsigned & identifier
         if (tok->type != TYPE)
             return err_c15(data, false, tok->file, tok->y, "Parser", "A unsigned must be followed by a type", tok->line, tok->x + 1, tok->x + tok->size, false);
+
         unsignable = (tok->id == T_CHAR || tok->id == T_STR || tok->id == T_INT || tok->id == T_FLOAT || tok->id == T_PTR);
         resizable = (tok->id >= T_BIN && tok->id <= T_PTR);
         size = get_toks_size(tokens, start + 3, end - 1);
@@ -116,7 +121,12 @@ bool is_type(compiler_t *data, array_t *tokens, size_t start, size_t end)
             } else if (!resizable)
                 return err_c15(data, false, tok->file, tok->y, "Parser", "This type can only be '[unsigned] type identifier'", tok->line, tok->x + 1, tok->x + size, false);
         }
-    } else if (tok->id >= T_CHAR && tok->id <= T_PTR) {
+    }
+
+    // normal type dispatch (char, str, bool, bin, oct, int, hex, float, ptr)
+    else if (tok->id >= T_CHAR && tok->id <= T_PTR) {
+        
+        // If a resize value have been given between the type & the identifier
         if (end - start > 1) {
             resizable = (tok->id >= T_BIN && tok->id <= T_PTR);
             size = get_toks_size(tokens, start + 2, end - 1);
@@ -126,15 +136,28 @@ bool is_type(compiler_t *data, array_t *tokens, size_t start, size_t end)
             } else if (!resizable)
                 return err_c15(data, false, tok->file, tok->y, "Parser", "This type can only be '[unsigned] type identifier'", tok->line, tok->x + 1, tok->x + size, false);
         }
-    } else if (tok->id == T_ARRAY) {
+    }
+
+    // array dispatch
+    else if (tok->id == T_ARRAY) {
+        
+        // If the type is given between the array & the identifier
         if (end - start > 1)
             return is_type(data, tokens, start + 1, end);
-    } else if (tok->id == T_STRUCT) {
+    }
+
+    // struct dispatch
+    else if (tok->id == T_STRUCT) {
+
+        // If thing are between the struct & the identifier
         if (end - start != 1) {
             size = get_toks_size(tokens, start + 1, end - 1);
             return err_c15(data, false, tok->file, tok->y, "Parser", "A struct type can only be 'struct identifier'", tok->line, tok->x + 1, tok->x + size, false);
         }
-    } else {
+    } 
+
+    // Unknow type start, can't determine the type
+    else {
         size = get_toks_size(tokens, start, end);
         return err_c15(data, false, tok->file, tok->y, "Parser", "Can't determine the main purpose of this type", tok->line, tok->x + 1, tok->x + size, false);
     }
