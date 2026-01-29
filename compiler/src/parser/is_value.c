@@ -231,8 +231,9 @@ static int rec_call_arguments(compiler_t *data, array_t *tokens, size_t start, s
 */
 bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
 {
-    token_t *tok, *next_tok = NULL;
+    token_t *previous_tok = NULL, *tok = NULL, *next_tok = NULL;
     size_t index = 0;
+    bool call = false;
 
     // Check for potential null pointer
     if (!data || !tokens)
@@ -240,6 +241,7 @@ bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
 
     // Loop on each token
     for (size_t i = start; i < end; i++) {
+        if (i > start) previous_tok = tokens->data[i - 1];
         tok = tokens->data[i];
         next_tok = tokens->data[i + 1];
 
@@ -267,8 +269,12 @@ bool is_value(compiler_t *data, array_t *tokens, size_t start, size_t end)
             if (index == i) // No corresponding pair of parenthesis have been found
                 return err_c15(data, false, tok->file, tok->y, "Parser", "No closing parenthesis have been found", tok->line, tok->x + 1, tok->x + tok->size, false);
 
-            // Recursive call for each argument of the parenthesis -> (v, v, ...)
-            if (rec_call_arguments(data, tokens, i, index) != OK) {
+            // Recursive call for each argument of the parenthesis ->
+            // (v,v,...) -> when preceded by an IDENTIFIERS or a closing array accessor
+            // (v) -> other case
+            call = (previous_tok && (previous_tok->type == IDENTIFIERS || (previous_tok->type == DELIMITOR && previous_tok->id == DEL_CLOSE_ARRAY)));
+            if ((call && rec_call_arguments(data, tokens, i, index) != OK)
+                || (!call && !is_value(data, tokens, i + 1, index - 1))) {
                 size_t size = get_toks_size(tokens, i, index);
                 if (!size) return err_prog(PTR_ERR, false, ERR_INFO);
                 return err_c15(data, false, tok->file, tok->y, "Parser", "Invalid value found during the check of the call arguments", tok->line, tok->x + 1, tok->x + size, false);
