@@ -160,7 +160,7 @@ Size manual changement:
     Description:
         - Default size: None
         - Used to modifie the type of a var in the declaration
-        - Only on the type: char, bin, oct, int, hex, float, ptr
+        - Only on the type: char, str, int, float, ptr
         - The var who is defined from -(max / 2) to (max / 2 - 1) will be defined now from 0 to max (can't be negative)
 
     Syntax:
