@@ -75,25 +75,33 @@ int parser(compiler_t *data, array_t *tokens)
     // dispatch for the different possible start in a file
     start_adv = data->actual_adv;
     for (size_t i = 0; i < tokens->len; i++) {
-        data->actual_adv = start_adv + i;
         tok = tokens->data[i];
 
+        // from instruction
         if (tok->type == KEY_WORD && tok->id == KW_FROM) {
-            // from instruction
-        } else if (tok->type == KEY_WORD && tok->id == KW_DEFINE) {
-            // set instruction
-        } else if (tok->type == KEY_WORD && tok->id == KW_NONE) {
-            // init func with none
-        } else if (tok->type == LITERAL && tok->id == LIT_COMMENT) {
-            // comment first version '@>...<@' (skiped)
-        } else if (tok->type == DELIMITOR && tok->id == DEL_COMMENT) {
-            // comment second version '@...' (skiped)
+        }
+
+        // set instruction
+        else if (tok->type == KEY_WORD && tok->id == KW_DEFINE) {
+        }
+
+        // init func with none
+        else if (tok->type == KEY_WORD && tok->id == KW_NONE) {
+        }
+
+        // comment first version '@>...<@' (skiped)
+        else if (tok->type == LITERAL && tok->id == LIT_COMMENT);
+
+        // comment second version '@...' (skiped)
+        else if (tok->type == DELIMITOR && tok->id == DEL_COMMENT) {
             tok_tmp = tokens->data[++i];
+            // Check if there is really a COMMENT token after the comment delimitor
             if (!(tok_tmp->type == LITERAL && tok_tmp->id == LIT_COMMENT))
                 return err_c15(data, false, tok->file, tok->y, "Parser", "No corresponding comment found for this declaration of comment", tok->line, tok->x + 1, tok->x + tok->size, false);
-        } else if (tok->type == TYPE) {
-            // init func or init var
-            
+        }
+
+        // init func or init var
+        else if (tok->type == TYPE) {
             // find the end IDENTIFIERS before the '=' or ';' for the var declaration
             found = false;
             for (j = i; !found && j < tokens->len; j++) {
@@ -108,17 +116,17 @@ int parser(compiler_t *data, array_t *tokens)
             
             // check if it's a valid type
             if (!is_type(data, tokens, i, j - 2))
-                break;
-
-        } else {
-            // unknow line start
-            return err_c15(data, false, tok->file, tok->y, "Parser", "Invalid start of instruction outside of a function", tok->line, tok->x + 1, tok->x + tok->size, false);
+                return false;
         }
+
+        // unknow line start
+        else return err_c15(data, false, tok->file, tok->y, "Parser", "Invalid start of instruction outside of a function", tok->line, tok->x + 1, tok->x + tok->size, false);
+    
+        // Update the adv & dump it
+        data->actual_adv = start_adv + (i + 1);
+        if (data->adv_dump && advencement_dump(data) == KO)
+            return err_prog(UNDEF_ERR, KO, ERR_INFO);
     }
 
-    data->actual_adv = start_adv + tokens->len;
-    if (data->adv_dump && advencement_dump(data) == KO)
-        return err_prog(UNDEF_ERR, KO, ERR_INFO);
-    
     return OK;
 }
