@@ -46,8 +46,9 @@ INIT :=			init/init_data.c \
 				init/flag/tokens.c \
 				init/flag/advencement.c
 
-USEFUL := 		useful/is_valid_dir.c \
-				useful/is_valid_file.c
+UTILS := 		utils/is_valid_dir.c \
+				utils/is_valid_file.c \
+				utils/get_toks_size.c
 
 TOKENIZER :=	tokenizer/tokenizer.c \
 				tokenizer/is_identifier.c \
@@ -61,7 +62,7 @@ DEBUG := 		debug/tokens_dump.c \
 				debug/advencement_dump.c
 
 FILES := $(GLOBAL) $(INIT) $(DEBUG)
-FILES += $(USEFUL) $(TOKENIZER) $(PARSER)
+FILES += $(UTILS) $(TOKENIZER) $(PARSER)
 SRC := $(addprefix src/, $(FILES))
 OBJ := $(SRC:%.c=$(BUILD_DIR)/%.o)
 
