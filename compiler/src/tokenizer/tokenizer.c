@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  08/06/2025 by Tsukini
+##  29/01/2026 by Tsukini
 
 File Name:
 ##  tokenizer.c

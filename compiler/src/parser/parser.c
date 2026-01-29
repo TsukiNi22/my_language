@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  06/12/2025 by Tsukini
+##  29/01/2026 by Tsukini
 
 File Name:
 ##  parser.c
@@ -39,6 +39,7 @@ int parser(compiler_t *data, array_t *tokens)
 {
     token_t *tok, *tok_tmp = NULL;
     bool found = false;
+    size_t start_adv = 0;
     size_t j = 0;
     
     // Check for potential null pointer
@@ -72,8 +73,11 @@ int parser(compiler_t *data, array_t *tokens)
     */
 
     // dispatch for the different possible start in a file
+    start_adv = data->actual_adv;
     for (size_t i = 0; i < tokens->len; i++) {
+        data->actual_adv = start_adv + i;
         tok = tokens->data[i];
+
         if (tok->type == KEY_WORD && tok->id == KW_FROM) {
             // from instruction
         } else if (tok->type == KEY_WORD && tok->id == KW_DEFINE) {
@@ -104,13 +108,15 @@ int parser(compiler_t *data, array_t *tokens)
             
             // check if it's a valid type
             if (!is_type(data, tokens, i, j - 2))
-                return false;
+                break;
+
         } else {
             // unknow line start
             return err_c15(data, false, tok->file, tok->y, "Parser", "Invalid start of instruction outside of a function", tok->line, tok->x + 1, tok->x + tok->size, false);
         }
     }
 
+    data->actual_adv = start_adv + tokens->len;
     if (data->adv_dump && advencement_dump(data) == KO)
         return err_prog(UNDEF_ERR, KO, ERR_INFO);
     
