@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  06/12/2025 by Tsukini
+##  29/01/2026 by Tsukini
 
 File Name:
 ##  is_type.c
@@ -21,31 +21,12 @@ File Description:
 #include "token.h"      // tokens define
 #include "parser.h"     // is_value function
 #include "tokenizer.h"  // token_t type
-#include "kamion.h"     // compiler_t type
+#include "kamion.h"     // compiler_t type, get_toks_size functions
 #include "error.h"      // error handling
 #include <stddef.h>     // size_t type, NULL define
 #include <stdbool.h>    // boolean type
 
-// Return the size of the tokens between start & end
-static size_t get_tok_size(array_t *tokens, size_t start, size_t end)
-{
-    token_t *tok = NULL;
-    size_t y, x = 0;
-    size_t i = 0;
-
-    // Check for potential null pointer
-    if (!tokens)
-        return err_prog(PTR_ERR, 0, ERR_INFO);
-
-    tok = tokens->data[start];
-    x = tok->x;
-    y = tok->y;
-    for (i = start; ((token_t *) tokens->data[i])->y == y && i <= end; i++);
-    tok = tokens->data[i - 1];
-    return (tok->x - x) + tok->size;
-}
-
-static bool is_valid_resisable(compiler_t *data, array_t *tokens, size_t start, size_t end)
+static bool is_valid_resizable(compiler_t *data, array_t *tokens, size_t start, size_t end)
 {
     token_t *tok = NULL;
 
@@ -87,7 +68,7 @@ static bool is_valid_resisable(compiler_t *data, array_t *tokens, size_t start, 
 bool is_type(compiler_t *data, array_t *tokens, size_t start, size_t end)
 {
     token_t *tok = NULL;
-    bool resisable, unsignable = false;
+    bool resizable, unsignable = false;
     size_t size = 0;
 
     // Check for potential null pointer
@@ -98,7 +79,7 @@ bool is_type(compiler_t *data, array_t *tokens, size_t start, size_t end)
      ********************
      * type possibility *
      ********************
-     * type     | is unisgable  | is manual resisable   | syntax
+     * type     | is unisgable  | is manual resizable   | syntax
      * char     | y             | n                     | [T_UNSIGNED] T_CHAR IDENTIFIERS
      * str      | y             | n                     | [T_UNSIGNED] T_STR IDENTIFIERS
      * bool     | n             | n                     | T_BOOL IDENTIFIERS
@@ -124,25 +105,25 @@ bool is_type(compiler_t *data, array_t *tokens, size_t start, size_t end)
         if (tok->type != TYPE)
             return err_c15(data, false, tok->file, tok->y, "Parser", "A unsigned must be followed by a type", tok->line, tok->x + 1, tok->x + tok->size, false);
         unsignable = (tok->id == T_CHAR || tok->id == T_STR || tok->id == T_INT || tok->id == T_FLOAT || tok->id == T_PTR);
-        resisable = (tok->id >= T_BIN && tok->id <= T_PTR);
-        size = get_tok_size(tokens, start + 2, end - 1);
+        resizable = (tok->id >= T_BIN && tok->id <= T_PTR);
+        size = get_toks_size(tokens, start + 3, end - 1);
         if (!unsignable)
             return err_c15(data, false, tok->file, tok->y, "Parser", "The only type that can be unsigned are 'char', 'str', 'int', 'float' or 'ptr'", tok->line, tok->x + 1, tok->x + tok->size, false);
         if (end - start > 2) {
-            if (resisable && !is_valid_resisable(data, tokens, start + 2, end - 1)) {
-                tok = tokens->data[start + 2];
+            if (resizable && !is_valid_resizable(data, tokens, start + 2, end - 1)) {
+                tok = tokens->data[start + 3];
                 return err_c15(data, false, tok->file, tok->y, "Parser", "Invalid resize of type, can only be 'type: value identifier'", tok->line, tok->x + 1, tok->x + size, false);
-            } else if (!resisable)
+            } else if (!resizable)
                 return err_c15(data, false, tok->file, tok->y, "Parser", "This type can only be '[unsigned] type identifier'", tok->line, tok->x + 1, tok->x + size, false);
         }
     } else if (tok->id >= T_CHAR && tok->id <= T_PTR) {
         if (end - start > 1) {
-            resisable = (tok->id >= T_BIN && tok->id <= T_PTR);
-            size = get_tok_size(tokens, start + 1, end - 1);
-            if (resisable && !is_valid_resisable(data, tokens, start + 1, end - 1)) {
-                tok = tokens->data[start + 1];
+            resizable = (tok->id >= T_BIN && tok->id <= T_PTR);
+            size = get_toks_size(tokens, start + 2, end - 1);
+            if (resizable && !is_valid_resizable(data, tokens, start + 1, end - 1)) {
+                tok = tokens->data[start + 2];
                 return err_c15(data, false, tok->file, tok->y, "Parser", "Invalid resize of type, can only be 'type: value identifier'", tok->line, tok->x + 1, tok->x + size, false);
-            } else if (!resisable)
+            } else if (!resizable)
                 return err_c15(data, false, tok->file, tok->y, "Parser", "This type can only be '[unsigned] type identifier'", tok->line, tok->x + 1, tok->x + size, false);
         }
     } else if (tok->id == T_ARRAY) {
@@ -150,11 +131,11 @@ bool is_type(compiler_t *data, array_t *tokens, size_t start, size_t end)
             return is_type(data, tokens, start + 1, end);
     } else if (tok->id == T_STRUCT) {
         if (end - start != 1) {
-            size = get_tok_size(tokens, start + 1, end - 1);
+            size = get_toks_size(tokens, start + 1, end - 1);
             return err_c15(data, false, tok->file, tok->y, "Parser", "A struct type can only be 'struct identifier'", tok->line, tok->x + 1, tok->x + size, false);
         }
     } else {
-        size = get_tok_size(tokens, start, end);
+        size = get_toks_size(tokens, start, end);
         return err_c15(data, false, tok->file, tok->y, "Parser", "Can't determine the main purpose of this type", tok->line, tok->x + 1, tok->x + size, false);
     }
     return OK;

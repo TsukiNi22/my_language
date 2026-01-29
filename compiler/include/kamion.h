@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  01/08/2025 by Tsukini
+##  29/01/2026 by Tsukini
 
 File Name:
 ##  kamion.h
@@ -114,9 +114,10 @@ int flag_Directory(compiler_t *data, int const argc, char const *argv[]); // Err
 int flag_tokens(compiler_t *data, int const argc, char const *argv[]); // Error: KO
 int flag_advencement(compiler_t *data, int const argc, char const *argv[]); // Error: KO
 
-/* useful */
+/* utils */
 bool is_valid_dir(compiler_t *data, char const *path, bool err); // Error: false
 bool is_valid_file(compiler_t *data, char const *path, bool err); // Error: false
+size_t get_toks_size(array_t *tokens, size_t start, size_t end); // Error: 0
 
 /* debug */
 int setup_files_advencement(compiler_t *data); // Error: KO

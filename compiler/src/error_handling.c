@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  01/06/2025 by Tsukini
+##  29/01/2026 by Tsukini
 
 File Name:
 ##  error_handling.c
@@ -69,7 +69,7 @@ int err_c15(compiler_t *data, int to_return,
     if (!warning) {
         res += my_printf("%O%C%S[Error n°%d]%R %S%s:%u:%u%R -> %s: %s%R\n", ouput, 205, 0, 0, data->nb_error, file, n, start, type, err);
     } else {
-        res += my_printf("%O%C%S[Warging n°%d]%R %S%s:%u:%u%R -> %s: %s%R\n", ouput, 175, 0, 175, data->nb_warning, file, n, start, type, err);
+        res += my_printf("%O%C%S[Warning n°%d]%R %S%s:%u:%u%R -> %s: %s%R\n", ouput, 175, 0, 175, data->nb_warning, file, n, start, type, err);
     }
     res += my_printf("%O%C-------------------------------------------%R\n", ouput, 175, 100, 0);
     res += my_printf("%O%C%d | %S%C%.*s%C%.*s%C%s%R\n", ouput,
@@ -134,7 +134,7 @@ int err_kmc_arg(compiler_t *data, int to_return,
     if (!warning) {
         res += my_printf("%O%C%S[Error n°%d]%R %s: %s.\n", ouput, 205, 0, 0, data->nb_error, type, err);
     } else {
-        res += my_printf("%O%C%S[Warging n°%d]%R %s: %s.\n", ouput, 175, 0, 175, data->nb_warning, type, err);
+        res += my_printf("%O%C%S[Warning n°%d]%R %s: %s.\n", ouput, 175, 0, 175, data->nb_warning, type, err);
     }
     res += my_printf("%O%C-------------------------------------------%R\n", ouput, 175, 100, 0);
     if (!should && arg) {

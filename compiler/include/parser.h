@@ -34,13 +34,13 @@ File Description:
 
 /* op_type */
 typedef enum op_type_e {
-    A_OP_B,
-    V_OP_A,
-    __OP_A,
-    __OP_V,
-    V_OP__,
-    I_X_EQUAL_V,
-    I_SPE,
+    _NONE_ = 0b0,
+    A_OP_B = 0b1,
+    I_OP_A = 0b10,
+    __OP_A = 0b100,
+    __OP_I = 0b1000,
+    I_OP__ = 0b10000,
+    OP__EQ = 0b100000,
 } op_type_t;
 
 //----------------------------------------------------------------//
