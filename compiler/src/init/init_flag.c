@@ -8,7 +8,7 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
 
 Edition:
-##  01/06/2025 by Tsukini
+##  29/01/2026 by Tsukini
 
 File Name:
 ##  init_flag.c
@@ -109,13 +109,27 @@ int init_flag(compiler_t *data, int const argc, char const *argv[])
     }
 
     // Check for each flag '-' and '--'
+    bool arg_part = true;
     for (int i = 0; i < argc; i++) {
-        if (argv[i][0] != '-')
-            continue;
+        // Check for invalid argument after the start of the flag zone
+        if (!arg_part && argv[i][0] != '-')
+            return err_kmc_arg(data, KO, my_strdup(argv[i]), "Invalid argument after the flag(s)", argv[i], NULL, false);
+        arg_part = (arg_part && argv[i][0] != '-');
+        if (arg_part) continue; // Still in the arguments part before the flag
+
+        // flag "-"
         if (argv[i][1] == '-' && argv[i][2] && full_flag(data, argc, argv, i) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
-        if (argv[i][1] != '-' && argv[i][1] && flag(data, argc, argv, i) == KO)
+        // flag "--"
+        else if (argv[i][1] != '-' && argv[i][1] && flag(data, argc, argv, i) == KO)
             return err_prog(UNDEF_ERR, KO, ERR_INFO);
+
+        // Empty flag "-"
+        if (argv[i][0] == '-' && !argv[i][1])
+            return err_kmc_arg(data, KO, my_strndup(&argv[i][0], 1), "No option where given", argv[i], NULL, false);
+        // Empty flag "--"
+        else if (argv[i][0] == '-' && argv[i][1] == '-' && !argv[i][2])
+            return err_kmc_arg(data, KO, my_strndup(&argv[i][0], 2), "No option where given", argv[i], NULL, false);
     }
     return OK;
 }
